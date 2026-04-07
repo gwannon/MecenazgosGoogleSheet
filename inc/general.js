@@ -49,3 +49,8 @@ $(window).on('load', function() {
 				});
 			});
 		});
+
+		$('.accesible').on('click', function(e) {
+			e.preventDefault();
+			$('body').toggleClass("acc");
+		});

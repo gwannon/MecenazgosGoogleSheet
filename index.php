@@ -66,6 +66,7 @@ unset($rowData);
 </head>
 
 <body>
+    <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
     <h1>Mecenazgos y preventas</h1>
     <p>Este listado de mecenazgos y preventas está pensado para ayudar a ver el estado de estos y ver si puedes fiarte o no de una editorial a la hora de meter dinero en uno de sus proyectos.</p>
     <p>La fecha de entrega oficial se calcula a usando el último día posible del rango que de la editorial. Por ejemplo, si una editorial dice que la entrega será el tercer trimestre de 2026, la fecha de entrega oficial será el 30/09/2026. La fecha del mecenazgo conseguido es la fecha en que consiguió el objetivo del mecenazgo, no la fecha de finalización del mecenazgo o preventa.</p>
@@ -236,7 +237,7 @@ unset($rowData);
         <li>Se otorga una estrella, si no hay ningún mecenazgo con un retraso superior a un año (365 días).</li>
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
-    <p>Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p>
+    <p>Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
     <style>
         <?php echo file_get_contents(__DIR__ . '/inc/style.css'); ?>
     </style>

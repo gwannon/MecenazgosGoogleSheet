@@ -1,249 +1,279 @@
-		body {
-			font-family: "Open Sans", sans-serif;
-			font-size: 18px;
-			background-color: #f8dbff;
-			color: #c815f1;
-			padding: 30px;
-		}
+:root {
+	--main-color: #c815f1;
+	--secondary-color: #f8dbff;
+}
 
-		a,
-		a:visited {
-			color: #c815f1;
-		}
 
-		h1,
-		h2 {
-			font-family: "VT323", monospace;
-		}
+body {
+	font-family: "Open Sans", sans-serif;
+	font-size: 18px;
+	background-color: var(--secondary-color);
+	color: var(--main-color);
+	padding: 30px;
+}
 
-		h1 {
-			font-size: 2.5em;
-			margin-top: 0px;
-		}
+body.acc {
+	--main-color: black;
+	--secondary-color: white;
+}
 
-		h2 {
-			font-size: 2em;
-		}
+.accesible {
+    position: fixed;
+    display: block;
+    top: calc(50% - 20px);
+    right: 0px;
+    text-decoration: none;
+    font-size: 60px;
+    height: 40px;
+    width: 40px;
+}
 
-		button.button {
-			font-family: "VT323", monospace;
-			border: 2px solid #c815f1;
-			border-radius: 10px;
-			font-size: 16px;
-			padding: 5px;
-			transition: all 0.3s;
-			cursor: pointer;
-			opacity: 0.6;
-			display: inline-block;
-			margin-bottom: 5px;
-			background-color: #f1b9ff;
-			color: #c815f1;
-		}
+a,
+a:visited {
+	color: var(--main-color);
+}
 
-		.name {
-			display: none;
-		}
+h1,
+h2 {
+	font-family: "VT323", monospace;
+}
 
-		@media screen and (min-width: 600px) {
-			#buttons {
-				display: flex;
-				gap: 10px;
-			}
+h1 {
+	font-size: 2.5em;
+	margin-top: 0px;
+}
 
-			button.button {
-				font-size: 22px;
-				padding: 10px;
-			}
-		}
+h2 {
+	font-size: 2em;
+}
 
-		button.button.is-checked,
-		button.button:hover {
-			opacity: 1;
-		}
+button.button {
+	font-family: "VT323", monospace;
+	border: 2px solid var(--main-color);
+	border-radius: 10px;
+	font-size: 16px;
+	padding: 5px;
+	transition: all 0.3s;
+	cursor: pointer;
+	opacity: 0.6;
+	display: inline-block;
+	margin-bottom: 5px;
+	background-color: var(--secondary-color);
+	color: var(--main-color);
+}
 
-		.element-item {
-			width: calc(100% - 20px);
-			margin: 10px;
-			padding-bottom: 62px;
-			border-radius: 10px;
-			background-color: #c815f1;
-			overflow: hidden;
-      position: relative;
-		}
+.name {
+	display: none;
+}
 
-    .element-item.retrasado:before {
-      content: "Retrasado";
-      display: block;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      padding: 10px 30px 10px 10px;
-      background-color: red;
-      font-size: 20px;
-      color: white;
-      clip-path: polygon(0% 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
+@media screen and (min-width: 600px) {
+	#buttons {
+		display: flex;
+		gap: 10px;
+	}
 
-    }
+	button.button {
+		font-size: 22px;
+		padding: 10px;
+	}
+}
 
-    .element-item.entiempo:before {
-      content: "En tiempo";
-      display: block;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      padding: 10px 30px 10px 10px;
-      background-color: green;
-      font-size: 20px;
-      color: white;
-      clip-path: polygon(0% 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
+button.button.is-checked,
+button.button:hover {
+	opacity: 1;
+}
 
-    }
+.element-item {
+	width: calc(100% - 20px);
+	margin: 10px;
+	padding-bottom: 62px;
+	border-radius: 10px;
+	background-color: var(--main-color);
+	overflow: hidden;
+	position: relative;
+}
 
-    .element-item.entregado:after {
-      content: "Entregado";
-      display: block;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      padding: 10px 10px 10px 30px;
-      background-color: green;
-      font-size: 20px;
-      color: white;
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 25px 100%);
+.element-item.retrasado:before {
+	content: "Retrasado";
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 10px 30px 10px 10px;
+	background-color: red;
+	font-size: 20px;
+	color: white;
+	clip-path: polygon(0% 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
 
-    }
+}
 
-		.element-item>*:is(h2, p) {
-			padding-left: 10px;
-			padding-right: 10px;
-		}
+.element-item.entiempo:before {
+	content: "En tiempo";
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 10px 30px 10px 10px;
+	background-color: green;
+	font-size: 20px;
+	color: white;
+	clip-path: polygon(0% 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
 
-		.element-item a,
-		.element-item p {
-			color: #f8dbff;
-		}
-		
-		.element-item img {
-			width: 100%;
-		}
+}
 
-		.element-item h2 {
-			margin-top: 10px;
-			margin-bottom: 5px;
-		}
+.element-item.entregado:after {
+	content: "Entregado";
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	padding: 10px 10px 10px 30px;
+	background-color: green;
+	font-size: 20px;
+	color: white;
+	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 25px 100%);
 
-		.element-item p {
-			font-size: 14px;
-		}
+}
 
-		@media screen and (min-width: 600px) {
-			.element-item {
-				width: calc(50% - 20px);
-			}
-		}
+.element-item>*:is(h2, p) {
+	padding-left: 10px;
+	padding-right: 10px;
+}
 
-		@media screen and (min-width: 1100px) {
-			.element-item {
-				width: calc(33.33% - 20px);
-			}
-		}
+.element-item a,
+.element-item p {
+	color: var(--secondary-color);
+}
 
-		@media screen and (min-width: 1400px) {
-			.element-item {
-				width: calc(25% - 20px);
-			}
-		}
-		
-		p:has(.days) {
-			display: block;
-			position: absolute;
-			bottom: 0px;
-			right: 0px;
-			background-color: blue;
-			    margin: 0px;
-			    text-align: center;
-			    padding: 10px;
-		}
-		
-		p:has(.date) {
-			display: block;
-			position: absolute;
-			bottom: 0px;
-			left: 0px;
-			background-color: blue;
-      margin: 0px;
-      text-align: center;
-      padding: 10px;
-		}
-		
-		p:has(.days, .date) span {
-			font-size: 1.2em;
-			display: block;
-		}
-		
-		.entiempo p:has(.days) {
-			display: none;
-		}
+.element-item img {
+	width: 100%;
+}
 
-    table tr:nth-of-type(odd) {
-      background-color: #c815f1;
-      color: #f8dbff;
-    }
+.element-item h2 {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
 
-    table *:is(td,th) {
-      padding: 8px;
-    }
+.element-item p {
+	font-size: 14px;
+}
 
-    table td {
-      text-align: right;
-    }
+@media screen and (min-width: 600px) {
+	.element-item {
+		width: calc(50% - 20px);
+	}
+}
 
-    div:has(table) {
-      overflow-x: auto;
-      width: 100%;
-    }
+@media screen and (min-width: 1100px) {
+	.element-item {
+		width: calc(33.33% - 20px);
+	}
+}
 
-    .stars-no-stars, .stars-0, .stars-1, .stars-2, .stars-3, .stars-4, .stars-5 {
-      font-size: 0px;
-    }
+@media screen and (min-width: 1400px) {
+	.element-item {
+		width: calc(25% - 20px);
+	}
+}
 
-    .stars-no-stars:before {
-      content: "--";
-      font-size: 30px;
-    }
+p:has(.days) {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: blue;
+	margin: 0px;
+	text-align: center;
+	padding: 10px;
+	color: white;
+}
 
-    .stars-0:before {
-      content: "☆☆☆☆☆";
-      font-size: 30px;
-      color: #ffae00;
-    }
+p:has(.date) {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	background-color: blue;
+	margin: 0px;
+	text-align: center;
+	padding: 10px;
+	color: white;
+}
 
-    .stars-1:before {
-      content: "★☆☆☆☆";
-      font-size: 30px;
-      color: #ffae00;
-    }
+p:has(.days, .date) span {
+	font-size: 1.2em;
+	display: block;
+}
 
-    .stars-2:before {
-      content: "★★☆☆☆";
-      font-size: 30px;
-      color: #ffae00;
-    }
+.entiempo p:has(.days) {
+	display: none;
+}
 
-    .stars-3:before {
-      content: "★★★☆☆";
-      font-size: 30px;
-      color: #ffae00;
-    }
+table tr:nth-of-type(odd) {
+	background-color: var(--main-color);
+	color: var(--secondary-color);
+}
 
-    .stars-4:before {
-      content: "★★★★☆";
-      font-size: 30px;
-      color: #ffae00;
-    }
+table *:is(td, th) {
+	padding: 8px;
+}
 
-    .stars-5:before {
-      content: "★★★★★";
-      font-size: 30px;
-      color: #ffae00;
-    }
+table td {
+	text-align: right;
+}
+
+div:has(table) {
+	overflow-x: auto;
+	width: 100%;
+}
+
+.stars-no-stars,
+.stars-0,
+.stars-1,
+.stars-2,
+.stars-3,
+.stars-4,
+.stars-5 {
+	font-size: 0px;
+}
+
+.stars-no-stars:before {
+	content: "--";
+	font-size: 30px;
+}
+
+.stars-0:before {
+	content: "☆☆☆☆☆";
+	font-size: 30px;
+	color: #ffae00;
+}
+
+.stars-1:before {
+	content: "★☆☆☆☆";
+	font-size: 30px;
+	color: #ffae00;
+}
+
+.stars-2:before {
+	content: "★★☆☆☆";
+	font-size: 30px;
+	color: #ffae00;
+}
+
+.stars-3:before {
+	content: "★★★☆☆";
+	font-size: 30px;
+	color: #ffae00;
+}
+
+.stars-4:before {
+	content: "★★★★☆";
+	font-size: 30px;
+	color: #ffae00;
+}
+
+.stars-5:before {
+	content: "★★★★★";
+	font-size: 30px;
+	color: #ffae00;
+}
