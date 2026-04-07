@@ -17,7 +17,12 @@ body.acc {
 	--secondary-color: white;
 }
 
-.accesible {
+a,
+a:visited {
+	color: var(--main-color);
+}
+
+a.accesible {
     position: fixed;
     display: block;
     top: calc(50% - 20px);
@@ -26,11 +31,11 @@ body.acc {
     font-size: 60px;
     height: 40px;
     width: 40px;
+	color: black;
 }
 
-a,
-a:visited {
-	color: var(--main-color);
+body.acc a.accesible {
+	color: #c815f1;
 }
 
 h1,

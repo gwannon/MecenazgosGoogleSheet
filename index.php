@@ -146,7 +146,7 @@ unset($rowData);
                 } else {
                     $clases[] = "entiempo";
                     $dias_retraso = 0;
-                    if ($proyecto[7]['formattedValue'] != '') $clases[] = "entregadoatiempo";
+                    if (isset($proyecto[7]['formattedValue']) && $proyecto[7]['formattedValue'] != '') $clases[] = "entregadoatiempo";
                 }
 
                 if ($proyecto[7]['formattedValue'] == '') $clases[] = 'sinentregar';
@@ -238,6 +238,10 @@ unset($rowData);
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
     <p>Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
+    <h3>Agradecimientos</h3>
+    <ul>
+        <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
+    </ul>
     <style>
         <?php echo file_get_contents(__DIR__ . '/inc/style.css'); ?>
     </style>
