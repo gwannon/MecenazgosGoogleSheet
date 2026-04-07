@@ -229,7 +229,7 @@ unset($rowData);
     </div>
     <p>Las estrellas se otorgan mediante esta fórmula.</p>
     <ul>
-        <li>Para empezar hay que tener al menos 5 mecenazgos para poder evaluado.</li>
+        <li>Para empezar hay que tener al menos 5 mecenazgos para poder ser evaluado.</li>
         <li>La primera estrella se consigue, si tienes más mecenazgos entregados que sin entregar. Da igual que estén o no retrasados.</li>
         <li>La segunda estrella se da, si al menos un cuarto los entregados se han entregado a tiempo.</li>
         <li>Se da una estrella, si la media de retraso es menor de 3 meses (90 días).</li>
