@@ -3,6 +3,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/inc/inc.php';
 
+if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
+
 ob_start();
 $file = __DIR__ . '/cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
 if (file_exists($file)) {
