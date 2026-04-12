@@ -205,7 +205,9 @@ unset($rowData);
                     <th>Proyectos entregados a tiempo</th>
                     <th>Proyectos entregados tarde</th>
                     <th>Días de retraso medio</th>
+                    <th>Acumulado de días de retraso</th>
                     <th>Máximo días de retraso</th>
+                    <!-- TODO: Plataformas Número + dominios -->
                 </tr>
             </thead>
             <tbody>
@@ -223,6 +225,7 @@ unset($rowData);
                             <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
                             <td><?php echo $editorial['entregados_tarde']; ?></td>
                             <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
+                            <td><?php echo $editorial['dias_retraso']; ?></td>
                             <td><?php echo $editorial['max_retraso']; ?></td>
                         </tr>
                 <?php }
