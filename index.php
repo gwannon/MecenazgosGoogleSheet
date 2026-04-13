@@ -3,6 +3,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/inc/inc.php';
 
+$plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', 'gamefound.com'];
+
 if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
 
 ob_start();
@@ -129,6 +131,8 @@ unset($rowData);
                 $titulo = $proyecto[1]['formattedValue'];
                 $sanitize_titulo = custom_sanitize_title($titulo);
                 $url = $proyecto[2]['formattedValue'];
+                $parse = parse_url($url);
+                $plataforma = $parse['host'];
                 $image = $proyecto[3]['formattedValue'];
 
                 //Fechas
@@ -176,7 +180,8 @@ unset($rowData);
                         'entregados_tarde' => 0,
                         'dias_retraso' => 0,
                         'sin_entregar_pero_a_tiempo' => 0,
-                        'max_retraso' => 0
+                        'max_retraso' => 0,
+                        'plataformas' => [],
                     ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -187,6 +192,9 @@ unset($rowData);
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
+
+                if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
+
                 ?>
             <?php } ?>
         <?php } ?>
@@ -207,7 +215,7 @@ unset($rowData);
                     <th>Días de retraso medio</th>
                     <th>Acumulado de días de retraso</th>
                     <th>Máximo días de retraso</th>
-                    <!-- TODO: Plataformas Número + dominios -->
+                    <th>Plataformas de mecenazgo usadas</th>
                 </tr>
             </thead>
             <tbody>
@@ -216,8 +224,7 @@ unset($rowData);
                     if ($editorial['proyectos'] > 1) { ?>
                         <tr>
                             <th><?php echo $nombre; ?></th>
-                            <td><span class="stars-<?php $stars = getStars($editorial);
-                                                    echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
+                            <td><span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
                             <td><?php echo $editorial['proyectos']; ?></td>
                             <td><?php echo $editorial['sin_entregar']; ?></td>
                             <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
@@ -227,6 +234,7 @@ unset($rowData);
                             <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
                             <td><?php echo $editorial['dias_retraso']; ?></td>
                             <td><?php echo $editorial['max_retraso']; ?></td>
+                            <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?>--></td>
                         </tr>
                 <?php }
                 } ?>
@@ -242,6 +250,7 @@ unset($rowData);
         <li>Se otorga una estrella, si no hay ningún mecenazgo con un retraso superior a un año (365 días).</li>
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
+    <!-- <h3>Calendario de entregas</h3> -->
     <p>Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
     <h3>Agradecimientos</h3>
     <ul>
