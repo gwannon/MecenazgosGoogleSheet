@@ -75,6 +75,7 @@ unset($rowData);
     <p>Este listado de mecenazgos y preventas está pensado para ayudar a ver el estado de estos y ver si puedes fiarte o no de una editorial a la hora de meter dinero en uno de sus proyectos.</p>
     <p>La fecha de entrega oficial se calcula a usando el último día posible del rango que de la editorial. Por ejemplo, si una editorial dice que la entrega será el tercer trimestre de 2026, la fecha de entrega oficial será el 30/09/2026. La fecha del mecenazgo conseguido es la fecha en que consiguió el objetivo del mecenazgo, no la fecha de finalización del mecenazgo o preventa.</p>
     <p>La fecha de entrega es la fecha de entrega del material físico, a no ser que sea un producto digital, en ese caso, será la fecha de entrega del PDF.</p>
+    <p>Aunque legalemente todo son preventas, se considera preventa a las campañas hechas en la propia web de la editorial y mecenazgo a las que se hacen en plataformas de mecenazgo. No se tiene en cuenta si la editorial lo llama de una manera u otra.</p> 
     <p>Estados y su significado:</p>
     <ul>
         <li><b>Retrasado:</b> Se ha entregado más tarde de la fecha oficial de entrega o ha pasado la fecha de entrega oficial y todavía no se ha entregado.</li>
@@ -135,6 +136,9 @@ unset($rowData);
                 $plataforma = $parse['host'];
                 $image = $proyecto[3]['formattedValue'];
 
+                if(in_array($plataforma, $plataformas)) $is_preventa = false;
+                else $is_preventa = true;
+
                 //Fechas
                 $fecha_mecenazgo_conseguido = transformDate($proyecto[4]['formattedValue']);
                 $fecha_ultima_actualizacion = transformDate($proyecto[5]['formattedValue']);
@@ -156,13 +160,12 @@ unset($rowData);
                 }
 
                 if ($proyecto[7]['formattedValue'] == '') $clases[] = 'sinentregar';
-                else $clases[] = 'entregado';
-        ?>
+                else $clases[] = 'entregado'; ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
                     <img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" />
                     <h2><a href="<?= $url ?>" target="_blank"><?= $titulo ?></a></h2>
                     <p><?= $editorial ?></p>
-                    <p><b>Mecenazgo conseguido:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
+                    <p><b><?php echo ($is_preventa ? "Preventa conseguida" : "Mecenazgo conseguido"); ?>:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
                     <p><b>Última actualización:</b> <?php echo $fecha_ultima_actualizacion; ?></p>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
                     <p><b>Entrega:</b> <span class="date"><?php echo $fecha_final; ?></span></p>
@@ -192,12 +195,9 @@ unset($rowData);
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
-
                 if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
-
-                ?>
-            <?php } ?>
-        <?php } ?>
+            }
+        } ?>
     </div>
     <h2 id="stats">Datos estadísticos</h2>
     <div>
@@ -234,7 +234,7 @@ unset($rowData);
                             <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
                             <td><?php echo $editorial['dias_retraso']; ?></td>
                             <td><?php echo $editorial['max_retraso']; ?></td>
-                            <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?>--></td>
+                            <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
                         </tr>
                 <?php }
                 } ?>
@@ -251,7 +251,7 @@ unset($rowData);
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
     <!-- <h3>Calendario de entregas</h3> -->
-    <p>Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
+    <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
