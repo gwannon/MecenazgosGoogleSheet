@@ -626,3 +626,13 @@ function getStars ($editorial) {
 
   return $stars;
 }
+
+
+function sortByOrder($a, $b) {
+    if ($a['fecha']->format('Ymd') > $b['fecha']->format('Ymd')) {
+        return 1;
+    } elseif ($a['fecha']->format('Ymd') < $b['fecha']->format('Ymd')) {
+        return -1;
+    }
+    return 0;
+}

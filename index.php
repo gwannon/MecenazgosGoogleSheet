@@ -22,6 +22,8 @@ putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/service_key.json');
 
 $stats = [];
 
+$entiempo = [];
+
 $client = new Google_Client();
 $client->useApplicationDefaultCredentials();
 $client->addScope('https://www.googleapis.com/auth/spreadsheets');
@@ -159,6 +161,16 @@ unset($rowData);
                     if (isset($proyecto[7]['formattedValue']) && $proyecto[7]['formattedValue'] != '') $clases[] = "entregadoatiempo";
                 }
 
+                $ahora = new DateTime("now");
+                if($entrega > $ahora) {
+                    $entiempo[] = [
+                      "fecha" => $entrega,
+                      "titulo" => $titulo,
+                      "url" => $url,
+                      "editorial" => $editorial
+                    ];
+                }
+
                 if ($proyecto[7]['formattedValue'] == '') $clases[] = 'sinentregar';
                 else $clases[] = 'entregado'; ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
@@ -250,11 +262,39 @@ unset($rowData);
         <li>Se otorga una estrella, si no hay ningún mecenazgo con un retraso superior a un año (365 días).</li>
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
-    <!-- <h3>Calendario de entregas</h3> -->
+    <h2>Entran en retraso</h2>
+    <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Editorial</th>
+          <th>Fecha de entrega</th>
+          <th>Dias hasta entrar en retraso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php $ahora = new DateTime("now"); usort($entiempo, 'sortByOrder'); foreach ($entiempo as $retraso) { ?>
+          <tr>
+              <th><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></th>
+              <td><?php echo $retraso['editorial']; ?></td>
+              <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
+              <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
+          </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
     <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>. Con una dirección web donde se vea el mecenazgo/preventa y la fecha de entrega oficial y la de entrega final (si la hay) me valdría.</p> 
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
+        <li><a href="https://web.archive.org/web/20230326212232/https://roltrasos.info/preventas">Roltrasos</a> Por la información que he podido constratar con u web.</li>
+        <li><a href="https://web.archive.org/">archive.org</a> por guardar copias de la webs de las preventas de las editoriales y poder consultar fechas aunque las hayan borrado o editado.</a>
     </ul>
     <style>
         <?php echo file_get_contents(__DIR__ . '/inc/style.css'); ?>

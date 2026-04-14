@@ -223,6 +223,11 @@ table tr:nth-of-type(odd) {
 	color: var(--secondary-color);
 }
 
+
+table tr:nth-of-type(odd) a {
+  color: var(--secondary-color);
+}
+
 table *:is(td, th) {
 	padding: 8px;
 }
