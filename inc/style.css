@@ -52,7 +52,8 @@ h2 {
 	font-size: 2em;
 }
 
-button.button {
+button.button,
+a.button {
 	font-family: "VT323", monospace;
 	border: 2px solid var(--main-color);
 	border-radius: 10px;
@@ -65,6 +66,7 @@ button.button {
 	margin-bottom: 5px;
 	background-color: var(--secondary-color);
 	color: var(--main-color);
+	text-decoration: none;
 }
 
 .name {
@@ -77,14 +79,16 @@ button.button {
 		gap: 10px;
 	}
 
-	button.button {
+	button.button,
+	a.button {
 		font-size: 22px;
 		padding: 10px;
 	}
 }
 
 button.button.is-checked,
-button.button:hover {
+button.button:hover,
+a.button:hover {
 	opacity: 1;
 }
 

@@ -86,8 +86,8 @@ unset($rowData);
     </ul>
     <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
-    <p><b>Última actualización:</b> <?php echo UPDATE_DATE; ?></p>
-    <p><b><a href="#stats">Ver datos estadísticos</a></b></p>
+    <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
+    <p><a href="#stats" class="button">Ver datos estadísticos</a></p>
     <div id="buttons">
         <div id="filters" class="button-group">
             <h4>Filtrar</h4>
