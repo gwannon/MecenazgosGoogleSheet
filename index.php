@@ -251,7 +251,7 @@ unset($rowData);
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
     <!-- <h3>Calendario de entregas</h3> -->
-    <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>.</p> 
+    <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>. Con una dirección web donde se vea el mecenazgo/preventa y la fecha de entrega oficial y la de entrega final (si la hay) me valdría.</p> 
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
