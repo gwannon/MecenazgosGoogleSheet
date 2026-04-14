@@ -276,7 +276,7 @@ unset($rowData);
       <tbody>
         <?php $ahora = new DateTime("now"); usort($entiempo, 'sortByOrder'); foreach ($entiempo as $retraso) { ?>
           <tr>
-              <th><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></th>
+              <td><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></td>
               <td><?php echo $retraso['editorial']; ?></td>
               <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
               <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
