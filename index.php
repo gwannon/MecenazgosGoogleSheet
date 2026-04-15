@@ -162,7 +162,7 @@ unset($rowData);
                 }
 
                 $ahora = new DateTime("now");
-                if($entrega > $ahora) {
+                if($entrega > $ahora && $fecha_final == 'PENDIENTE') {
                     $entiempo[] = [
                       "fecha" => $entrega,
                       "titulo" => $titulo,
