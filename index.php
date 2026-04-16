@@ -89,8 +89,8 @@ unset($rowData);
         <li><b>Entregado a tiempo:</b> Se ha entregado y antes de la fecha oficial de entrega.</li>
     </ul>
     <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
-    <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
     <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
+    <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
     <p><a href="#stats" class="button">Ver datos estadísticos</a></p>
     <div id="buttons">
