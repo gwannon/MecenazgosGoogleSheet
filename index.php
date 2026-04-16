@@ -321,6 +321,5 @@ unset($rowData);
 </html>
 <?php $html = ob_get_clean();
 file_put_contents($file, $html); //Guardamos en cache
-echo __DIR__."/mecenazgos.csv";
 file_put_contents(__DIR__."/mecenazgos.csv", $csv); //Guardamos CSV
 echo $html;
