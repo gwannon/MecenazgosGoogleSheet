@@ -3,7 +3,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/inc/inc.php';
 
-$plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', 'gamefound.com'];
+$plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', 'gamefound.com', 'crowdfundr.com'];
 
 if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
 
