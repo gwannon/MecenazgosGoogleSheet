@@ -11,8 +11,8 @@
         ]
     },
     "config": {
-            "platform": {
-                "php": "7.4.33"
-            }
+        "platform": {
+            "php": "7.4.33"
+        }
     }
 }

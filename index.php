@@ -56,7 +56,7 @@ foreach ($rowData as $i => $row) {
 unset($data);
 unset($rowData); ?>
 <!doctype html>
-<html>
+<html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mecenazgos y preventas de juegos de rol en España - Actualizado a <?php echo UPDATE_DATE; ?></title>

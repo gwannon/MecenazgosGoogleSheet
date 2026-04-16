@@ -15,6 +15,7 @@ Además, deberás crear tu propio service_key.json que permita a tu proyecto con
 Por último, darle permisos de escritura el directorio cache.
 
 ### Cómo conectar el código con Google Sheets y crear tu propio service_key.json
+
 https://www.nidup.io/blog/manipulate-google-sheets-in-php-with-api
 
 ### Ejemplo de Google Sheets
