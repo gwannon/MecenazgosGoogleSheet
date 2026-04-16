@@ -1,4 +1,4 @@
-$(window).on('load', function() {
+		$(window).on('load', function() {
 			var $grid = $('.grid').isotope({
 				itemSelector: '.element-item',
 				layoutMode: 'fitRows',
@@ -8,16 +8,16 @@ $(window).on('load', function() {
 				getSortData: {
 					name: '.name',
 					days: '.days parseInt',
-          daysasc: '.days parseInt',
-          oficialdate: '.oficialdate',
-          oficialdateasc: '.oficialdate'
+					daysasc: '.days parseInt',
+					oficialdate: '.oficialdate',
+					oficialdateasc: '.oficialdate'
 				},
 				sortAscending: {
 					name: true,
 					days: false,
-          daysasc: true,
-          oficialdate: false,
-          oficialdateasc: true
+					daysasc: true,
+					oficialdate: false,
+					oficialdateasc: true
 				}
 			});
 
@@ -25,7 +25,6 @@ $(window).on('load', function() {
 				$('html, body').animate({
 					scrollTop: $('#filters').offset().top
 				}, 300);
-
 				$('#filters button.is-checked').removeClass("is-checked");
 				$(this).addClass("is-checked");
 				var filterValue = $(this).attr('data-filter');
@@ -40,7 +39,6 @@ $(window).on('load', function() {
 				$('html, body').animate({
 					scrollTop: $('#filters').offset().top
 				}, 300);
-
 				$('#sorts button.is-checked').removeClass("is-checked");
 				$(this).addClass("is-checked");
 				var sortByValue = $(this).attr('data-sort-by');
