@@ -54,29 +54,26 @@ foreach ($rowData as $i => $row) {
 }
 
 unset($data);
-unset($rowData);
-?>
+unset($rowData); ?>
 <!doctype html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mecenazgos y preventas - Actualizado a <?php echo UPDATE_DATE; ?></title>
+    <title>Mecenazgos y preventas de juegos de rol en España - Actualizado a <?php echo UPDATE_DATE; ?></title>
     <meta charset="UTF-8" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=VT323&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://gwannon.com/mecenazgos/" />
-    <meta name="description" content="Estado de los mecenazgos y preventas de editoriales españolas. Actualizado a <?php echo UPDATE_DATE; ?>.">
-    <meta property="og:title" content="Mecenazgos y preventas - Actualizado a <?php echo UPDATE_DATE; ?>">
-    <meta property="og:description" content="Estado de los mecenazgos y preventas de editoriales españolas. Actualizado a <?php echo UPDATE_DATE; ?>.">
+    <meta name="description" content="Estado de los mecenazgos y preventas de editoriales españolas de juegos de rol. Actualizado a <?php echo UPDATE_DATE; ?>.">
+    <meta property="og:title" content="Mecenazgos y preventas de juegos de rol en España - Actualizado a <?php echo UPDATE_DATE; ?>">
+    <meta property="og:description" content="Estado de los mecenazgos y preventas de editoriales españolas de juegos de rol. Actualizado a <?php echo UPDATE_DATE; ?>.">
     <meta property="og:url" content="https://gwannon.com/mecenazgos/" />
 </head>
-
 <body>
     <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
-    <h1>Mecenazgos y preventas</h1>
-    <p>Este listado de mecenazgos y preventas está pensado para ayudar a ver el estado de estos y ver si puedes fiarte o no de una editorial a la hora de meter dinero en uno de sus proyectos.</p>
+    <h1>Mecenazgos y preventas de juegos de rol</h1>
+    <p>Este <b>listado de mecenazgos y preventas de juegos de rol de España</b> está pensado para ayudar a ver el estado de estos y ver si puedes fiarte o no de una editorial a la hora de meter dinero en uno de sus proyectos.</p>
     <p>La fecha de entrega oficial se calcula a usando el último día posible del rango que de la editorial. Por ejemplo, si una editorial dice que la entrega será el tercer trimestre de 2026, la fecha de entrega oficial será el 30/09/2026. La fecha del mecenazgo conseguido es la fecha en que consiguió el objetivo del mecenazgo, no la fecha de finalización del mecenazgo o preventa.</p>
     <p>La fecha de entrega es la fecha de entrega del material físico, a no ser que sea un producto digital, en ese caso, será la fecha de entrega del PDF.</p>
     <p>Aunque legalemente todo son preventas, se considera preventa a las campañas hechas en la propia web de la editorial y mecenazgo a las que se hacen en plataformas de mecenazgo. No se tiene en cuenta si la editorial lo llama de una manera u otra.</p> 
@@ -92,7 +89,7 @@ unset($rowData);
     <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
-    <p><a href="#stats" class="button">Ver datos estadísticos</a></p>
+    <p><a href="#stats" class="button">Ver valoraciones de las editoriales</a> <a href="#enretraso" class="button">Ver mecenazgos que caducan pronto</a></p>
     <div id="buttons">
         <div id="filters" class="button-group">
             <h4>Filtrar</h4>
@@ -109,13 +106,11 @@ unset($rowData);
                 if (!isset($menu[$editorial])) $menu[$editorial] = 0;
                 $menu[$editorial]++;
             }
-
             ksort($menu);
-
             foreach ($menu as $key => $items) {
                 if ($items >= 2) { ?>
                     <button class="button" data-filter=".<?php echo custom_sanitize_title($key); ?>"><?php echo $key; ?></button>
-            <?php }
+                <?php }
             } ?>
         </div>
         <div id="sorts" class="button-group">
@@ -277,40 +272,38 @@ unset($rowData);
         <li>Se otorga una estrella, si no hay ningún mecenazgo con un retraso superior a un año (365 días).</li>
         <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
     </ul>
-    <h2>Entran en retraso</h2>
+    <h2 id="enretraso">Entran en retraso</h2>
     <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Editorial</th>
-          <th>Fecha de entrega</th>
-          <th>Dias hasta entrar en retraso</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $ahora = new DateTime("now"); usort($entiempo, 'sortByOrder'); foreach ($entiempo as $retraso) { ?>
-          <tr>
-              <td style="text-align: left;"><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></td>
-              <td><?php echo $retraso['editorial']; ?></td>
-              <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
-              <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-  </div>
-
-
-
-
+        <table>
+        <thead>
+            <tr>
+            <th>Título</th>
+            <th>Editorial</th>
+            <th>Fecha de entrega</th>
+            <th>Dias hasta entrar en retraso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $ahora = new DateTime("now"); usort($entiempo, 'sortByOrder'); foreach ($entiempo as $retraso) { ?>
+            <tr>
+                <td style="text-align: left;"><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></td>
+                <td><?php echo $retraso['editorial']; ?></td>
+                <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
+                <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+        </table>
+    </div>
     <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>. Con una dirección web donde se vea el mecenazgo/preventa y la fecha de entrega oficial y la de entrega final (si la hay) me valdría.</p> 
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
-        <li><a href="https://web.archive.org/web/20230326212232/https://roltrasos.info/preventas">Roltrasos</a> Por la información que he podido constratar con u web.</li>
-        <li><a href="https://web.archive.org/">archive.org</a> por guardar copias de la webs de las preventas de las editoriales y poder consultar fechas aunque las hayan borrado o editado.</a>
+        <li><a href="https://web.archive.org/web/20230326212232/https://roltrasos.info/preventas" target="_blank">Roltrasos</a> por la información que he podido constratar con su web.</li>
+        <li><a href="https://web.archive.org/" target="_blank">archive.org</a> por guardar copias de la webs de las preventas de las editoriales y poder consultar fechas aunque las hayan borrado o editado.</a>
     </ul>
+    <h3>Código abierto</h3>
+    <p>Todo el código de la web puedes encontrarlo en <a href="https://github.com/gwannon/MecenazgosGoogleSheet" target="_blank">GitHub</a> con licencia GNU General Public License v3.0</a>.</p>
     <style>
         <?php echo file_get_contents(__DIR__ . '/inc/style.css'); ?>
     </style>
