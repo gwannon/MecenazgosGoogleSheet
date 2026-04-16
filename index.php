@@ -22,6 +22,8 @@ putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/service_key.json');
 
 $stats = [];
 
+$csv = "TÍTULO,EDITORIAL,URL,MECENAZGO CONSEGUIDO,ULTIMA ACTUALIZACION,ENTREGA OFICIAL,ENTREGA FINAL,DIAS DE RETRASO,TIPO\n";
+
 $entiempo = [];
 
 $client = new Google_Client();
@@ -88,6 +90,7 @@ unset($rowData);
     </ul>
     <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
+    <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
     <p><a href="#stats" class="button">Ver datos estadísticos</a></p>
     <div id="buttons">
@@ -184,8 +187,20 @@ unset($rowData);
                     <p class="name"><?php echo $sanitize_titulo; ?></p>
                     <p><b>Días de retraso:</b> <span class="days"><?php echo $dias_retraso; ?></span></p>
                 </div>
-
-                <?php //Datos editoriales
+                <?php 
+                
+                $csv .= '"'.addslashes($titulo).'",'.
+                '"'.addslashes($editorial).'",'.
+                '"'.$url.'",'.
+                '"'.$fecha_mecenazgo_conseguido.'",'.
+                '"'.$fecha_ultima_actualizacion.'",'.
+                '"'.$fecha_entrega_oficial.'",'.
+                '"'.$fecha_final.'",'.
+                '"'.$dias_retraso.'",'.
+                '"'.($is_preventa ? "Preventa" : "Mecenazgo").'",'.
+                "\n";
+                
+                //Datos editoriales
                 if (!isset($stats[$editorial])) {
                     $stats[$editorial] = [
                         'proyectos' => 0,
@@ -306,4 +321,6 @@ unset($rowData);
 </html>
 <?php $html = ob_get_clean();
 file_put_contents($file, $html); //Guardamos en cache
+echo __DIR__."/mecenazgos.csv";
+file_put_contents(__DIR__."/mecenazgos.csv", $csv); //Guardamos CSV
 echo $html;
