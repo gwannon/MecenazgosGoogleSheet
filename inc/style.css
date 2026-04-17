@@ -102,6 +102,11 @@
 			position: relative;
 		}
 
+
+		.element-item.retrasado img {
+			filter:grayscale(1);
+		}
+
 		.element-item.retrasado:before {
 			content: "Retrasado";
 			display: block;
@@ -113,6 +118,7 @@
 			font-size: 20px;
 			color: white;
 			clip-path: polygon(0% 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
+			z-index: 10;
 		}
 
 		.element-item.entiempo:before {
@@ -141,7 +147,7 @@
 			clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 25px 100%);
 		}
 
-		.element-item>*:is(h2, p) {
+		.element-item>*:is(h2, h3, p) {
 			padding-left: 10px;
 			padding-right: 10px;
 		}
@@ -158,6 +164,12 @@
 		.element-item h2 {
 			margin-top: 10px;
 			margin-bottom: 5px;
+		}
+		
+		.element-item h3 {
+			margin-top: 10px;
+			margin-bottom: 5px;
+			color: var(--secondary-color);
 		}
 
 		.element-item p {

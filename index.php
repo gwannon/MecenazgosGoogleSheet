@@ -137,7 +137,7 @@ $res = accessSheet(); ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
                     <img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" />
                     <h2><a href="<?= $url ?>" target="_blank"><?= $titulo ?></a></h2>
-                    <p><?= $editorial ?></p>
+                    <h3><?= $editorial ?></h3>
                     <p><b><?php echo ($is_preventa ? "Preventa conseguida" : "Mecenazgo conseguido"); ?>:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
                     <p><b>Última actualización:</b> <?php echo $fecha_ultima_actualizacion; ?></p>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
