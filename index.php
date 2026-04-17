@@ -296,15 +296,15 @@ unset($rowData); ?>
         </table>
     </div>
     <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>. Con una dirección web donde se vea el mecenazgo/preventa y la fecha de entrega oficial y la de entrega final (si la hay) me valdría.</p> 
-    <h3>Opiniones, críticas y comentarios sobre la herramienta de mecenezgos y preventas</h3>
-    <p>Si quieréis saber que opina el público sobre esta herramientas podéis abrir alguno de estos enlaces. Voy a poner de todos los que encuentre.</p>
+    <h3>Opiniones, críticas y comentarios sobre la herramienta de mecenazgos y preventas</h3>
+    <p>Si quieres saber que opina el público sobre esta herramienta podéis abrir alguno de estos enlaces. Voy a poner de todos los que encuentre.</p>
     <ul>
         <li>2026/04/02 - <a href="https://bsky.app/profile/gwannon.com/post/3miipzx43hc2w">Bluit original de Gwannon (o sea yo)</a></li> 
         <li>2026/04/09 - <a href="https://roleplus.app/publicaciones/mecenazgos-y-preventas">Crowker en Role+</a></li>
         <li>2026/04/14 - <a href="https://piedrapapeld20.com/09-en-el-cruce-no-gires-a-la-derecha/">PiedraPapelD20 en su blog</a></li>
         <li>2026/04/16 - <a href="https://www.youtube.com/live/_UTBeN8Lpp0?t=2258s">Turbiales en su canal de Youtube</a></li>
     </ul>
-    <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármerla y ponerla aquí.</p>
+    <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármela y ponerla aquí.</p>
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
