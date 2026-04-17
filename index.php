@@ -7,54 +7,14 @@ $plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', '
 
 if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
 
-ob_start();
-$file = __DIR__ . '/cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
-if (file_exists($file)) {
-    $diff = time() - filectime($file);
-    if ($diff <= EXPIRE_CACHE) { //Si es menos de 5 minutos (300 segundos) usamos el cacheo
-        echo file_get_contents($file);
-        echo "<!-- Cached -->";
-        die;
-    }
-}
+loadCache();
 
-putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/service_key.json');
+ob_start();
 
 $stats = [];
-
 $csv = "TÍTULO,EDITORIAL,URL,MECENAZGO CONSEGUIDO,ULTIMA ACTUALIZACION,ENTREGA OFICIAL,ENTREGA FINAL,DIAS DE RETRASO,TIPO\n";
-
 $entiempo = [];
-
-$client = new Google_Client();
-$client->useApplicationDefaultCredentials();
-$client->addScope('https://www.googleapis.com/auth/spreadsheets');
-$service = new Google_Service_Sheets($client);
-$sheets = $service->spreadsheets->get(SPREADSHEET_ID, ["ranges" => [SPREADSHEET_SHEET_NAME], "fields" => "sheets"])->getSheets();
-$data = $sheets[0]->getData();
-$startRow = $data[0]->getStartRow();
-$startColumn = $data[0]->getStartColumn();
-$rowData = $data[0]->getRowData();
-$res = [];
-foreach ($rowData as $i => $row) {
-    $temp = array();
-    $control = 0;
-    if (is_array($row->getValues()) && count($row->getValues()) > 0) {
-        foreach ($row->getValues() as $j => $value) {
-            if (isset($value['formattedValue']) && $value['formattedValue'] != '') {
-                $tempObj['formattedValue'] = $value->getFormattedValue();
-                $control++;
-            } else {
-                $tempObj['formattedValue'] = "";
-            }
-            if ($control > 0) array_push($temp, $tempObj);
-        }
-    }
-    if (count($temp) > 0) array_push($res, $temp);
-}
-
-unset($data);
-unset($rowData); ?>
+$res = accessSheet(); ?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -74,10 +34,17 @@ unset($rowData); ?>
     <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
     <h1>Mecenazgos y preventas de juegos de rol</h1>
     <p>Este <b>listado de mecenazgos y preventas de juegos de rol de España</b> está pensado para ayudar a ver el estado de estos y ver si puedes fiarte o no de una editorial a la hora de meter dinero en uno de sus proyectos.</p>
-    <p>La fecha de entrega oficial se calcula a usando el último día posible del rango que de la editorial. Por ejemplo, si una editorial dice que la entrega será el tercer trimestre de 2026, la fecha de entrega oficial será el 30/09/2026. La fecha del mecenazgo conseguido es la fecha en que consiguió el objetivo del mecenazgo, no la fecha de finalización del mecenazgo o preventa.</p>
+    <p>La fecha de entrega oficial se calcula a usando el último día posible del rango que da la editorial. Por ejemplo, si una editorial dice que la entrega será el tercer trimestre de 2026, la fecha de entrega oficial será el 30/09/2026. La fecha del mecenazgo conseguido es la fecha en que consiguió el objetivo del mecenazgo, no la fecha de finalización del mecenazgo o preventa.</p>
     <p>La fecha de entrega es la fecha de entrega del material físico, a no ser que sea un producto digital, en ese caso, será la fecha de entrega del PDF.</p>
-    <p>Aunque legalemente todo son preventas, se considera preventa a las campañas hechas en la propia web de la editorial y mecenazgo a las que se hacen en plataformas de mecenazgo. No se tiene en cuenta si la editorial lo llama de una manera u otra.</p> 
-    <p>Estados y su significado:</p>
+    <p>Aunque legalmente todo son preventas, se considera preventa a las campañas hechas en la propia web de la editorial y mecenazgo a las que se hacen en plataformas de mecenazgo. No se tiene en cuenta si la editorial lo llama de una manera u otra.</p> 
+    <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
+    <p>En las preventas, siempre que ha sido posible, se ha enlazado a la versión de la <b>webs de los proyectos guardadas en archive.org</b> para tener una versión fiable y que las editoriales no puedan editar a su gusto.</p> 
+    <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
+    <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
+    <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
+    <hr/>
+    <p><a href="#stats" class="button">Ver valoraciones de las editoriales</a> <a href="#enretraso" class="button">Ver mecenazgos que caducan pronto</a> <a href="/mecenazgos/mecenazgos.csv" class="button">Descargar en formato CSV (Excel)</a></p>
+    <h2>Estados de los mecenazgos y su significado:</h2>
     <ul>
         <li><b>Retrasado:</b> Se ha entregado más tarde de la fecha oficial de entrega o ha pasado la fecha de entrega oficial y todavía no se ha entregado.</li>
         <li><b>En tiempo:</b> No ha pasado la fecha de entrega oficial o se ha entregado antes de la fecha de entrega oficial.</li>
@@ -85,11 +52,6 @@ unset($rowData); ?>
         <li><b>Entregado:</b> Ha sido entregado, independientemente de si se ha hecho a tiempo o no.</li>
         <li><b>Entregado a tiempo:</b> Se ha entregado y antes de la fecha oficial de entrega.</li>
     </ul>
-    <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
-    <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
-    <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
-    <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
-    <p><a href="#stats" class="button">Ver valoraciones de las editoriales</a> <a href="#enretraso" class="button">Ver mecenazgos que caducan pronto</a></p>
     <div id="buttons">
         <div id="filters" class="button-group">
             <h4>Filtrar</h4>
@@ -126,6 +88,7 @@ unset($rowData); ?>
         <?php foreach ($res as $key => $proyecto) {
             if ($key > 0) {
                 $clases = [];
+
                 //Datos
                 $editorial = $proyecto[0]['formattedValue'];
                 $clases[] = custom_sanitize_title($editorial);
@@ -221,7 +184,7 @@ unset($rowData); ?>
             }
         } ?>
     </div>
-    <h2 id="stats">Datos estadísticos</h2>
+    <h2 id="stats">Valoración de editoriales de juegos de rol al hacer mecenazgos y preventas</h2>
     <div>
         <table>
             <thead>
@@ -237,60 +200,77 @@ unset($rowData); ?>
                     <th>Días de retraso medio</th>
                     <th>Acumulado de días de retraso</th>
                     <th>Máximo días de retraso</th>
-                    <th>Plataformas de mecenazgo usadas</th>
+                    <th>Nª de plataformas de mecenazgo usadas</th>
                 </tr>
             </thead>
             <tbody>
                 <?php ksort($stats);
-                foreach ($stats as $nombre => $editorial) {
-                    if ($editorial['proyectos'] > 1) { ?>
-                        <tr>
-                            <th><?php echo $nombre; ?></th>
-                            <td><span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
-                            <td><?php echo $editorial['proyectos']; ?></td>
-                            <td><?php echo $editorial['sin_entregar']; ?></td>
-                            <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
-                            <td><?php echo $editorial['entregados']; ?></td>
-                            <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
-                            <td><?php echo $editorial['entregados_tarde']; ?></td>
-                            <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
-                            <td><?php echo $editorial['dias_retraso']; ?></td>
-                            <td><?php echo $editorial['max_retraso']; ?></td>
-                            <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
-                        </tr>
-                <?php }
-                } ?>
+
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS\n";
+
+                foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
+                    <tr>
+                        <th><?php echo $nombre; ?></th>
+                        <td><span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
+                        <td><?php echo $editorial['proyectos']; ?></td>
+                        <td><?php echo $editorial['sin_entregar']; ?></td>
+                        <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
+                        <td><?php echo $editorial['entregados']; ?></td>
+                        <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
+                        <td><?php echo $editorial['entregados_tarde']; ?></td>
+                        <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
+                        <td><?php echo $editorial['dias_retraso']; ?></td>
+                        <td><?php echo $editorial['max_retraso']; ?></td>
+                        <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
+                    </tr>
+                    <?php 
+                    
+                        $csv .= '"'.addslashes($nombre).'",'.
+                        $stars.','.
+                        $editorial['proyectos'].','.
+                        $editorial['sin_entregar'].','.
+                        $editorial['sin_entregar_pero_a_tiempo'].','.
+                        $editorial['entregados'].','.
+                        $editorial['entregados_a_tiempo'].','.
+                        $editorial['entregados_tarde'].','.
+                        floor(($editorial['dias_retraso'] / $editorial['proyectos'])).','.
+                        $editorial['dias_retraso'].','.
+                        $editorial['max_retraso'].','.
+                        count($editorial['plataformas'])."\n";
+                    
+                    
+                    } } ?>
             </tbody>
         </table>
     </div>
-    <p>Las estrellas se otorgan mediante esta fórmula.</p>
+    <p>Las <b>estrellas de las editoriales de juegos de rol</b> se otorgan mediante la siguiente fórmula.</p>
     <ul>
-        <li>Para empezar hay que tener al menos 5 mecenazgos para poder ser evaluado.</li>
-        <li>La primera estrella se consigue, si tienes más mecenazgos entregados que sin entregar. Da igual que estén o no retrasados.</li>
-        <li>La segunda estrella se da, si al menos un cuarto los entregados se han entregado a tiempo.</li>
-        <li>Se da una estrella, si la media de retraso es menor de 3 meses (90 días).</li>
-        <li>Se otorga una estrella, si no hay ningún mecenazgo con un retraso superior a un año (365 días).</li>
-        <li>La última estrella se obtiene, si tienes más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo.</li>
+        <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder ser evaluado.</li>
+        <li>La primera estrella se consigue, si tienes <b>más mecenazgos entregados que sin entregar</b>. Da igual que estén o no retrasados.</li>
+        <li>La segunda estrella se da, si al menos <b>un cuarto los entregados se han entregado a tiempo</b>.</li>
+        <li>Se da una estrella, si la <b>media de retraso es menor de 3 meses (90 días)</b>.</li>
+        <li>Se otorga una estrella, si no hay <b>ningún mecenazgo con un retraso superior a un año (365 días)</b>.</li>
+        <li>La última estrella se obtiene, si tienes <b>más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo</b>.</li>
     </ul>
-    <h2 id="enretraso">Entran en retraso</h2>
+    <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
     <div>
         <table>
         <thead>
             <tr>
-            <th>Título</th>
-            <th>Editorial</th>
-            <th>Fecha de entrega</th>
+            <th>Producto rolero</th>
+            <th>Editorial de juegos de rol</th>
+            <th>Fecha de entrega del mecenazgo</th>
             <th>Dias hasta entrar en retraso</th>
             </tr>
         </thead>
         <tbody>
             <?php $ahora = new DateTime("now"); usort($entiempo, 'sortByOrder'); foreach ($entiempo as $retraso) { ?>
-            <tr>
-                <td style="text-align: left;"><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></td>
-                <td><?php echo $retraso['editorial']; ?></td>
-                <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
-                <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
-            </tr>
+                <tr>
+                    <td style="text-align: left;"><a href="<?php echo $retraso['url']; ?>"><?php echo $retraso['titulo']; ?></a></td>
+                    <td><?php echo $retraso['editorial']; ?></td>
+                    <td><?php echo $retraso['fecha']->format('Y/m/d'); ?></td>
+                    <td><?php $interval = $retraso['fecha']->diff($ahora); echo $interval->days; ?></td>
+                </tr>
             <?php } ?>
         </tbody>
         </table>
@@ -304,7 +284,7 @@ unset($rowData); ?>
         <li>2026/04/14 - <a href="https://piedrapapeld20.com/09-en-el-cruce-no-gires-a-la-derecha/">PiedraPapelD20 en su blog</a></li>
         <li>2026/04/16 - <a href="https://www.youtube.com/live/_UTBeN8Lpp0?t=2258s">Turbiales en su canal de Youtube</a></li>
     </ul>
-    <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármela y ponerla aquí.</p>
+    <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármelas y que pueda ponerlas aquí.</p>
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
@@ -322,6 +302,5 @@ unset($rowData); ?>
 </body>
 </html>
 <?php $html = ob_get_clean();
-file_put_contents($file, $html); //Guardamos en cache
-file_put_contents(__DIR__."/mecenazgos.csv", $csv); //Guardamos CSV
+saveCache($html, $csv);
 echo $html;

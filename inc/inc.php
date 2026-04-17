@@ -1,5 +1,58 @@
 <?php
 
+function accessSheet() {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/../service_key.json');
+    $client = new Google_Client();
+    $client->useApplicationDefaultCredentials();
+    $client->addScope('https://www.googleapis.com/auth/spreadsheets');
+    $service = new Google_Service_Sheets($client);
+    $sheets = $service->spreadsheets->get(SPREADSHEET_ID, ["ranges" => [SPREADSHEET_SHEET_NAME], "fields" => "sheets"])->getSheets();
+    $data = $sheets[0]->getData();
+    $startRow = $data[0]->getStartRow();
+    $startColumn = $data[0]->getStartColumn();
+    $rowData = $data[0]->getRowData();
+    $res = [];
+    foreach ($rowData as $i => $row) {
+        $temp = array();
+        $control = 0;
+        if (is_array($row->getValues()) && count($row->getValues()) > 0) {
+            foreach ($row->getValues() as $j => $value) {
+                if (isset($value['formattedValue']) && $value['formattedValue'] != '') {
+                    $tempObj['formattedValue'] = $value->getFormattedValue();
+                    $control++;
+                } else {
+                    $tempObj['formattedValue'] = "";
+                }
+                if ($control > 0) array_push($temp, $tempObj);
+            }
+        }
+        if (count($temp) > 0) array_push($res, $temp);
+    }
+
+    //unset($data);
+    //unset($rowData);
+    return $res;
+}
+
+function loadCache() {
+    $file = __DIR__ . '/../cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
+    if (file_exists($file)) {
+        $diff = time() - filectime($file);
+        if ($diff <= EXPIRE_CACHE) { //Si es menos de 5 minutos (300 segundos) usamos el cacheo
+            echo file_get_contents($file);
+            echo "<!-- Cached -->";
+            die;
+        }
+    }
+}
+
+function saveCache($html, $csv) {
+    $file = __DIR__ . '/../cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
+    file_put_contents($file, $html); //Guardamos en cache
+    $file = __DIR__ . '/../mecenazgos.csv';
+    file_put_contents($file, $csv); //Guardamos CSV
+}
+
 function registerLog() {
   if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -9,10 +62,7 @@ function registerLog() {
     $ip = $_SERVER['REMOTE_ADDR'];
   }
 
-
   $json = json_decode(file_get_contents("http://ip-api.com/json/".$ip));
-
-  //echo date("Y-m-d H:i:s")."|".$ip."|".$_SERVER['HTTP_USER_AGENT'];
 
   $f=fopen(__DIR__."/../log.txt", "a+");
   fwrite($f, date("Y-m-d H:i:s")."|".
