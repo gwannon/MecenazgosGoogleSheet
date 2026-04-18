@@ -61,7 +61,7 @@ $res = accessSheet(); ?>
             <button class="button" data-filter=".sinentregar">Pendiente de entregar</button>
             <button class="button" data-filter=".entregado">Entregado</button>
             <button class="button" data-filter=".entregadoatiempo">Entregado a tiempo</button>
-            <br />
+            <h4>Editoriales</h4>
             <?php $menu = [];
             foreach ($res as $key => $proyecto) {
                 $editorial = $proyecto[0]['formattedValue'];
