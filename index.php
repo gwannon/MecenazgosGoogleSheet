@@ -38,7 +38,7 @@ $res = accessSheet(); ?>
     <p>La fecha de entrega es la fecha de entrega del material físico, a no ser que sea un producto digital, en ese caso, será la fecha de entrega del PDF.</p>
     <p>Aunque legalmente todo son preventas, se considera preventa a las campañas hechas en la propia web de la editorial y mecenazgo a las que se hacen en plataformas de mecenazgo. No se tiene en cuenta si la editorial lo llama de una manera u otra.</p> 
     <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
-    <p>En las preventas, siempre que ha sido posible, se ha enlazado a la versión de la <b>webs de los proyectos guardadas en archive.org</b> para tener una versión fiable y que las editoriales no puedan editar a su gusto.</p> 
+    <p>En las preventas, siempre que ha sido posible, se ha enlazado a la versión de la <b>webs de los proyectos guardadas en archive.org</b> para tener una versión fiable y que las editoriales no puedan editar a su gusto. En las preventas sin fecha de entrega se ha optado por considerar la fecha de entrega un año más tarde del fin de la preventa. En caso de no fijar una fecha de fin de la preventa se toma la fecha del inicio.</p> 
     <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
