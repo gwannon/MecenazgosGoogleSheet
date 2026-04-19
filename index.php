@@ -167,6 +167,7 @@ $res = accessSheet(); ?>
                         'entregados_a_tiempo' => 0,
                         'entregados_tarde' => 0,
                         'dias_retraso' => 0,
+                        'dias_retraso_pendientes' => 0,
                         'sin_entregar_pero_a_tiempo' => 0,
                         'max_retraso' => 0,
                         'plataformas' => [],
@@ -179,6 +180,7 @@ $res = accessSheet(); ?>
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
+                if (in_array('sinentregar', $clases)) $stats[$editorial]['dias_retraso_pendientes'] = $stats[$editorial]['dias_retraso_pendientes'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
                 if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
             }
@@ -199,6 +201,7 @@ $res = accessSheet(); ?>
                     <th>Proyectos entregados tarde</th>
                     <th>Días de retraso medio</th>
                     <th>Acumulado de días de retraso</th>
+                    <th>Acumulado de días de retraso de proyecto pendientes</th>
                     <th>Máximo días de retraso</th>
                     <th>Nª de plataformas de mecenazgo usadas</th>
                 </tr>
@@ -206,7 +209,7 @@ $res = accessSheet(); ?>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS\n";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -220,6 +223,7 @@ $res = accessSheet(); ?>
                         <td><?php echo $editorial['entregados_tarde']; ?></td>
                         <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
                         <td><?php echo $editorial['dias_retraso']; ?></td>
+                        <td><?php echo $editorial['dias_retraso_pendientes']; ?></td>
                         <td><?php echo $editorial['max_retraso']; ?></td>
                         <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
                     </tr>
@@ -235,6 +239,7 @@ $res = accessSheet(); ?>
                         $editorial['entregados_tarde'].','.
                         floor(($editorial['dias_retraso'] / $editorial['proyectos'])).','.
                         $editorial['dias_retraso'].','.
+                        $editorial['dias_retraso_pendientes'].','.
                         $editorial['max_retraso'].','.
                         count($editorial['plataformas'])."\n";
                     
