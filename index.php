@@ -171,6 +171,7 @@ $res = accessSheet(); ?>
                         'sin_entregar_pero_a_tiempo' => 0,
                         'max_retraso' => 0,
                         'plataformas' => [],
+                        'tiene_preventas' => 0
                     ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -183,6 +184,7 @@ $res = accessSheet(); ?>
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['dias_retraso_pendientes'] = $stats[$editorial]['dias_retraso_pendientes'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
                 if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
+                if($is_preventa) $stats[$editorial]['tiene_preventas'] = 1;
             }
         } ?>
     </div>
@@ -193,10 +195,8 @@ $res = accessSheet(); ?>
                 <tr>
                     <th>Editorial</th>
                     <th>Estrellas</th>
-                    <th>Nº proyectos</th>
-                    <th>Proyectos sin entregar</th>
+                    <th>Nº proyectos/Sin entregar/Entregados</th>
                     <th>Proyectos sin entregar,<br />pero aun en tiempo</th>
-                    <th>Proyectos entregados</th>
                     <th>Proyectos entregados a tiempo</th>
                     <th>Proyectos entregados tarde</th>
                     <th>Días de retraso medio</th>
@@ -215,17 +215,15 @@ $res = accessSheet(); ?>
                     <tr>
                         <th><?php echo $nombre; ?></th>
                         <td><span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
-                        <td><?php echo $editorial['proyectos']; ?></td>
-                        <td><?php echo $editorial['sin_entregar']; ?></td>
+                        <td><?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?></td>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
-                        <td><?php echo $editorial['entregados']; ?></td>
                         <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
                         <td><?php echo $editorial['entregados_tarde']; ?></td>
                         <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
                         <td><?php echo $editorial['dias_retraso']; ?></td>
                         <td><?php echo $editorial['dias_retraso_pendientes']; ?></td>
                         <td><?php echo $editorial['max_retraso']; ?></td>
-                        <td><?php echo count($editorial['plataformas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
+                        <td><?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
                     </tr>
                     <?php 
                     
@@ -241,9 +239,7 @@ $res = accessSheet(); ?>
                         $editorial['dias_retraso'].','.
                         $editorial['dias_retraso_pendientes'].','.
                         $editorial['max_retraso'].','.
-                        count($editorial['plataformas'])."\n";
-                    
-                    
+                        (count($editorial['plataformas']) + $editorial['tiene_preventas'])."\n";
                     } } ?>
             </tbody>
         </table>
@@ -282,7 +278,7 @@ $res = accessSheet(); ?>
     </div>
     <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún mecenazgo o preventa, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+mecenazgos@gmail.com">monclus.jorge@gmail.com</a>. Con una dirección web donde se vea el mecenazgo/preventa y la fecha de entrega oficial y la de entrega final (si la hay) me valdría.</p> 
     <h3>Opiniones, críticas y comentarios sobre la herramienta de mecenazgos y preventas</h3>
-    <p>Si quieres saber que opina el público sobre esta herramienta podéis abrir alguno de estos enlaces. Voy a poner de todos los que encuentre.</p>
+    <p>Si quieres saber que opina el público sobre esta herramienta, podéis abrir alguno de estos enlaces. Voy a poner de todos los que encuentre.</p>
     <ul>
         <li>2026/04/02 - <a href="https://bsky.app/profile/gwannon.com/post/3miipzx43hc2w">Bluit original de Gwannon (o sea yo)</a></li> 
         <li>2026/04/09 - <a href="https://roleplus.app/publicaciones/mecenazgos-y-preventas">Crowker en Role+</a></li>
