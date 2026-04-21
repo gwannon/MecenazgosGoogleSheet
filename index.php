@@ -160,19 +160,19 @@ $res = accessSheet(); ?>
                 
                 //Datos editoriales
                 if (!isset($stats[$editorial])) {
-                    $stats[$editorial] = [
-                        'proyectos' => 0,
-                        'sin_entregar' => 0,
-                        'entregados' => 0,
-                        'entregados_a_tiempo' => 0,
-                        'entregados_tarde' => 0,
-                        'dias_retraso' => 0,
-                        'dias_retraso_pendientes' => 0,
-                        'sin_entregar_pero_a_tiempo' => 0,
-                        'max_retraso' => 0,
-                        'plataformas' => [],
-                        'tiene_preventas' => 0
-                    ];
+                  $stats[$editorial] = [
+                    'proyectos' => 0,
+                    'sin_entregar' => 0,
+                    'entregados' => 0,
+                    'entregados_a_tiempo' => 0,
+                    'entregados_tarde' => 0,
+                    'dias_retraso' => 0,
+                    'dias_retraso_pendientes' => 0,
+                    'sin_entregar_pero_a_tiempo' => 0,
+                    'max_retraso' => 0,
+                    'plataformas' => [],
+                    'tiene_preventas' => 0
+                  ];
                 }
                 $stats[$editorial]['proyectos']++;
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['sin_entregar']++;
@@ -222,10 +222,10 @@ $res = accessSheet(); ?>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
                         <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
                         <td><?php echo $editorial['entregados_tarde']; ?></td>
-                        <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?></td>
-                        <td><?php echo $editorial['dias_retraso']; ?></td>
+                        <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?><?php echo ($editorial['proyectos'] >= 5 && floor(($editorial['dias_retraso'] / $editorial['proyectos'])) > 365 ? "<span style='font-size: 50px; color: #ffae00;'>☠</sspan>" : ""); ?></td>
+                        <td><?php echo $editorial['dias_retraso']; ?> </td>
                         <td><?php echo $editorial['dias_retraso_pendientes']; ?></td>
-                        <td><?php echo $editorial['max_retraso']; ?></td>
+                        <td><?php echo $editorial['max_retraso']; ?><?php echo ($editorial['proyectos'] >= 5 && $editorial['max_retraso'] > 730 ? "<span style='font-size: 50px; color: #ffae00;'>☠</sspan>" : ""); ?></td>
                         <td><?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
                     </tr>
                     <?php 
@@ -256,7 +256,7 @@ $res = accessSheet(); ?>
         <li>Se otorga una estrella, si no hay <b>ningún mecenazgo con un retraso superior a un año (365 días)</b>.</li>
         <li>La última estrella se obtiene, si tienes <b>más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo</b>.</li>
     </ul>
-    <p>Las <b>calaveras (🕱) de las editoriales de juegos de rol</b> son toques de atención hacia esa editorial por hacer cosas bastante cuestionables y se otorgan mediante la siguiente formula.</p>
+    <p>Las <b>calaveras (☠) de las editoriales de juegos de rol</b> son toques de atención hacia esa editorial por hacer cosas bastante cuestionables y se otorgan mediante la siguiente formula.</p>
     <ul>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
