@@ -214,7 +214,7 @@ $res = accessSheet(); ?>
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
                         <th><?php echo $nombre; ?></th>
-                        <td>
+                        <td style="text-align: left;">
                             <span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span>    
                             <span class="skulls-<?php $skulls = getSkulls($editorial); echo $skulls; ?>"><?php echo $skulls; ?> calaveras</span>
                         </td>
@@ -247,7 +247,7 @@ $res = accessSheet(); ?>
             </tbody>
         </table>
     </div>
-    <p>Las <b>estrellas de las editoriales de juegos de rol</b> se otorgan mediante la siguiente fórmula.</p>
+    <p>Las <b>estrellas (★) de las editoriales de juegos de rol</b> se otorgan mediante la siguiente fórmula.</p>
     <ul>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder ser evaluado.</li>
         <li>La primera estrella se consigue, si tienes <b>más mecenazgos entregados que sin entregar</b>. Da igual que estén o no retrasados.</li>
@@ -256,7 +256,7 @@ $res = accessSheet(); ?>
         <li>Se otorga una estrella, si no hay <b>ningún mecenazgo con un retraso superior a un año (365 días)</b>.</li>
         <li>La última estrella se obtiene, si tienes <b>más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo</b>.</li>
     </ul>
-    <p>Las calaveras de las editoriales de juegos de rol se otorgan mediante la siguiente formula. No es incompatible tener estrellas y calaveras. Puede tener una trayectoria muy buena de 4 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera.</p>
+    <p>Las calaveras (🕱) de las editoriales de juegos de rol se otorgan mediante la siguiente formula. No es incompatible tener estrellas y calaveras. Puede tener una trayectoria muy buena de 4 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera.</p>
     <ul>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  

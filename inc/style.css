@@ -310,34 +310,51 @@
 			font-size: 0px;
 		}
 
+		.skulls-0 {
+			display: none;
+		}
+
 		.skulls-1:before {
-			content: "🕱    ";
+			content: "🕱";
 			font-size: 24px;
 			color: #ffae00;
+			display: inline-block;
+			width: 100%;
+			text-align: left;
 		}
 
 		.skulls-2:before {
-			content: "🕱🕱   ";
+			content: "🕱🕱";
 			font-size: 24px;
 			color: #ffae00;
+			display: inline-block;
+			width: 100%;
+			text-align: left;
 		}
 
 		.skulls-3:before {
-			content: "🕱🕱🕱  ";
+			content: "🕱🕱🕱";
 			font-size: 24px;
 			color: #ffae00;
+			display: inline-block;
+			width: 100%;
+			text-align: left;
 		}
 
 		.skulls-4:before {
-			content: "🕱🕱🕱🕱 ";
-			font-size: 24px;
+			content: "🕱🕱🕱🕱";
+			font-size: 21px;
 			color: #ffae00;
+			display: inline-block;
+			width: 100%;
+			text-align: left;
 		}
 
 		.skulls-5:before {
 			content: "🕱🕱🕱🕱🕱";
-			font-size: 24px;
+			font-size: 21px;
 			color: #ffae00;
+			display: inline-block;
+			width: 100%;
+			text-align: left;
 		}
-
-		🕱
