@@ -194,7 +194,7 @@ $res = accessSheet(); ?>
             <thead>
                 <tr>
                     <th>Editorial</th>
-                    <th>Estrellas</th>
+                    <th>Estrellas y calaveras</th>
                     <th>Nº proyectos/Sin entregar/Entregados</th>
                     <th>Proyectos sin entregar,<br />pero aun en tiempo</th>
                     <th>Proyectos entregados a tiempo</th>
