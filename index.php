@@ -256,13 +256,14 @@ $res = accessSheet(); ?>
         <li>Se otorga una estrella, si no hay <b>ningún mecenazgo con un retraso superior a un año (365 días)</b>.</li>
         <li>La última estrella se obtiene, si tienes <b>más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo</b>.</li>
     </ul>
-    <p>Las calaveras (🕱) de las editoriales de juegos de rol se otorgan mediante la siguiente formula. No es incompatible tener estrellas y calaveras. Puede tener una trayectoria muy buena de 4 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera.</p>
+    <p>Las <b>calaveras (🕱) de las editoriales de juegos de rol</b> son toques de atención hacia esa editorial por hacer cosas bastante cuestionables y se otorgan mediante la siguiente formula.</p>
     <ul>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
         <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
         <li>EN DESARROLLO (Se aceptan sugerencias)</li>
     </ul>
+    <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
     <div>
         <table>
