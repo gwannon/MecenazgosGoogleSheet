@@ -214,7 +214,10 @@ $res = accessSheet(); ?>
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
                         <th><?php echo $nombre; ?></th>
-                        <td><span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span></td>
+                        <td>
+                            <span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span>    
+                            <span class="skulls-<?php $skulls = getSkulls($editorial); echo $skulls; ?>"><?php echo $skulls; ?> calaveras</span>
+                        </td>
                         <td><?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?></td>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
                         <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
@@ -252,6 +255,13 @@ $res = accessSheet(); ?>
         <li>Se da una estrella, si la <b>media de retraso es menor de 3 meses (90 días)</b>.</li>
         <li>Se otorga una estrella, si no hay <b>ningún mecenazgo con un retraso superior a un año (365 días)</b>.</li>
         <li>La última estrella se obtiene, si tienes <b>más mecenazgos entregados que sin entregar y al menos la mitad de tus mecenazgos entregados se han entregado a tiempo</b>.</li>
+    </ul>
+    <p>Las calaveras de las editoriales de juegos de rol se otorgan mediante la siguiente formula. No es incompatible tener estrellas y calaveras. Puede tener una trayectoria muy buena de 4 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera.</p>
+    <ul>
+        <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
+        <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
+        <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
+        <li>EN DESARROLLO (Se aceptan sugerencias)</li>
     </ul>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
     <div>

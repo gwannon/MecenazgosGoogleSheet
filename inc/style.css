@@ -300,3 +300,44 @@
 			font-size: 30px;
 			color: #ffae00;
 		}
+
+		.skulls-0,
+		.skulls-1,
+		.skulls-2,
+		.skulls-3,
+		.skulls-4,
+		.skulls-5 {
+			font-size: 0px;
+		}
+
+		.skulls-1:before {
+			content: "🕱    ";
+			font-size: 24px;
+			color: #ffae00;
+		}
+
+		.skulls-2:before {
+			content: "🕱🕱   ";
+			font-size: 24px;
+			color: #ffae00;
+		}
+
+		.skulls-3:before {
+			content: "🕱🕱🕱  ";
+			font-size: 24px;
+			color: #ffae00;
+		}
+
+		.skulls-4:before {
+			content: "🕱🕱🕱🕱 ";
+			font-size: 24px;
+			color: #ffae00;
+		}
+
+		.skulls-5:before {
+			content: "🕱🕱🕱🕱🕱";
+			font-size: 24px;
+			color: #ffae00;
+		}
+
+		🕱

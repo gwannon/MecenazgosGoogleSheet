@@ -677,6 +677,17 @@ function getStars ($editorial) {
   return $stars;
 }
 
+function getSkulls ($editorial) {
+
+    if($editorial['proyectos'] < 5) return 0; //Para empezar hay que tener al menos 5 mecenazgos para poder evaluado.
+
+
+    $skulls = 0;
+    if($editorial['max_retraso'] > 730) $skulls++;
+    if(floor(($editorial['dias_retraso'] / $editorial['proyectos'])) > 365) $skulls++;
+    return $skulls;
+}
+
 
 function sortByOrder($a, $b) {
     if ($a['fecha']->format('Ymd') > $b['fecha']->format('Ymd')) {
