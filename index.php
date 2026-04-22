@@ -220,29 +220,38 @@ $res = accessSheet(); ?>
                         </td>
                         <td><?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?></td>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
-                        <td><?php echo $editorial['entregados_a_tiempo']; ?></td>
+                        <td>
+                            <?php echo $editorial['entregados_a_tiempo']; ?>
+                            <?php echo ($editorial['proyectos'] >= 5 && $editorial['entregados'] >= 5 && $editorial['entregados_a_tiempo'] == 0 ? "<span class='skull' title='Tener 5 o más proyectos entregados y ninguno entregado a tiempo.'>☠</span>" : ""); ?>
+                        </td>
                         <td><?php echo $editorial['entregados_tarde']; ?></td>
-                        <td><?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?><?php echo ($editorial['proyectos'] >= 5 && floor(($editorial['dias_retraso'] / $editorial['proyectos'])) > 365 ? "<span style='font-size: 50px; color: #ffae00;'>☠</sspan>" : ""); ?></td>
+                        <td>
+                            <?php echo floor(($editorial['dias_retraso'] / $editorial['proyectos'])); ?>
+                            <?php echo ($editorial['proyectos'] >= 5 && floor(($editorial['dias_retraso'] / $editorial['proyectos'])) > 365 ? "<span class='skull' title='La media de retraso es mayor de 1 año (365 días).'>☠</span>" : ""); ?>
+                        </td>
                         <td><?php echo $editorial['dias_retraso']; ?> </td>
                         <td><?php echo $editorial['dias_retraso_pendientes']; ?></td>
-                        <td><?php echo $editorial['max_retraso']; ?><?php echo ($editorial['proyectos'] >= 5 && $editorial['max_retraso'] > 730 ? "<span style='font-size: 50px; color: #ffae00;'>☠</sspan>" : ""); ?></td>
-                        <td><?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas']); ?><!-- <?php echo implode(", ", $editorial['plataformas']); ?> --></td>
+                        <td><?php echo $editorial['max_retraso']; ?><?php echo ($editorial['proyectos'] >= 5 && $editorial['max_retraso'] > 730 ? "<span class='skull' title='Al menos un mecenazgo que tiene un retraso superior a 2 años (730 días).'>☠</span>" : ""); ?></td>
+                        <td>
+                            <?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas']); ?>
+                            <!-- <?php echo implode(", ", $editorial['plataformas']); ?> -->
+                            <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4 ? "<span class='skull' title='Usar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
+                        </td>
                     </tr>
                     <?php 
-                    
                         $csv .= '"'.addslashes($nombre).'",'.
-                        $stars.','.
-                        $editorial['proyectos'].','.
-                        $editorial['sin_entregar'].','.
-                        $editorial['sin_entregar_pero_a_tiempo'].','.
-                        $editorial['entregados'].','.
-                        $editorial['entregados_a_tiempo'].','.
-                        $editorial['entregados_tarde'].','.
-                        floor(($editorial['dias_retraso'] / $editorial['proyectos'])).','.
-                        $editorial['dias_retraso'].','.
-                        $editorial['dias_retraso_pendientes'].','.
-                        $editorial['max_retraso'].','.
-                        (count($editorial['plataformas']) + $editorial['tiene_preventas'])."\n";
+                            $stars.','.
+                            $editorial['proyectos'].','.
+                            $editorial['sin_entregar'].','.
+                            $editorial['sin_entregar_pero_a_tiempo'].','.
+                            $editorial['entregados'].','.
+                            $editorial['entregados_a_tiempo'].','.
+                            $editorial['entregados_tarde'].','.
+                            floor(($editorial['dias_retraso'] / $editorial['proyectos'])).','.
+                            $editorial['dias_retraso'].','.
+                            $editorial['dias_retraso_pendientes'].','.
+                            $editorial['max_retraso'].','.
+                            (count($editorial['plataformas']) + $editorial['tiene_preventas'])."\n";
                     } } ?>
             </tbody>
         </table>
@@ -261,6 +270,8 @@ $res = accessSheet(); ?>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
         <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
+        <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
+        <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo.</li>
         <li>EN DESARROLLO (Se aceptan sugerencias)</li>
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>

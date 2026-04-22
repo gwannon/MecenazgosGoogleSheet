@@ -301,6 +301,18 @@
 			color: #ffae00;
 		}
 
+		span.skull {
+			font-size: 50px; 
+			color: black;
+			display: block;
+		}
+
+		td:has(.skull) {
+			color: black;
+			text-align: center;
+			background-color: rgb(255, 72, 0);
+		}
+
 		.skulls-0,
 		.skulls-1,
 		.skulls-2,

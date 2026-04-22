@@ -685,6 +685,8 @@ function getSkulls ($editorial) {
     $skulls = 0;
     if($editorial['max_retraso'] > 730) $skulls++;
     if(floor(($editorial['dias_retraso'] / $editorial['proyectos'])) > 365) $skulls++;
+    if((count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4) $skulls++;
+     if($editorial['entregados'] >= 5 && $editorial['entregados_a_tiempo'] == 0) $skulls++;
     return $skulls;
 }
 
