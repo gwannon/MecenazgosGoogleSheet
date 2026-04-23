@@ -218,7 +218,10 @@ $res = accessSheet(); ?>
                             <span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span>    
                             <span class="skulls-<?php $skulls = getSkulls($editorial); echo $skulls; ?>"><?php echo $skulls; ?> calaveras</span>
                         </td>
-                        <td><?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?></td>
+                        <td>
+                          <?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?>
+                          <?php echo ($editorial['proyectos'] >= 5 && ($editorial['entregados'] * 3) <= $editorial['sin_entregar'] ? "<span class='skull' title='Tener el triple de proyecto sin entregar que entregados.'>☠</span>" : ""); ?>
+                        </td>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
                         <td>
                             <?php echo $editorial['entregados_a_tiempo']; ?>
@@ -271,8 +274,8 @@ $res = accessSheet(); ?>
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
         <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
         <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
-        <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo.</li>
-        <li>EN DESARROLLO (Se aceptan sugerencias)</li>
+        <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
+        <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
