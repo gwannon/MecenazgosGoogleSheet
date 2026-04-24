@@ -692,6 +692,57 @@ function getSkulls ($editorial) {
     return $skulls;
 }
 
+function getJSONSchema($stars, $editorial) {
+    if ($stars == 'no-stars') $stars = 0;
+
+    $title = [
+        'Huid insensatos!!!!!', // 0 estrellas
+        'Dudoso muy dudoso todo lo que hace '.$editorial, // 1 estrellas
+        'Si estás muy interesado', // 2 estrellas
+        'De confianza', // 3 estrellas
+        'Tira palante con ello', // 4 estrellas
+        $editorial.' es de 10!!!!!!', // 5 estrellas
+    ];
+
+    $review = [
+        'Lo dicho, ¡¡¡Huid insensatos!!! lo más seguro que es que pasen años antes de recibir nada de '.$editorial.' o incluso no recibáis nunca vuestras recompensas del mecenazgo.', // 0 estrellas
+        'Por el historial de '.$editorial.', pero tu sabrás lo que haces. No pinta bien.', // 1 estrellas
+        $editorial.' no es la editorial más confiable en tema de mecenazgos y preventas, pero si el proyecto te ilusiona puedes arriesgarte.', // 2 estrellas
+        $editorial.' tiene sus fallos, pero si no te importa esperar, parece seguro meter tu dinero en sus mecenazgos y preventas de juegos de rol.', // 3 estrellas
+        'No deberías tener ningún problema con '.$editorial.' y si los tienes seguro que tratarán de arreglarlo lo antes posible y con la mayor diligencia.', // 4 estrellas
+        'Pon tu dinero aquí sin ningún tipo de problemas. '.$editorial.' es 100% recomendable.', // 5 estrellas
+    ];
+
+    echo '<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "'.$editorial.'",
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "bestRating": "5",
+        "worstRating": "0",
+        "ratingValue": "'.$stars.'",
+        "reviewCount": "1",
+        "ratingExplanation": "Valoración de las editoriales españolas de juegos de rol en cuanto a como lelvan sus mecenazgos y preventas. Miramos principalmente cuando han dicho que van a entregar sus mecenazgos y cuando los han entregado realmente."
+    },
+    "review": [
+        {
+        "@type": "Review",
+        "author": "Gwannon",
+        "reviewBody": "'.$review[$stars].'",
+        "name": "'.$title[$stars].'",
+        "reviewRating": {
+            "@type": "Rating",
+            "bestRating": "5",
+            "ratingValue": "'.$stars.'",
+            "worstRating": "0"
+        }
+        }]
+    }
+    </script>';
+}
+
 
 function sortByOrder($a, $b) {
     if ($a['fecha']->format('Ymd') > $b['fecha']->format('Ymd')) {

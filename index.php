@@ -213,10 +213,11 @@ $res = accessSheet(); ?>
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
-                        <th><?php echo $nombre; ?></th>
+                        <th><?php echo $nombre;  ?></th>
                         <td style="text-align: left;">
                             <span class="stars-<?php $stars = getStars($editorial); echo $stars; ?>"><?php echo $stars; ?> estrellas</span>    
                             <span class="skulls-<?php $skulls = getSkulls($editorial); echo $skulls; ?>"><?php echo $skulls; ?> calaveras</span>
+                            <?php getJSONSchema($stars, $nombre); ?>
                         </td>
                         <td>
                           <?php echo $editorial['proyectos']; ?>/<?php echo $editorial['sin_entregar']; ?>/<?php echo $editorial['entregados']; ?>
