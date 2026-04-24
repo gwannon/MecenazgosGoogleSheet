@@ -310,6 +310,7 @@ $res = accessSheet(); ?>
         <li>2026/04/09 - <a href="https://roleplus.app/publicaciones/mecenazgos-y-preventas">Crowker en Role+</a></li>
         <li>2026/04/14 - <a href="https://piedrapapeld20.com/09-en-el-cruce-no-gires-a-la-derecha/">PiedraPapelD20 en su blog</a></li>
         <li>2026/04/16 - <a href="https://www.youtube.com/live/_UTBeN8Lpp0?t=2258s">Turbiales en su canal de Youtube</a></li>
+        <li>2026/04/24 - <a href="https://www.youtube.com/watch?v=7Nd_KpYuob4&t=300s">El canal El Archivo de George va a empezar a dar datos de las preventas y mecenazgos de la editorial dentro de la info de cada de anuncio de preventa y mecenazgo que dé usando los datos de esta web.</a><li>
     </ul>
     <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármelas y que pueda ponerlas aquí.</p>
     <h3>Agradecimientos</h3>
