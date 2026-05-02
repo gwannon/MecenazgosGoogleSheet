@@ -311,6 +311,7 @@ $res = accessSheet(); ?>
         <li>2026/04/14 - <a href="https://piedrapapeld20.com/09-en-el-cruce-no-gires-a-la-derecha/">PiedraPapelD20 en su blog</a></li>
         <li>2026/04/16 - <a href="https://www.youtube.com/live/_UTBeN8Lpp0?t=2258s">Turbiales en su canal de Youtube</a></li>
         <li>2026/04/24 - El canal de <a href="https://www.youtube.com/watch?v=7Nd_KpYuob4&t=300s">El Archivo de George</a> cuando hable va de nuevos mecenazgos y preventas va a empezar a dar datos de proeyctos sin entregar usando los datos de esta web.</li>
+        <li>2026/05/02 - <a href="https://sayko2k20.wordpress.com/2026/05/02/screamsheet-mayo-de-2026-roletarios-del-mundo-unios/">En el blog de Sayko</a> hablan de la página y han decidido que cuando mencionen de mecenazgos, hablen de la editorial si ssu actividad es cuestionable.</li>
     </ul>
     <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármelas y que pueda ponerlas aquí.</p>
     <h3>Agradecimientos</h3>
