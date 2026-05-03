@@ -132,7 +132,7 @@ $res = accessSheet(); ?>
                     ];
                 }
 
-                if ($proyecto[7]['formattedValue'] == '') $clases[] = 'sinentregar';
+                if (isset($proyecto[7]['formattedValue']) && $proyecto[7]['formattedValue'] == '') $clases[] = 'sinentregar';
                 else $clases[] = 'entregado'; ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
                     <img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" />
