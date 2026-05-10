@@ -7,7 +7,7 @@ $plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', '
 
 if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
 
-loadCache();
+if(!isset($_REQUEST['log'])) loadCache();
 
 ob_start();
 
@@ -171,12 +171,23 @@ $res = accessSheet(); ?>
                     'sin_entregar_pero_a_tiempo' => 0,
                     'max_retraso' => 0,
                     'plataformas' => [],
-                    'tiene_preventas' => 0
+                    'tiene_preventas' => 0,
+                    'ultima_entrega' => ''
                   ];
                 }
                 $stats[$editorial]['proyectos']++;
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['sin_entregar']++;
                 if (in_array('entregado', $clases)) $stats[$editorial]['entregados']++;
+                if (in_array('entregado', $clases)) {
+                  if($stats[$editorial]['ultima_entrega'] == '' && $fecha_final != "PENDIENTE") {
+                    $stats[$editorial]['ultima_entrega'] = $fecha_final;
+                  } else if($fecha_final != "PENDIENTE") {
+                    $ultima_entrega = new DateTime($stats[$editorial]['ultima_entrega']);
+                    $temp_fecha_final = new DateTime($fecha_final);
+                    if($temp_fecha_final > $ultima_entrega) $stats[$editorial]['ultima_entrega'] = $fecha_final;
+                  }
+                }
+
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
@@ -204,12 +215,13 @@ $res = accessSheet(); ?>
                     <th>Acumulado de días de retraso de proyecto pendientes</th>
                     <th>Máximo días de retraso</th>
                     <th>Nª de plataformas de mecenazgo usadas</th>
+                    <th>Fecha última entrega de un mecenazgo</th>
                 </tr>
             </thead>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA\n";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -241,6 +253,7 @@ $res = accessSheet(); ?>
                             <!-- <?php echo implode(", ", $editorial['plataformas']); ?> -->
                             <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4 ? "<span class='skull' title='Usar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
                         </td>
+                        <td><?php echo $editorial['ultima_entrega']; ?></td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
@@ -255,7 +268,8 @@ $res = accessSheet(); ?>
                             $editorial['dias_retraso'].','.
                             $editorial['dias_retraso_pendientes'].','.
                             $editorial['max_retraso'].','.
-                            (count($editorial['plataformas']) + $editorial['tiene_preventas'])."\n";
+                            (count($editorial['plataformas']) + $editorial['tiene_preventas']).','.
+                            $editorial['ultima_entrega']."\n";
                     } } ?>
             </tbody>
         </table>
