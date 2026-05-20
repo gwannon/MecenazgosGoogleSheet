@@ -169,6 +169,7 @@ $res = accessSheet(); ?>
                     'dias_retraso' => 0,
                     'dias_retraso_pendientes' => 0,
                     'sin_entregar_pero_a_tiempo' => 0,
+                    'sin_entregar_y_retrasado' => 0,
                     'max_retraso' => 0,
                     'plataformas' => [],
                     'tiene_preventas' => 0,
@@ -191,6 +192,7 @@ $res = accessSheet(); ?>
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
+		        if (in_array('sinentregar', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['sin_entregar_y_retrasado']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['dias_retraso_pendientes'] = $stats[$editorial]['dias_retraso_pendientes'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
@@ -208,6 +210,7 @@ $res = accessSheet(); ?>
                     <th>Estrellas y calaveras</th>
                     <th>Nº proyectos/Sin entregar/Entregados</th>
                     <th>Proyectos sin entregar,<br />pero aun en tiempo</th>
+		            <th>Proyectos sin entregar y retrasados</th>
                     <th>Proyectos entregados a tiempo</th>
                     <th>Proyectos entregados tarde</th>
                     <th>Días de retraso medio</th>
@@ -221,7 +224,7 @@ $res = accessSheet(); ?>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA\n";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -236,6 +239,7 @@ $res = accessSheet(); ?>
                           <?php echo ($editorial['proyectos'] >= 5 && ($editorial['entregados'] * 3) <= $editorial['sin_entregar'] ? "<span class='skull' title='Tener el triple de proyecto sin entregar que entregados.'>☠</span>" : ""); ?>
                         </td>
                         <td><?php echo $editorial['sin_entregar_pero_a_tiempo']; ?></td>
+                        <td><?php echo $editorial['sin_entregar_y_retrasado']; ?></td>
                         <td>
                             <?php echo $editorial['entregados_a_tiempo']; ?>
                             <?php echo ($editorial['proyectos'] >= 5 && $editorial['entregados'] >= 5 && $editorial['entregados_a_tiempo'] == 0 ? "<span class='skull' title='Tener 5 o más proyectos entregados y ninguno entregado a tiempo.'>☠</span>" : ""); ?>
@@ -261,6 +265,7 @@ $res = accessSheet(); ?>
                             $editorial['proyectos'].','.
                             $editorial['sin_entregar'].','.
                             $editorial['sin_entregar_pero_a_tiempo'].','.
+                            $editorial['sin_entregar_y_retrasado'].','.
                             $editorial['entregados'].','.
                             $editorial['entregados_a_tiempo'].','.
                             $editorial['entregados_tarde'].','.
