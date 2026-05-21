@@ -157,6 +157,12 @@
 			color: var(--secondary-color);
 		}
 
+		.element-item div:has(img) {
+			width: 100%;
+			height: 250px;
+			overflow: hidden;
+		}
+
 		.element-item img {
 			width: 100%;
 		}

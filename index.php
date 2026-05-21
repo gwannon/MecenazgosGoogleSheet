@@ -135,7 +135,7 @@ $res = accessSheet(); ?>
                 if (isset($proyecto[7]['formattedValue']) && !preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $proyecto[7]['formattedValue'])) $clases[] = 'sinentregar';
                 else $clases[] = 'entregado'; ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
-                    <img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" />
+                    <div><img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" /></div>
                     <h2><a href="<?= $url ?>" target="_blank"><?= $titulo ?></a></h2>
                     <h3><?= $editorial ?></h3>
                     <p><b><?php echo ($is_preventa ? "Preventa conseguida" : "Mecenazgo conseguido"); ?>:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
