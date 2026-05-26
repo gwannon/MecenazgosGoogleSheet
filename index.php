@@ -12,7 +12,7 @@ if(!isset($_REQUEST['log'])) loadCache();
 ob_start();
 
 $stats = [];
-$csv = "TÍTULO,EDITORIAL,URL,MECENAZGO CONSEGUIDO,ULTIMA ACTUALIZACION,ENTREGA OFICIAL,ENTREGA FINAL,DIAS DE RETRASO,TIPO\n";
+$csv = "TÍTULO,EDITORIAL,URL,MECENAZGO CONSEGUIDO,ULTIMA ACTUALIZACION,ENTREGA OFICIAL,ENTREGA FINAL,DIAS DE RETRASO,TIPO,¿HAN DADO FECHA DE ENTREGA OFICIAL?\n";
 $entiempo = [];
 $res = accessSheet(); ?>
 <!doctype html>
@@ -98,6 +98,7 @@ $res = accessSheet(); ?>
                 $parse = parse_url($url);
                 $plataforma = $parse['host'];
                 $image = $proyecto[3]['formattedValue'];
+                $sinentregaoficial = ($proyecto[8]['formattedValue'] == 'TRUE' ? true : false);
 
                 if(in_array($plataforma, $plataformas)) $is_preventa = false;
                 else $is_preventa = true;
@@ -141,6 +142,9 @@ $res = accessSheet(); ?>
                     <p><b><?php echo ($is_preventa ? "Preventa conseguida" : "Mecenazgo conseguido"); ?>:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
                     <p><b>Última actualización:</b> <?php echo $fecha_ultima_actualizacion; ?></p>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
+                    <?php if($sinentregaoficial) { ?>
+                        <p><small style="color: #a50000; font-weight: 700;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</small></p>
+                    <?php } ?>
                     <p><b>Entrega:</b> <span class="date"><?php echo $fecha_final; ?></span></p>
                     <p class="name"><?php echo $sanitize_titulo; ?></p>
                     <p><b>Días de retraso:</b> <span class="days"><?php echo $dias_retraso; ?></span></p>
@@ -156,6 +160,7 @@ $res = accessSheet(); ?>
                 '"'.$fecha_final.'",'.
                 '"'.$dias_retraso.'",'.
                 '"'.($is_preventa ? "Preventa" : "Mecenazgo").'",'.
+                '"'.($sinentregaoficial ? "NO" : "SI").'",'.
                 "\n";
                 
                 //Datos editoriales
@@ -173,7 +178,8 @@ $res = accessSheet(); ?>
                     'max_retraso' => 0,
                     'plataformas' => [],
                     'tiene_preventas' => 0,
-                    'ultima_entrega' => ''
+                    'ultima_entrega' => '',
+                    'proyectos_sin_fecha_entrega' => 0
                   ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -198,6 +204,7 @@ $res = accessSheet(); ?>
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
                 if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
                 if($is_preventa) $stats[$editorial]['tiene_preventas'] = 1;
+                if($sinentregaoficial) $stats[$editorial]['proyectos_sin_fecha_entrega']++;
             }
         } ?>
     </div>
@@ -219,12 +226,13 @@ $res = accessSheet(); ?>
                     <th>Máximo días de retraso</th>
                     <th>Nª de plataformas de mecenazgo usadas</th>
                     <th>Fecha última entrega de un mecenazgo</th>
+                    <th>Proyectos sin fecha de entrega oficial</th>
                 </tr>
             </thead>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL\n";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -258,6 +266,7 @@ $res = accessSheet(); ?>
                             <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4 ? "<span class='skull' title='Usar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
                         </td>
                         <td><?php echo $editorial['ultima_entrega']; ?></td>
+                        <td><?php echo $editorial['proyectos_sin_fecha_entrega']; ?></td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
@@ -274,7 +283,8 @@ $res = accessSheet(); ?>
                             $editorial['dias_retraso_pendientes'].','.
                             $editorial['max_retraso'].','.
                             (count($editorial['plataformas']) + $editorial['tiene_preventas']).','.
-                            $editorial['ultima_entrega']."\n";
+                            $editorial['ultima_entrega'].','.
+                            $editorial['proyectos_sin_fecha_entrega']."\n";
                     } } ?>
             </tbody>
         </table>
