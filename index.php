@@ -266,7 +266,11 @@ $res = accessSheet(); ?>
                             <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4 ? "<span class='skull' title='Usar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
                         </td>
                         <td><?php echo $editorial['ultima_entrega']; ?></td>
-                        <td><?php echo $editorial['proyectos_sin_fecha_entrega']; ?></td>
+                        <td>
+                          <?php echo $editorial['proyectos_sin_fecha_entrega']; ?>
+                      
+                          <?php echo ($editorial['proyectos'] >= 5 && $editorial['proyectos_sin_fecha_entrega'] > floor(($editorial['proyectos'] * 0.25)) ? "<span class='skull' title='Un 25% de tus proyectos se han lanzado sin fijar fecha de entrega.'>☠</span>" : ""); ?>
+                        </td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
@@ -306,6 +310,7 @@ $res = accessSheet(); ?>
         <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
         <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
         <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
+        <li>Se ha vuelto habitual lanzar proyectos sin fechaa de entrega. Sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y un 25% de tus proyectos se han lanzado sin fijar fecha de entrega, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li> 
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>

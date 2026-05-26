@@ -688,6 +688,7 @@ function getSkulls ($editorial) {
     if((count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4) $skulls++;
     if($editorial['entregados'] >= 5 && $editorial['entregados_a_tiempo'] == 0) $skulls++;
     if(($editorial['entregados'] * 3) <= $editorial['sin_entregar']) $skulls++;
+    if($editorial['proyectos'] >= 5 && $editorial['proyectos_sin_fecha_entrega'] > floor(($editorial['proyectos'] * 0.25))) $skulls++;
 
     return $skulls;
 }
