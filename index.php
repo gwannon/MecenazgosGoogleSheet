@@ -310,7 +310,7 @@ $res = accessSheet(); ?>
         <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
         <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
         <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
-        <li>Se ha vuelto habitual **lanzar proyectos sin fecha de entrega**, ya que sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y un mínimo de 25% de tus proyectos se han lanzado sin fijar fecha de entrega, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li> 
+        <li>Se ha vuelto habitual <b>lanzar proyectos sin fecha de entrega</b>, ya que sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y <b>un mínimo de 25% de tus proyectos se han lanzado sin fijar fecha de entrega</b>, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li> 
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
