@@ -199,7 +199,8 @@ $res = accessSheet(); ?>
                     'plataformas' => [],
                     'tiene_preventas' => 0,
                     'ultima_entrega' => '',
-                    'proyectos_sin_fecha_entrega' => 0
+                    'proyectos_sin_fecha_entrega' => 0,
+                    'proyectos_sin_actualizar' => 0
                   ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -218,13 +219,14 @@ $res = accessSheet(); ?>
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
-		        if (in_array('sinentregar', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['sin_entregar_y_retrasado']++;
+		            if (in_array('sinentregar', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['sin_entregar_y_retrasado']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['dias_retraso_pendientes'] = $stats[$editorial]['dias_retraso_pendientes'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
                 if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
                 if($is_preventa) $stats[$editorial]['tiene_preventas'] = 1;
                 if($sinentregaoficial) $stats[$editorial]['proyectos_sin_fecha_entrega']++;
+                if (in_array('sinactualizar', $clases)) $stats[$editorial]['proyectos_sin_actualizar']++;
             }
         } ?>
     </div>
@@ -247,12 +249,13 @@ $res = accessSheet(); ?>
                     <th>Nª de plataformas de mecenazgo usadas</th>
                     <th>Fecha última entrega de un mecenazgo</th>
                     <th>Proyectos sin fecha de entrega oficial</th>
+                    <th>Proyectos con más de 30 sin actualizaciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL,PROYECTOS CON MÁS DE 30 SIN ACTUALZIACIONES\n";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -294,6 +297,7 @@ $res = accessSheet(); ?>
                       
                           <?php echo ($editorial['proyectos'] >= 5 && $editorial['proyectos_sin_fecha_entrega'] >= ($editorial['proyectos'] * 0.25) ? "<span class='skull' title='Un mínimo de un 25% de tus proyectos se han lanzado sin fijar fecha de entrega.'>☠</span>" : ""); ?>
                         </td>
+                        <td><?php echo $editorial['proyectos_sin_actualizar']; ?></td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
@@ -311,7 +315,8 @@ $res = accessSheet(); ?>
                             $editorial['max_retraso'].','.
                             (count($editorial['plataformas']) + $editorial['tiene_preventas']).','.
                             $editorial['ultima_entrega'].','.
-                            $editorial['proyectos_sin_fecha_entrega']."\n";
+                            $editorial['proyectos_sin_fecha_entrega'].','.
+                            $editorial['proyectos_sin_actualizar']."\n";
                     } } ?>
             </tbody>
         </table>
