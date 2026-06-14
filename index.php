@@ -59,6 +59,7 @@ $res = accessSheet(); ?>
             <button class="button" data-filter=".retrasado">Retrasados</button>
             <button class="button" data-filter=".entiempo">En tiempo</button>
             <button class="button" data-filter=".sinentregar">Pendiente de entregar</button>
+            <button class="button" data-filter=".sinentregarretrasado">Pendiente de entregar y retrasado</button>
             <button class="button" data-filter=".entregado">Entregado</button>
             <button class="button" data-filter=".entregadoatiempo">Entregado a tiempo</button>
             <h4>Editoriales</h4>
@@ -134,16 +135,35 @@ $res = accessSheet(); ?>
                 }
 
                 if (isset($proyecto[7]['formattedValue']) && !preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $proyecto[7]['formattedValue'])) $clases[] = 'sinentregar';
-                else $clases[] = 'entregado'; ?>
+                else $clases[] = 'entregado'; 
+                
+                
+                if (isset($fecha_ultima_actualizacion) && $fecha_ultima_actualizacion != '') {
+                  $ultima_actualizacion = new DateTime($fecha_ultima_actualizacion);
+                  $interval = $ultima_actualizacion->diff($ahora);
+                  $dias_ultima_actualizacion = $interval->days;
+                  if($dias_ultima_actualizacion > 45 && in_array("sinentregar", $clases)) $clases[] = 'sinactualizar';
+                } else {
+                  $dias_ultima_actualizacion = 0;
+                } 
+                
+                
+                if( in_array("retrasado", $clases) && in_array("sinentregar", $clases)) $clases[] = 'sinentregarretrasado';
+                ?>
                 <div class="element-item <?php echo implode(" ", $clases); ?>">
                     <div><img src="<?php echo ($image != '' ? $image : "https://dummyimage.com/600x400/000/fff&text=" . urlencode($titulo)); ?>" alt="<?= $titulo ?>" /></div>
                     <h2><a href="<?= $url ?>" target="_blank"><?= $titulo ?></a></h2>
                     <h3><?= $editorial ?></h3>
                     <p><b><?php echo ($is_preventa ? "Preventa conseguida" : "Mecenazgo conseguido"); ?>:</b> <?php echo $fecha_mecenazgo_conseguido; ?></p>
-                    <p><b>Última actualización:</b> <?php echo $fecha_ultima_actualizacion; ?></p>
+                    <p>
+                      <b>Última actualización:</b> <?php echo $fecha_ultima_actualizacion; ?>
+                      <?php if($dias_ultima_actualizacion > 30 && in_array("sinentregar", $clases)) { ?>
+                        -> Hace <?php echo $dias_ultima_actualizacion; ?> días desde la última actualización del mecenazgo 
+                      <?php } ?>
+                    </p>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
                     <?php if($sinentregaoficial) { ?>
-                        <p><small style="color: #a50000; font-weight: 700;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</small></p>
+                        <p style="background-color: #a50000; padding: 3px 10px;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</p>
                     <?php } ?>
                     <p><b>Entrega:</b> <span class="date"><?php echo $fecha_final; ?></span></p>
                     <p class="name"><?php echo $sanitize_titulo; ?></p>
