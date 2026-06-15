@@ -690,6 +690,7 @@ function getSkulls ($editorial) {
     if(($editorial['entregados'] * 3) <= $editorial['sin_entregar']) $skulls++;
     if($editorial['proyectos'] >= 5 && $editorial['proyectos_sin_fecha_entrega'] >= ($editorial['proyectos'] * 0.25)) $skulls++;
     if($editorial['proyectos'] >= 5 && $editorial['dias_retraso_pendientes'] >= 730) $skulls++;
+    if($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180) $skulls++;
 
     return $skulls;
 }

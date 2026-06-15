@@ -137,14 +137,13 @@ $res = accessSheet(); ?>
                 if (isset($proyecto[7]['formattedValue']) && !preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $proyecto[7]['formattedValue'])) $clases[] = 'sinentregar';
                 else $clases[] = 'entregado'; 
                 
-                
+                $dias_ultima_actualizacion = 0;
                 if (isset($fecha_ultima_actualizacion) && $fecha_ultima_actualizacion != '') {
                   $ultima_actualizacion = new DateTime($fecha_ultima_actualizacion);
                   $interval = $ultima_actualizacion->diff($ahora);
                   $dias_ultima_actualizacion = $interval->days;
                   if($dias_ultima_actualizacion > 45 && in_array("sinentregar", $clases)) $clases[] = 'sinactualizar';
-                } else {
-                  $dias_ultima_actualizacion = 0;
+                  else $dias_ultima_actualizacion = 0;
                 } 
                 
                 
@@ -200,7 +199,8 @@ $res = accessSheet(); ?>
                     'tiene_preventas' => 0,
                     'ultima_entrega' => '',
                     'proyectos_sin_fecha_entrega' => 0,
-                    'proyectos_sin_actualizar' => 0
+                    'proyectos_sin_actualizar' => 0,
+                    'dias_max_sin_actualizar' => 0
                   ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -215,6 +215,8 @@ $res = accessSheet(); ?>
                     if($temp_fecha_final > $ultima_entrega) $stats[$editorial]['ultima_entrega'] = $fecha_final;
                   }
                 }
+
+                if($dias_ultima_actualizacion > $stats[$editorial]['dias_max_sin_actualizar']) $stats[$editorial]['dias_max_sin_actualizar'] = $dias_ultima_actualizacion;
 
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
@@ -249,13 +251,15 @@ $res = accessSheet(); ?>
                     <th>Nª de plataformas de mecenazgo usadas</th>
                     <th>Fecha última entrega de un mecenazgo</th>
                     <th>Proyectos sin fecha de entrega oficial</th>
-                    <th>Proyectos con más de 30 sin actualizaciones</th>
+                    <th>Proyectos con más de 30 días sin actualizaciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php ksort($stats);
 
                 $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL,PROYECTOS CON MÁS DE 30 SIN ACTUALZIACIONES\n";
+
+                //echo "<!-- "; print_r ($stats); echo " -->";
 
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
                     <tr>
@@ -297,7 +301,10 @@ $res = accessSheet(); ?>
                       
                           <?php echo ($editorial['proyectos'] >= 5 && $editorial['proyectos_sin_fecha_entrega'] >= ($editorial['proyectos'] * 0.25) ? "<span class='skull' title='Un mínimo de un 25% de tus proyectos se han lanzado sin fijar fecha de entrega.'>☠</span>" : ""); ?>
                         </td>
-                        <td><?php echo $editorial['proyectos_sin_actualizar']; ?></td>
+                        <td>
+                            <?php echo $editorial['proyectos_sin_actualizar']; ?>
+                            <?php echo ($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180 ? "<span class='skull' title='Tener un proyecto pendiente de entregar con más de 6 meses(180 días) sin haber escrito actualizaciones. Actualmente hace ".$editorial['dias_max_sin_actualizar']." días desde la última actualización.'>☠</span>" : ""); ?>
+                        </td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
@@ -339,7 +346,8 @@ $res = accessSheet(); ?>
         <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
         <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
         <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
-        <li>Se ha vuelto habitual <b>lanzar proyectos sin fecha de entrega</b>, ya que sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y <b>un mínimo de 25% de tus proyectos se han lanzado sin fijar fecha de entrega</b>, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li> 
+        <li>Se ha vuelto habitual <b>lanzar proyectos sin fecha de entrega</b>, ya que sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y <b>un mínimo de 25% de tus proyectos se han lanzado sin fijar fecha de entrega</b>, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li>
+        <li>Obtienes una nueva calavera si tienes algún proyecto con más de 6 meses (180 días) sin actualizaciones.</li>
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>

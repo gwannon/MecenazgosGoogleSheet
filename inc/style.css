@@ -249,7 +249,8 @@
 		}
 
 		table *:is(td, th) {
-			padding: 8px;
+			padding: 3px;
+    		font-size: 0.9em;
 		}
 
 		table td {
