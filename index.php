@@ -257,7 +257,7 @@ $res = accessSheet(); ?>
             <tbody>
                 <?php ksort($stats);
 
-                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL,PROYECTOS CON MÁS DE 30 SIN ACTUALZIACIONES\n";
+                $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL,PROYECTOS CON MÁS DE 30 DÍAS SIN ACTUALIZACIONES\n";
 
                 //echo "<!-- "; print_r ($stats); echo " -->";
 
@@ -303,7 +303,7 @@ $res = accessSheet(); ?>
                         </td>
                         <td>
                             <?php echo $editorial['proyectos_sin_actualizar']; ?>
-                            <?php echo ($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180 ? "<span class='skull' title='Tener un proyecto pendiente de entregar con más de 6 meses(180 días) sin haber escrito actualizaciones. Actualmente hace ".$editorial['dias_max_sin_actualizar']." días desde la última actualización.'>☠</span>" : ""); ?>
+                            <?php echo ($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180 ? "<span class='skull' title='Tener un proyecto pendiente de entregar con más de 6 meses(180 días) sin haber escrito actualizaciones. Actualmente hay un proyecto que hace ".$editorial['dias_max_sin_actualizar']." días desde su última actualización.'>☠</span>" : ""); ?>
                         </td>
                     </tr>
                     <?php 
