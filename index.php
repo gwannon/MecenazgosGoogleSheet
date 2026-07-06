@@ -246,7 +246,7 @@ $res = accessSheet(); ?>
                     <th>Proyectos entregados tarde</th>
                     <th>Días de retraso medio</th>
                     <th>Acumulado de días de retraso</th>
-                    <th>Acumulado de días de retraso de proyecto pendientes</th>
+                    <th>Acumulado de días de retraso de proyectos pendientes</th>
                     <th>Máximo días de retraso</th>
                     <th>Nª de plataformas de mecenazgo usadas</th>
                     <th>Fecha última entrega de un mecenazgo</th>
