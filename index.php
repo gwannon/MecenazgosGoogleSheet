@@ -276,9 +276,13 @@ $res = accessSheet(); ?>
                 foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { 
                     if($editorial['proyectos'] >= 5) { $charts[] = [
                         'nombre' => $nombre,
+                        'entregados_a_tiempo' => $editorial['entregados_a_tiempo'],
+                        'entregados_tarde' => $editorial['entregados_tarde'],
+                        'sin_entregar_pero_a_tiempo' => $editorial['sin_entregar_pero_a_tiempo'],
                         'sin_entregar_y_retrasado' => $editorial['sin_entregar_y_retrasado'],
                         'dias_retraso_pendientes' => $editorial['dias_retraso_pendientes'],
-                        'media_dias_retraso' => floor(($editorial['dias_retraso'] / $editorial['proyectos']))
+                        'media_dias_retraso' => floor(($editorial['dias_retraso'] / $editorial['proyectos'])),
+                        'max_retraso' => $editorial['max_retraso']
                     ]; } ?>
                     <tr>
                         <th><?php echo $nombre;  ?></th>
@@ -369,64 +373,61 @@ $res = accessSheet(); ?>
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
     <h2 id="charts">Gráficos</h2>
-    <p>Solo salen editoriales con 5 o más proyectos.</p>
+    <p>Solo salen editoriales con 5 o más proyectos. Si pinchas en la leyenda de cada dato, puedes activarla o desactivarla.</p>
     <div class="allcharts">
         <div>
-            <h3>Mecenazgos y proyectos sin entregar y retrasados</h3>
+            <h3>Mecenazgos y proyectos</h3>
             <canvas id="pendientes-sin-entregar"></canvas>
         </div>
         <script>
-        new Chart(document.getElementById("pendientes-sin-entregar"), {
-            type: 'bar',
-            data: {
-            labels: ["<?php $temp = []; foreach ($charts as $chart) { if($chart['sin_entregar_y_retrasado'] > 0) { $temp[] = $chart['nombre']." (".$chart['sin_entregar_y_retrasado'].")"; } } echo implode('", "', $temp); ?>"],
-            datasets: [{
-                label: "Mecenazgos y proyectos sin entregar y retrasados",
-                data: [<?php $temp = []; foreach ($charts as $chart) { if($chart['sin_entregar_y_retrasado'] > 0) { $temp[] = $chart['sin_entregar_y_retrasado']; } } echo implode(', ', $temp); ?>]
-            }]
-            },
-            options: {
-                scaleShowValues: true,
-                indexAxis: 'y'
-            }
-        });
+            new Chart(document.getElementById("pendientes-sin-entregar"), {
+                type: 'bar',
+                data: {
+                    labels: ["<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['nombre']; } echo implode('", "', $temp); ?>"],
+                    datasets: [
+                        {
+                            label: "Mecenazgos y proyectos entregados a tiempo",
+                            data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['entregados_a_tiempo']; } echo implode(', ', $temp); ?>]
+                        },{
+                            label: "Mecenazgos y proyectos entregados con retraso",
+                            data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['entregados_tarde']; } echo implode(', ', $temp); ?>]
+                        },{
+                            label: "Mecenazgos y proyectos sin entregar pero en tiempo",
+                            data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['sin_entregar_pero_a_tiempo']; } echo implode(', ', $temp); ?>]
+                        },{
+                            label: "Mecenazgos y proyectos sin entregar y retrasados",
+                            data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['sin_entregar_y_retrasado']; }  echo implode(', ', $temp); ?>]
+                        }
+                    ]
+                },
+                options: {
+                    scaleShowValues: true,
+                    indexAxis: 'y'
+                }
+            });
         </script>
 
         <div>
-            <h3>Acumulado de días de retraso de proyectos pendientes de entregar</h3>
+            <h3>Días de retraso</h3>
             <canvas id="dias-retraso-acumulados"></canvas>
         </div>
         <script>
         new Chart(document.getElementById("dias-retraso-acumulados"), {
             type: 'bar',
             data: {
-            labels: ["<?php $temp = []; foreach ($charts as $chart) { if($chart['dias_retraso_pendientes'] > 0) { $temp[] = $chart['nombre']." (".$chart['dias_retraso_pendientes']." días)"; } } echo implode('", "', $temp); ?>"],
-            datasets: [{
-                label: "Acumulado de días de retraso de proyectos pendientes de entregar",
-                data: [<?php $temp = []; foreach ($charts as $chart) { if($chart['dias_retraso_pendientes'] > 0) { $temp[] = $chart['dias_retraso_pendientes']; } } echo implode(', ', $temp); ?>]
-            }]
-            },
-            options: {
-                scaleShowValues: true,
-                indexAxis: 'y'
-            }
-        });
-        </script>
-
-
-        <div>
-            <h3>Días de retraso medio</h3>
-            <canvas id="dias-retraso-media"></canvas>
-        </div>
-        <script>
-        new Chart(document.getElementById("dias-retraso-media"), {
-            type: 'bar',
-            data: {
-            labels: ["<?php $temp = []; foreach ($charts as $chart) { if($chart['media_dias_retraso'] > 0) { $temp[] = $chart['nombre']; } } echo implode('", "', $temp); ?>"],
-            datasets: [{
-                label: "Días de retraso medio",
-                data: [<?php $temp = []; foreach ($charts as $chart) { if($chart['media_dias_retraso'] > 0) { $temp[] = $chart['media_dias_retraso']; } } echo implode(', ', $temp); ?>]
-            }]
+                labels: ["<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['nombre']; } echo implode('", "', $temp); ?>"],
+                datasets: [
+                    {
+                        label: "Acumulado de días de retraso de proyectos pendientes de entregar",
+                        data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['dias_retraso_pendientes']; }  echo implode(', ', $temp); ?>]
+                    },{
+                        label: "Días de retraso medio",
+                        data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['media_dias_retraso']; } echo implode(', ', $temp); ?>]
+                    },{
+                        label: "Máximo de días de retraso en un proyecto",
+                        data: [<?php $temp = []; foreach ($charts as $chart) { $temp[] = $chart['max_retraso']; } echo implode(', ', $temp); ?>]
+                    }
+                ]
             },
             options: {
                 scaleShowValues: true,
