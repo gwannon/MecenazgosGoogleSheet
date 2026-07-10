@@ -52,8 +52,14 @@
 			font-size: 2em;
 		}
 
+		#filters {
+			display: flex;
+			gap: 10px;
+		}
+
 		button.button,
-		a.button {
+		a.button,
+		select {
 			font-family: "VT323", monospace;
 			border: 2px solid var(--main-color);
 			border-radius: 10px;
@@ -80,7 +86,8 @@
 			}
 
 			button.button,
-			a.button {
+			a.button,
+			select {
 				font-size: 22px;
 				padding: 10px;
 			}
@@ -381,4 +388,18 @@
 			display: inline-block;
 			width: 100%;
 			text-align: left;
+		}
+
+		.allcharts {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.allcharts > div {
+			width: 100%;
+			max-width: 400px;
+		}
+
+		.allcharts h3 {
+			text-align: center;
 		}

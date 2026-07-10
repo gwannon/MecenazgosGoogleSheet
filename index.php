@@ -22,6 +22,7 @@ $res = accessSheet(); ?>
     <title>Mecenazgos y preventas de juegos de rol en España - Actualizado a <?php echo UPDATE_DATE; ?></title>
     <meta charset="UTF-8" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=VT323&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://gwannon.com/mecenazgos/" />
@@ -43,7 +44,7 @@ $res = accessSheet(); ?>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
     <hr/>
-    <p><a href="#stats" class="button">Ver valoraciones de las editoriales</a> <a href="#enretraso" class="button">Ver mecenazgos que caducan pronto</a> <a href="/mecenazgos/mecenazgos.csv" class="button">Descargar en formato CSV (Excel)</a></p>
+    <p><a href="#stats" class="button">Ver valoraciones de las editoriales</a> <a href="#charts" class="button">Gráficos</a> <a href="#enretraso" class="button">Ver mecenazgos que caducan pronto</a> <a href="/mecenazgos/mecenazgos.csv" class="button">Descargar en formato CSV (Excel)</a></p>
     <h2>Estados de los mecenazgos y su significado:</h2>
     <ul>
         <li><b>Retrasado:</b> Se ha entregado más tarde de la fecha oficial de entrega o ha pasado la fecha de entrega oficial y todavía no se ha entregado.</li>
@@ -53,36 +54,47 @@ $res = accessSheet(); ?>
         <li><b>Entregado a tiempo:</b> Se ha entregado y antes de la fecha oficial de entrega.</li>
     </ul>
     <div id="buttons">
-        <div id="filters" class="button-group">
-            <h4>Filtrar</h4>
-            <button class="button is-checked" data-filter="*">Ver todos</button>
-            <button class="button" data-filter=".retrasado">Retrasados</button>
-            <button class="button" data-filter=".entiempo">En tiempo</button>
-            <button class="button" data-filter=".sinentregar">Pendiente de entregar</button>
-            <button class="button" data-filter=".sinentregarretrasado">Pendiente de entregar y retrasado</button>
-            <button class="button" data-filter=".entregado">Entregado</button>
-            <button class="button" data-filter=".entregadoatiempo">Entregado a tiempo</button>
-            <h4>Editoriales</h4>
-            <?php $menu = [];
-            foreach ($res as $key => $proyecto) {
-                $editorial = $proyecto[0]['formattedValue'];
-                if (!isset($menu[$editorial])) $menu[$editorial] = 0;
-                $menu[$editorial]++;
-            }
-            ksort($menu);
-            foreach ($menu as $key => $items) {
-                if ($items >= 2) { ?>
-                    <button class="button" data-filter=".<?php echo custom_sanitize_title($key); ?>"><?php echo $key; ?></button>
-                <?php }
-            } ?>
-        </div>
-        <div id="sorts" class="button-group">
-            <h4>Ordenar por</h4>
-            <button class="button is-checked" data-sort-by="name">Nombre</button>
-            <button class="button" data-sort-by="days">Dias de retraso ⇩</button>
-            <button class="button" data-sort-by="daysasc">Dias de retraso ⇧</button>
-            <button class="button" data-sort-by="oficialdate">Fecha de entrega oficial ⇩</button>
-            <button class="button" data-sort-by="oficialdateasc">Fecha de entrega oficial ⇧</button>
+        <div id="filters">
+            <div>
+                <h4>Estados</h4>
+                <select id="select-estado">
+                    <option value="" selected="selected">Ver todos</option>
+                    <option value="retrasado">Retrasados</option>
+                    <option value="entiempo">En tiempo</option>
+                    <option value="sinentregar">Pendiente de entregar</option>
+                    <option value="sinentregarretrasado">Pendiente de entregar y retrasado</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="entregadoatiempo">Entregado a tiempo</option>
+                </select>
+            </div>
+            <div>
+                <h4>Editoriales</h4>
+                <select id="select-editorial">
+                    <option value="" selected="selected">Ver todas</option>
+                    <?php $menu = [];
+                    foreach ($res as $key => $proyecto) {
+                        $editorial = $proyecto[0]['formattedValue'];
+                        if (!isset($menu[$editorial])) $menu[$editorial] = 0;
+                        $menu[$editorial]++;
+                    }
+                    ksort($menu);
+                    foreach ($menu as $key => $items) {
+                        if ($items >= 2) { ?>
+                            <option value="<?php echo custom_sanitize_title($key); ?>"><?php echo $key; ?></option>
+                        <?php }
+                    } ?>
+                </select>
+            </div>
+            <div>
+                <h4>Ordenar por</h4>
+                <select id="select-ordenar">
+                    <option value="name" selected="selected">Nombre</option>
+                    <option value="days">Dias de retraso ⇩</option>
+                    <option value="daysasc">Dias de retraso ⇧</option>
+                    <option value="oficialdate">Fecha de entrega oficial ⇩</option>
+                    <option value="oficialdateasc">Fecha de entrega oficial ⇧</option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="grid">
@@ -260,8 +272,13 @@ $res = accessSheet(); ?>
                 $csv .="\n\nEDITORIAL,ESTRELLAS,Nº PROYECTOS,PROYECTOS SIN ENTREGAR,\"PROYECTOS SIN ENTREGAR, PERO AUN EN TIEMPO\",PROYECTOS SIN ENTREGAR Y RETRASADOS,PROYECTOS ENTREGADOS,PROYECTOS ENTREGADOS A TIEMPO,PROYECTOS ENTREGADOS TARDE,DÍAS DE RETRASO MEDIO,ACUMULADO DE DÍAS DE RETRASO,ACUMULADO DE DÍAS DE RETRASO DE PROYECTOS PENDIENTES,MÁXIMO DÍAS DE RETRASO,Nª DE PLATAFORMAS DE MECENAZGO USADAS,FECHA ÚLTIMA ENTREGA,PROYECTOS SIN FECHA DE ENTREGA OFICIAL,PROYECTOS CON MÁS DE 30 DÍAS SIN ACTUALIZACIONES\n";
 
                 //echo "<!-- "; print_r ($stats); echo " -->";
-
-                foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { ?>
+                $charts = [];
+                foreach ($stats as $nombre => $editorial) { if ($editorial['proyectos'] > 1) { 
+                    $charts[] = [
+                        'nombre' => $nombre,
+                        'sin_entregar_y_retrasado' => $editorial['sin_entregar_y_retrasado'],
+                        'dias_retraso_pendientes' => $editorial['dias_retraso_pendientes']
+                    ]; ?>
                     <tr>
                         <th><?php echo $nombre;  ?></th>
                         <td style="text-align: left;">
@@ -350,6 +367,54 @@ $res = accessSheet(); ?>
         <li>Obtienes una nueva calavera si tienes algún proyecto con más de 6 meses (180 días) sin actualizaciones.</li>
     </ul>
     <p> No es incompatible tener estrellas y calaveras. Puedes tener una trayectoria buena de 3 estrellas y tener un proyecto inacabado que haga que tengas alguna calavera, pero no es lo normal.</p>
+    <h2 id="charts">Gráficos</h2>
+    <div class="allcharts">
+        <div>
+            <h3>Mecenazgos y proyectos sin entregar y retrasados</h3>
+            <canvas id="pendientes-sin-entregar"></canvas>
+        </div>
+        <script>
+        new Chart(document.getElementById("pendientes-sin-entregar"), {
+            type: 'pie',
+            data: {
+            labels: ["<?php $temp = []; foreach ($charts as $chart) { if($chart['sin_entregar_y_retrasado'] > 0) { $temp[] = $chart['nombre']." (".$chart['sin_entregar_y_retrasado'].")"; } } echo implode('", "', $temp); ?>"],
+            datasets: [{
+                label: "Sin entregar y retrasados",
+                data: [<?php $temp = []; foreach ($charts as $chart) { if($chart['sin_entregar_y_retrasado'] > 0) { $temp[] = $chart['sin_entregar_y_retrasado']; } } echo implode(', ', $temp); ?>]
+            }]
+            },
+            options: {
+            title: {
+                display: true,
+                text: 'Mecenazgos y proyectos sin entregar y retrasados'
+            }
+            }
+        });
+        </script>
+
+        <div>
+            <h3>Acumulado de días de retraso de proyectos pendientes de entregar</h3>
+            <canvas id="dias-retraso-acumulados"></canvas>
+        </div>
+        <script>
+        new Chart(document.getElementById("dias-retraso-acumulados"), {
+            type: 'pie',
+            data: {
+            labels: ["<?php $temp = []; foreach ($charts as $chart) { if($chart['dias_retraso_pendientes'] > 0) { $temp[] = $chart['nombre']." (".$chart['dias_retraso_pendientes']." días)"; } } echo implode('", "', $temp); ?>"],
+            datasets: [{
+                label: "Acumulado de días",
+                data: [<?php $temp = []; foreach ($charts as $chart) { if($chart['dias_retraso_pendientes'] > 0) { $temp[] = $chart['dias_retraso_pendientes']; } } echo implode(', ', $temp); ?>]
+            }]
+            },
+            options: {
+            title: {
+                display: true,
+                text: 'Días de retraso de proyectos pendientes de entregar'
+            }
+            }
+        });
+        </script>
+    </div>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
     <div>
         <table>
