@@ -34,6 +34,40 @@ function accessSheet() {
     return $res;
 }
 
+function accessAuthorSheet() {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/../author_service_key.json');
+    $client = new Google_Client();
+    $client->useApplicationDefaultCredentials();
+    $client->addScope('https://www.googleapis.com/auth/spreadsheets');
+    $service = new Google_Service_Sheets($client);
+    $sheets = $service->spreadsheets->get(AUTHOR_SPREADSHEET_ID, ["ranges" => [AUTHOR_SPREADSHEET_SHEET_NAME], "fields" => "sheets"])->getSheets();
+    $data = $sheets[0]->getData();
+    $startRow = $data[0]->getStartRow();
+    $startColumn = $data[0]->getStartColumn();
+    $rowData = $data[0]->getRowData();
+    $res = [];
+    foreach ($rowData as $i => $row) {
+        $temp = array();
+        $control = 0;
+        if (is_array($row->getValues()) && count($row->getValues()) > 0) {
+            foreach ($row->getValues() as $j => $value) {
+                if (isset($value['formattedValue']) && $value['formattedValue'] != '') {
+                    $tempObj['formattedValue'] = $value->getFormattedValue();
+                    $control++;
+                } else {
+                    $tempObj['formattedValue'] = "";
+                }
+                if ($control > 0) array_push($temp, $tempObj);
+            }
+        }
+        if (count($temp) > 0) array_push($res, $temp);
+    }
+
+    //unset($data);
+    //unset($rowData);
+    return $res;
+}
+
 function loadCache() {
     $file = __DIR__ . '/../cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
     if (file_exists($file)) {
