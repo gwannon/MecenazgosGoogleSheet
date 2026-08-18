@@ -5,7 +5,7 @@ require_once __DIR__ . '/inc/inc.php';
 
 $plataformas = ['www.verkami.com', 'www.backerkit.com', 'www.kickstarter.com', 'gamefound.com', 'crowdfundr.com'];
 
-if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog();
+if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog("Mecenazgos");
 
 if(!isset($_REQUEST['log'])) loadCache();
 

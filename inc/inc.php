@@ -87,7 +87,7 @@ function saveCache($html, $csv) {
     file_put_contents($file, $csv); //Guardamos CSV
 }
 
-function registerLog() {
+function registerLog($type) {
   if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];
   } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -103,6 +103,7 @@ function registerLog() {
     $ip."|".
     (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "")."|".
     (isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "")."|".
+    $type."|".
     (isset($json->status) && $json->status == 'success' ? $json->country."|".$json->city : "")."|".
     (isset($json->status) && $json->status == 'success' ? (isset($json->isp) ? $json->isp : "")." / ".(isset($json->org) ? $json->org : "")." / ".(isset($json->as) ? $json->as : "") : "")."|".
     $_SERVER['HTTP_USER_AGENT']."\n");
