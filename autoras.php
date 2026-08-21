@@ -4,8 +4,7 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/inc/inc.php';
 
 if(!isset($_REQUEST['log']) || $_REQUEST['log'] != 'no') registerLog("Autoras");
-
-//if(!isset($_REQUEST['log'])) loadCache();
+if(!isset($_REQUEST['log'])) loadCacheAutoras();
 
 ob_start();
 
@@ -44,7 +43,7 @@ $res = accessAuthorSheet(); ?>
   <p>Este estudio trata de mostrar el papel de las autoras de material rolero en España anualmente, empezando por el año 2026.</p>
   <p>A la hora de elaborar este estudio se han seguido las siguientes reglas y parámetros:</p>
   <ol>
-    <li>Se han registrado los productos roleros (juegos, aventuras, suplementos, ensayos teóricos, manuales de técnicas roleras, etc.) escritos por autoras y autores españoles y publicados por editoriales y grupos creativos.</li>
+    <li>Se han registrado los productos roleros (juegos, aventuras, suplementos, ensayos teóricos, manuales de técnicas roleras, etc.) escritos por autoras y autores españoles y publicados por editoriales y grupos creativos. No importa el idioma en que e escriba, castellano, catalán, euskera, galego, inglés, etc.</li>
     <li>Para el estudio buscamos que haya una intención de publicar el titulo en sí mismo, no como un producto añadido a otro con caracter gratuito y/o promocional. Es por ello que solo se registran <b>productos publicados físicamente de 16 o más páginas y con PVP</b>. Se busca excluir material de promoción que, por ejemplo, ofrezcan gratis las editoriales en determinadas ocasiones o recompensas especiales de campañas de mecenazgo.</li>
     <li>Se han <b>excluido titulos auto-publicados</b> porque el estudio busca reflejar como se relacionan editoriales/grupos creativos con autoras y autores, relación que en los auto-publicados no se da.</li>
     <li>Se considera <b>autor o autora aquella persona que la editorial/grupo creativo ha promocionado como autor o autora de la publicación</b>. En caso de no quedar claro, se ha considerado autor/es al escritor o escritores principales y se han excluido a personas que solo han trabajado en su edición, maquetación, corrección, ilustración y/o promoción.</li>
@@ -52,7 +51,7 @@ $res = accessAuthorSheet(); ?>
     <li>Se ha usado el género atribuido a cada nombre propio para determinar si estamos ante una autora o un autor. No es el sistema ideal, pero a falta de pronombres (y su uso en el material promocional) es lo más lejos que se ha podido llegar sin tener que preguntar directamente a les autores e inmiscuirse en la privacidad de las personas. <b>Sentimos no poder representar en este estudio la participación de autores no-binarios/queer.</b></li>
   </ol>
   <p>El estudio es algo vivo que se actualiza según pasan los meses hasta poder tener una idea general del año al terminar este. Si bien, hasta finalizado el año no se tendrán datos definitivos y totales, sí permiten ver tendencias.</p> 
-  <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caao de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la ultima actualización del proyecto.</p>
+  <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caso de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la ultima actualización del proyecto.</p>
   <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p> 
   <h2>Listado de proyectos roleros publicados de autoras y autores epañoles durante 2026</h2>
   <div class="tables">
@@ -269,5 +268,5 @@ $res = accessAuthorSheet(); ?>
 </body>
 </html>
 <?php $html = ob_get_clean();
-//saveCache($html, $csv);
+saveCacheAutoras($html);
 echo $html;

@@ -80,11 +80,28 @@ function loadCache() {
     }
 }
 
+function loadCacheAutoras() {
+    $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' . custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) . '.html';
+    if (file_exists($file)) {
+        $diff = time() - filectime($file);
+        if ($diff <= EXPIRE_CACHE) { //Si es menos de 5 minutos (300 segundos) usamos el cacheo
+            echo file_get_contents($file);
+            echo "<!-- Cached -->";
+            die;
+        }
+    }
+}
+
 function saveCache($html, $csv) {
-    $file = __DIR__ . '/../cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
-    file_put_contents($file, $html); //Guardamos en cache
-    $file = __DIR__ . '/../mecenazgos.csv';
-    file_put_contents($file, $csv); //Guardamos CSV
+  $file = __DIR__ . '/../cache/' . SPREADSHEET_ID . '-' . custom_sanitize_title(SPREADSHEET_SHEET_NAME) . '.html';
+  file_put_contents($file, $html); //Guardamos en cache
+  $file = __DIR__ . '/../mecenazgos.csv';
+  file_put_contents($file, $csv); //Guardamos CSV
+}
+
+function saveCacheAutoras($html) {
+  $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' . custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) . '.html';
+  file_put_contents($file, $html); //Guardamos en cache
 }
 
 function registerLog($type) {
