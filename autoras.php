@@ -111,7 +111,7 @@ $res = accessAuthorSheet(); ?>
               $editoriales[$label]['titulos_autoras_paginas'] = $editoriales[$label]['titulos_autoras_paginas'] + round($proyecto[2]['formattedValue'] / ($proyecto[3]['formattedValue'] + $proyecto[4]['formattedValue']), 2);
             }
           ?>
-            <tr<?=($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue'] > 0 ? " style='background-color: orange; color: white;'" : ($proyecto[3]['formattedValue'] > 0 ? " style='background-color: green; color: white;'" : "")); ?>>
+            <tr<?=($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($proyecto[3]['formattedValue'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'")); ?>>
               <td style="text-align: left;"><?=$key; ?></td>
               <td style="text-align: left;"><?=$proyecto[0]['formattedValue']; ?></td>
               <td style="text-align: left;"><?=$proyecto[1]['formattedValue']; ?></td>
@@ -124,6 +124,7 @@ $res = accessAuthorSheet(); ?>
       </tbody>
     </table>
   </div>
+  <p><b><span style="color: #008000;">Títulos publicados solo autoras</span> | <span style="color: red;">Títulos publicados solo autores</span> | <span style="color: #ffa500;">Títulos publicados mixtos</span></b></p>
   <h2>Gráficos con datos generales</h2>
   <div class="allcharts">
     <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
@@ -200,7 +201,7 @@ $res = accessAuthorSheet(); ?>
       </thead>
       <tbody>
         <?php foreach($editoriales as $label => $stats) { ?>
-          <tr>
+          <tr<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'")); ?>>
             <th><?=$stats['nombre']; ?></th>
             <td><?=$stats['titulos']; ?></td>
             <td><?=$stats['titulos_solo_autores']; ?></td>
@@ -249,7 +250,7 @@ $res = accessAuthorSheet(); ?>
       </tbody>
     </table>
   </div>
-  
+  <p><b><span style="color: #008000;">Editoriales con títulos publicados solo autoras</span> | <span style="color: red;">Editoriales con títulos publicados solo autores</span> | <span style="color: #ffa500;">Editoriales con títulos publicados mixtos</span></b></p>
   <h2>Conclusiones</h2>
   <p>Sobre las conclusiones, no me considero tan experto en la materia como para sacar unas medianamente válidas. El objetivo es plasmar una realidad y luego dejar a los sujetos de este estudio que saquen sus propias conclusiones.</p>
   <p>Además, debido a que no existe un censo rolero que nos pueda dar la realidad de la afición en cuestiones de genero (tanto de aficionades como de profesionales), solo puedo ofrecer los datos que puedo sacar de las publicaciones hechas. Este estudio sería mucho más real y rico con los datos que pudiera ofrecer ese censo y comparar si la realidad editorial, se acerca a la realidad de la afición.</p>
