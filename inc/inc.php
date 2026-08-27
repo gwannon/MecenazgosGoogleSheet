@@ -81,7 +81,7 @@ function loadCache() {
 }
 
 function loadCacheAutoras() {
-    $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' . custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) . '.html';
+    $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' .custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) .'.html';
     if (file_exists($file)) {
         $diff = time() - filectime($file);
         if ($diff <= EXPIRE_CACHE) { //Si es menos de 5 minutos (300 segundos) usamos el cacheo
@@ -100,7 +100,7 @@ function saveCache($html, $csv) {
 }
 
 function saveCacheAutoras($html) {
-  $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' . custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) . '.html';
+  $file = __DIR__ . '/../cache/' . AUTHOR_SPREADSHEET_ID . '-' .custom_sanitize_title(AUTHOR_SPREADSHEET_SHEET_NAME) .'.html';
   file_put_contents($file, $html); //Guardamos en cache
 }
 

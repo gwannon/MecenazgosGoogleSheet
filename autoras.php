@@ -24,23 +24,23 @@ $res = accessAuthorSheet(); ?>
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Estudio sobre la publicación de títulos de rol de autoras - Actualizado a <?php echo AUTHOR_UPDATE_DATE; ?></title>
+    <title>Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</title>
     <meta charset="UTF-8" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=VT323&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://gwannon.com/mecenazgos/" />
-    <meta name="description" content="Estudio sobre la publicación de títulos de rol de autoras. Actualizado a <?php echo UPDATE_DATE; ?>.">
-    <meta property="og:title" content="Estudio sobre la publicación de títulos de rol de autoras - Actualizado a <?php echo AUTHOR_UPDATE_DATE; ?>">
-    <meta property="og:description" content="Estudio sobre la publicación de títulos de rol de autoras Actualizado a <?php echo AUTHOR_UPDATE_DATE; ?>.">
+    <meta name="description" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo UPDATE_DATE; ?>.">
+    <meta property="og:title" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)">
+    <meta property="og:description" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo $res[0][7]['formattedValue']; ?>.">
     <meta property="og:url" content="https://gwannon.com/mecenazgos/" />
 </head>
 <body>
   <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
-  <h1>Estudio sobre la publicación de títulos de rol de autoras (2026)</h1>
-  <h2><u>Última actualización:</u> <?php echo AUTHOR_UPDATE_DATE; ?></h2>
-  <p>Este estudio trata de mostrar el papel de las autoras de material rolero en España anualmente, empezando por el año 2026.</p>
+  <h1>Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</h1>
+  <h2><u>Última actualización:</u> <?php echo $res[0][7]['formattedValue']; ?></h2>
+  <p>Este estudio trata de mostrar el papel de las autoras de material rolero en España anualmente, empezando por el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?>.</p>
   <p>A la hora de elaborar este estudio se han seguido las siguientes reglas y parámetros:</p>
   <ol>
     <li>Se han registrado los productos roleros (juegos, aventuras, suplementos, ensayos teóricos, manuales de técnicas roleras, etc.) escritos por autoras y autores españoles y publicados por editoriales y grupos creativos. No importa el idioma en que e escriba, castellano, catalán, euskera, galego, inglés, etc.</li>
@@ -53,7 +53,7 @@ $res = accessAuthorSheet(); ?>
   <p>El estudio es algo vivo que se actualiza según pasan los meses hasta poder tener una idea general del año al terminar este. Si bien, hasta finalizado el año no se tendrán datos definitivos y totales, sí permiten ver tendencias.</p> 
   <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caso de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la última actualización del proyecto.</p>
   <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p> 
-  <h2>Listado de proyectos roleros publicados de autoras y autores epañoles durante 2026</h2>
+  <h2>Listado de proyectos roleros publicados de autoras y autores epañoles durante el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
   <div class="tables">
     <table>
       <thead>
@@ -62,6 +62,7 @@ $res = accessAuthorSheet(); ?>
           <th>Editorial</th>
           <th>Título</th>
           <th>Autoras</th>
+          <th>Autores NB</th>
           <th>Autores</th>
           <th>Páginas</th>
         </tr>
@@ -116,6 +117,7 @@ $res = accessAuthorSheet(); ?>
               <td style="text-align: left;"><?=$proyecto[0]['formattedValue']; ?></td>
               <td style="text-align: left;"><?=$proyecto[1]['formattedValue']; ?></td>
               <td><?=$proyecto[3]['formattedValue']; ?></td>
+              <td><?=$proyecto[5]['formattedValue']; ?></td>
               <td><?=$proyecto[4]['formattedValue']; ?></td>
               <td><?=$proyecto[2]['formattedValue']; ?></td>
             </tr>              
