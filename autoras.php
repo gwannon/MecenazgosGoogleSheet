@@ -12,11 +12,15 @@ $stats = [
   "titulos" => 0,
   "titulos_solo_autores" => 0,
   "titulos_solo_autoras" => 0,
+  "titulos_solo_autoresnb" => 0,
   "titulos_mixtos" => 0,
   "titulos_autores" => 0,
   "titulos_autoras" => 0,
+  "titulos_autoresnb" => 0,
   "titulos_paginas" => 0,
-  "titulos_autoras_paginas" => 0
+  "titulos_autores_paginas" => 0,
+  "titulos_autoras_paginas" => 0,
+  "titulos_autoresnb_paginas" => 0
 ];
 $editoriales = [];
 $res = accessAuthorSheet(); ?>
@@ -39,7 +43,7 @@ $res = accessAuthorSheet(); ?>
 <body>
   <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
   <h1>Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</h1>
-  <h2><u>Última actualización:</u> <?php echo $res[0][7]['formattedValue']; ?></h2>
+  <h2><u>Última actualización:</u> <?php echo $res[0][8]['formattedValue']; ?></h2>
   <p>Este estudio trata de mostrar el papel de las autoras de material rolero en España anualmente, empezando por el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?>.</p>
   <p>A la hora de elaborar este estudio se han seguido las siguientes reglas y parámetros:</p>
   <ol>
@@ -48,12 +52,12 @@ $res = accessAuthorSheet(); ?>
     <li>Se han <b>excluido títulos auto-publicados</b> porque el estudio busca reflejar como se relacionan editoriales/grupos creativos con autoras y autores, relación que en los auto-publicados no se da.</li>
     <li>Se considera <b>autor o autora aquella persona que la editorial/grupo creativo ha promocionado como autor o autora de la publicación</b>. En caso de no quedar claro, se ha considerado autor/es al escritor o escritores principales y se han excluido a personas que solo han trabajado en su edición, maquetación, corrección, ilustración y/o promoción.</li>
     <li>Se usa <b>el número de páginas impresas para estimar la importancia que da la editorial a la obra y a la autora/autor</b>. No es un sistema perfecto, pero es mucho más realista que simplemente contabilizar el número de obras publicadas. Cuando unas obras tiene varias personas autoras se ha dividido el número de páginas entre el número de autores a la hora de contabilizar cuántas páginas ha escrito cada autora o autor.</li>
-    <li>Se ha usado el género atribuido a cada nombre propio para determinar si estamos ante una autora o un autor. No es el sistema ideal, pero a falta de pronombres (y su uso en el material promocional) es lo más lejos que se ha podido llegar sin tener que preguntar directamente a les autores e inmiscuirse en la privacidad de las personas. <b>Sentimos no poder representar en este estudio la participación de autores no-binarios/queer.</b></li>
+    <li>Se ha usado el género atribuido a cada nombre propio para determinar si estamos ante una autora o un autor. No es el sistema ideal, pero a falta de pronombres (y su uso en el material promocional) es lo más lejos que se ha podido llegar sin tener que preguntar directamente a les autores e inmiscuirse en la privacidad de las personas. En la medida que se ha podido se han buscado las redes sociales de les autores para tratar determinar si son no-binaries mediante sus pronombres.</li>
   </ol>
   <p>El estudio es algo vivo que se actualiza según pasan los meses hasta poder tener una idea general del año al terminar este. Si bien, hasta finalizado el año no se tendrán datos definitivos y totales, sí permiten ver tendencias.</p> 
   <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caso de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la última actualización del proyecto.</p>
   <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p> 
-  <h2>Listado de proyectos roleros publicados de autoras y autores epañoles durante el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
+  <h2>Listado de proyectos roleros publicados de autoras, autores no binaries y autores españoles durante el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
   <div class="tables">
     <table>
       <thead>
@@ -77,11 +81,15 @@ $res = accessAuthorSheet(); ?>
                 "titulos" => 0,
                 "titulos_solo_autores" => 0,
                 "titulos_solo_autoras" => 0,
+                "titulos_solo_autoresnb" => 0,
                 "titulos_mixtos" => 0,
                 "titulos_autores" => 0,
                 "titulos_autoras" => 0,
+                "titulos_autoresnb" => 0,
                 "titulos_paginas" => 0,
-                "titulos_autoras_paginas" => 0
+                "titulos_autores_paginas" => 0,
+                "titulos_autoras_paginas" => 0,
+                "titulos_autoresnb_paginas" => 0
               ];
             }
 
@@ -93,9 +101,16 @@ $res = accessAuthorSheet(); ?>
             $stats['titulos_paginas'] = $stats['titulos_paginas'] + $proyecto[2]['formattedValue'];
             $editoriales[$label]['titulos_paginas'] = $editoriales[$label]['titulos_paginas'] + $proyecto[2]['formattedValue'];
 
-            if($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue']) {
+            if(
+              ($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue']) ||
+              ($proyecto[4]['formattedValue'] > 0 && $proyecto[5]['formattedValue']) ||
+              ($proyecto[3]['formattedValue'] > 0 && $proyecto[5]['formattedValue'])
+            ) {
               $stats['titulos_mixtos'] ++;
               $editoriales[$label]['titulos_mixtos'] ++;
+            } else if($proyecto[5]['formattedValue'] > 0) {
+              $stats['titulos_solo_autoresnb'] ++;
+              $editoriales[$label]['titulos_solo_autoresnb'] ++;
             } else if($proyecto[3]['formattedValue'] > 0) {
               $stats['titulos_solo_autoras'] ++;
               $editoriales[$label]['titulos_solo_autoras'] ++;
@@ -103,16 +118,43 @@ $res = accessAuthorSheet(); ?>
               $stats['titulos_solo_autores'] ++;
               $editoriales[$label]['titulos_solo_autores'] ++;
             }
+
+            $total_autores = $proyecto[3]['formattedValue'] + $proyecto[4]['formattedValue'] + $proyecto[5]['formattedValue'];
             
             //si hay mujeres
             if($proyecto[3]['formattedValue'] > 0) {
               $stats['titulos_autoras'] = $stats['titulos_autoras'] + $proyecto[3]['formattedValue'];
+
               $editoriales[$label]['titulos_autoras'] = $editoriales[$label]['titulos_autoras'] + $proyecto[3]['formattedValue'];
-              $stats['titulos_autoras_paginas'] = $stats['titulos_autoras_paginas'] + round($proyecto[2]['formattedValue'] / ($proyecto[3]['formattedValue'] + $proyecto[4]['formattedValue']), 2);
-              $editoriales[$label]['titulos_autoras_paginas'] = $editoriales[$label]['titulos_autoras_paginas'] + round($proyecto[2]['formattedValue'] / ($proyecto[3]['formattedValue'] + $proyecto[4]['formattedValue']), 2);
+
+              $stats['titulos_autoras_paginas'] = $stats['titulos_autoras_paginas'] + ($proyecto[3]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
+
+              $editoriales[$label]['titulos_autoras_paginas'] = $editoriales[$label]['titulos_autoras_paginas'] + ($proyecto[3]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
+            }
+
+            //si hay hombres
+            if($proyecto[4]['formattedValue'] > 0) {
+              $stats['titulos_autores'] = $stats['titulos_autores'] + $proyecto[4]['formattedValue'];
+
+              $editoriales[$label]['titulos_autores'] = $editoriales[$label]['titulos_autores'] + $proyecto[4]['formattedValue'];
+
+              $stats['titulos_autores_paginas'] = $stats['titulos_autores_paginas'] + ($proyecto[4]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
+
+              $editoriales[$label]['titulos_autores_paginas'] = $editoriales[$label]['titulos_autores_paginas'] + ($proyecto[4]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
+            }
+
+            //si hay NB
+            if($proyecto[5]['formattedValue'] > 0) {
+              $stats['titulos_autoresnb'] = $stats['titulos_autoresnb'] + $proyecto[5]['formattedValue'];
+
+              $editoriales[$label]['titulos_autoresnb'] = $editoriales[$label]['titulos_autoresnb'] + $proyecto[5]['formattedValue'];
+
+              $stats['titulos_autoresnb_paginas'] = $stats['titulos_autoresnb_paginas'] + ($proyecto[5]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
+
+              $editoriales[$label]['titulos_autoresnb_paginas'] = $editoriales[$label]['titulos_autoresnb_paginas'] + ($proyecto[5]['formattedValue'] * round($proyecto[2]['formattedValue'] / $total_autores, 2));
             }
           ?>
-            <tr<?=($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($proyecto[3]['formattedValue'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'")); ?>>
+            <tr<?=(($proyecto[3]['formattedValue'] > 0 && $proyecto[4]['formattedValue']) || ($proyecto[4]['formattedValue'] > 0 && $proyecto[5]['formattedValue']) || ($proyecto[3]['formattedValue'] > 0 && $proyecto[5]['formattedValue']) ? " style='background-color: #ffa500; color: white;'" : ($proyecto[5]['formattedValue'] > 0 ? " style='background-color: #673AB7; color: white;'" : ($proyecto[3]['formattedValue'] > 0 ? " style='background-color: #008000; color: white;'": " style='background-color: red; color: white;'"))); ?>>
               <td style="text-align: left;"><?=$key; ?></td>
               <td style="text-align: left;"><?=$proyecto[0]['formattedValue']; ?></td>
               <td style="text-align: left;"><?=$proyecto[1]['formattedValue']; ?></td>
@@ -126,7 +168,7 @@ $res = accessAuthorSheet(); ?>
       </tbody>
     </table>
   </div>
-  <p><b><span style="color: #008000;">Títulos publicados solo autoras</span> | <span style="color: red;">Títulos publicados solo autores</span> | <span style="color: #ffa500;">Títulos publicados mixtos</span></b></p>
+  <p><b><span style="color: #008000;">Títulos publicados solo autoras</span> | <span style="color: #673AB7;">Títulos publicados solo autores no binaries</span> | <span style="color: red;">Títulos publicados solo autores</span> | <span style="color: #ffa500;">Títulos publicados mixtos</span></b></p>
   <h2>Gráficos con datos generales</h2>
   <div class="allcharts">
     <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
@@ -140,6 +182,7 @@ $res = accessAuthorSheet(); ?>
           labels: [
             'Títulos con solo autores (<?=round(($stats['titulos_solo_autores']/$stats['titulos'] * 100), 2); ?>%)',
             'Títulos con solo autoras (<?=round(($stats['titulos_solo_autoras']/$stats['titulos'] * 100), 2); ?>%)',
+            'Títulos con solo autores NB (<?=round(($stats['titulos_solo_autoresnb']/$stats['titulos'] * 100), 2); ?>%)',
             'Títulos con equipos mixtos (<?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%)'
           ],
           datasets: [{
@@ -147,11 +190,13 @@ $res = accessAuthorSheet(); ?>
             data: [
               <?=$stats['titulos_solo_autores']; ?>,
               <?=$stats['titulos_solo_autoras']; ?>,
+              <?=$stats['titulos_solo_autoresnb']; ?>,
               <?=$stats['titulos_mixtos']; ?>
             ],
             backgroundColor: [
               'rgb(255, 0, 0)',
               'rgb(0, 128, 0)',
+              'rgb(103, 58, 183)',
               'rgb(255, 165, 0)'
             ]
           }],
@@ -167,18 +212,21 @@ $res = accessAuthorSheet(); ?>
         type: 'pie',
         data: { 
           labels: [
-            'Páginas publicadas por autores (<?=round((($stats['titulos_paginas'] - $stats['titulos_autoras_paginas'])/$stats['titulos_paginas'] * 100), 2); ?>%)',
-            'Páginas publicadas por autoras (<?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)'
+            'Páginas publicadas por autores (<?=round(($stats['titulos_autores_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
+            'Páginas publicadas por autoras (<?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
+            'Páginas publicadas por autores NB (<?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)'
           ],
           datasets: [{
             label: 'Páginas: ',
             data: [
-              <?=($stats['titulos_paginas'] - $stats['titulos_autoras_paginas']); ?>,
-              <?=$stats['titulos_autoras_paginas']; ?>
+              <?=$stats['titulos_autores_paginas']; ?>,
+              <?=$stats['titulos_autoras_paginas']; ?>,
+              <?=$stats['titulos_autoresnb_paginas']; ?>
             ],
             backgroundColor: [
               'rgb(255, 0, 0)',
-              'rgb(0, 128, 0)'
+              'rgb(0, 128, 0)',
+              'rgb(103, 58, 183)'
             ]
           }],
         }
@@ -186,7 +234,7 @@ $res = accessAuthorSheet(); ?>
     </script> 
   </div>
   <h2>Datos por editorial</h2>
-  <p>Aquí se muestran datos de editoriales que han publicado material de autores y autoras españolas. Las editoriales que no aparecen aquí es porque no han publicado títulos que cumplan los requisitos para ser registrados en este estudio.</p>
+  <p>Aquí se muestran datos de editoriales que han publicado material de autores, autores NB y autoras españolas. Las editoriales que no aparecen aquí es porque no han publicado títulos que cumplan los requisitos para ser registrados en este estudio.</p>
   <div class="allchartseditorial">
     <table>
       <thead>
@@ -195,29 +243,40 @@ $res = accessAuthorSheet(); ?>
           <th>Nº de títulos</th>
           <th colspan="2">Títulos con<br/>solo autores</th>
           <th colspan="2">Títulos con<br/>solo autoras</th>
+          <th colspan="2">Títulos con<br/>solo autores NB</th>
           <th colspan="2">Títulos con<br/>equipos mixtos</th>
           <th>Páginas publicadas</th>
           <th colspan="2">Páginas publicadas<br/>por autores</th>
           <th colspan="2">Páginas publicadas<br/>por autoras</th>
+          <th colspan="2">Páginas publicadas<br/>por autores NB</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach($editoriales as $label => $stats) { ?>
-          <tr<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'")); ?>>
+          <?php /*<tr<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($stats['titulos_solo_autoresnb'] > 0 ? " style='background-color: #673AB7; color: white;'" : ($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'"))); ?>> */ ?>
+          <tr>
             <th><?=$stats['nombre']; ?></th>
             <td><?=$stats['titulos']; ?></td>
-            <td><?=$stats['titulos_solo_autores']; ?></td>
-            <td><?=round(($stats['titulos_solo_autores']/$stats['titulos'] * 100), 2); ?>%</td>
-            <td><?=$stats['titulos_solo_autoras']; ?></td>
-            <td><?=round(($stats['titulos_solo_autoras']/$stats['titulos'] * 100), 2); ?>%</td>
-            <td><?=$stats['titulos_mixtos']; ?></td>
-            <td><?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_solo_autores'] > 0 ? " style='background-color: red; color: white;'" : ""); ?>><?=$stats['titulos_solo_autores']; ?></td>
+            <td<?=($stats['titulos_solo_autores'] > 0 ? " style='background-color: red; color: white;'" : ""); ?>><?=round(($stats['titulos_solo_autores']/$stats['titulos'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : ""); ?>><?=$stats['titulos_solo_autoras']; ?></td>
+            <td<?=($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : ""); ?>><?=round(($stats['titulos_solo_autoras']/$stats['titulos'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_solo_autoresnb'] > 0 ? " style='background-color: #673AB7; color: white;'" : ""); ?>><?=$stats['titulos_solo_autoresnb']; ?></td>
+            <td<?=($stats['titulos_solo_autoresnb'] > 0 ? " style='background-color: #673AB7; color: white;'" : ""); ?>><?=round(($stats['titulos_solo_autoresnb']/$stats['titulos'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ""); ?>><?=$stats['titulos_mixtos']; ?></td>
+            <td<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ""); ?>><?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%</td>
 
             <td><?=$stats['titulos_paginas']; ?></td>
             <td><?=($stats['titulos_paginas'] - $stats['titulos_autoras_paginas']); ?></td>
             <td><?=round((($stats['titulos_paginas'] - $stats['titulos_autoras_paginas'])/$stats['titulos_paginas'] * 100), 2); ?>%</td>
             <td><?=$stats['titulos_autoras_paginas']; ?></td>
             <td><?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
+            <td><?=$stats['titulos_autoresnb_paginas']; ?></td>
+            <td><?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
           </tr>
 
           <?php /*<div style="width: calc(33.33% - 30px); max-width: 100%; min-width: 320px;">
@@ -252,7 +311,7 @@ $res = accessAuthorSheet(); ?>
       </tbody>
     </table>
   </div>
-  <p><b><span style="color: #008000;">Editoriales con títulos publicados solo autoras</span> | <span style="color: red;">Editoriales con títulos publicados solo autores</span> | <span style="color: #ffa500;">Editoriales con títulos publicados mixtos</span></b></p>
+  <p><b><span style="color: #008000;">Editoriales con títulos publicados solo autoras</span> | <span style="color: #673AB7;">Editoriales con títulos publicados solo autores no binaries</span> | <span style="color: red;">Editoriales con títulos publicados solo autores</span> | <span style="color: #ffa500;">Editoriales con títulos publicados mixtos</span></b></p>
   <h2>Conclusiones</h2>
   <p>Sobre las conclusiones, no me considero tan experto en la materia como para sacar unas medianamente válidas. El objetivo es plasmar una realidad y luego dejar a los sujetos de este estudio que saquen sus propias conclusiones.</p>
   <p>Además, debido a que no existe un censo rolero que nos pueda dar la realidad de la afición en cuestiones de género (tanto de aficionades como de profesionales), solo puedo ofrecer los datos que puedo sacar de las publicaciones hechas. Este estudio sería mucho más real y rico con los datos que pudiera ofrecer ese censo y comparar si la realidad editorial, se acerca a la realidad de la afición.</p>
