@@ -65,6 +65,7 @@ $res = accessSheet(); ?>
                     <option value="sinentregarretrasado">Pendiente de entregar y retrasado</option>
                     <option value="entregado">Entregado</option>
                     <option value="entregadoatiempo">Entregado a tiempo</option>
+                    <option value="sinactualizar">Sin actualizar</option>
                 </select>
             </div>
             <div>
