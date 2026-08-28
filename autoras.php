@@ -56,7 +56,16 @@ $res = accessAuthorSheet(); ?>
   </ol>
   <p>El estudio es algo vivo que se actualiza según pasan los meses hasta poder tener una idea general del año al terminar este. Si bien, hasta finalizado el año no se tendrán datos definitivos y totales, sí permiten ver tendencias.</p> 
   <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caso de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la última actualización del proyecto.</p>
-  <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p> 
+  <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p>
+  <h2>Gráficos con datos generales del <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
+  <div class="allcharts">
+    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
+      <canvas id="titulos-publicados"></canvas>
+    </div>
+    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
+      <canvas id="paginas-publicadas"></canvas>
+    </div>
+  </div> 
   <h2>Listado de proyectos roleros publicados de autoras, autores no binaries y autores españoles durante el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
   <div class="tables">
     <table>
@@ -169,70 +178,88 @@ $res = accessAuthorSheet(); ?>
     </table>
   </div>
   <p><b><span style="color: #008000;">Títulos publicados solo autoras</span> | <span style="color: #673AB7;">Títulos publicados solo autores no binaries</span> | <span style="color: red;">Títulos publicados solo autores</span> | <span style="color: #ffa500;">Títulos publicados mixtos</span></b></p>
-  <h2>Gráficos con datos generales</h2>
-  <div class="allcharts">
-    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
-      <h3>Títulos publicados (<?=$stats['titulos']; ?>)</h3>
-      <canvas id="titulos-publicados"></canvas>
-    </div>
-    <script>
-      new Chart(document.getElementById("titulos-publicados"), {
-        type: 'pie',
-        data: { 
-          labels: [
-            'Títulos con solo autores (<?=round(($stats['titulos_solo_autores']/$stats['titulos'] * 100), 2); ?>%)',
-            'Títulos con solo autoras (<?=round(($stats['titulos_solo_autoras']/$stats['titulos'] * 100), 2); ?>%)',
-            'Títulos con solo autores NB (<?=round(($stats['titulos_solo_autoresnb']/$stats['titulos'] * 100), 2); ?>%)',
-            'Títulos con equipos mixtos (<?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%)'
-          ],
-          datasets: [{
-            label: 'Títulos publicados: ',
-            data: [
-              <?=$stats['titulos_solo_autores']; ?>,
-              <?=$stats['titulos_solo_autoras']; ?>,
-              <?=$stats['titulos_solo_autoresnb']; ?>,
-              <?=$stats['titulos_mixtos']; ?>
-            ],
-            backgroundColor: [
-              'rgb(255, 0, 0)',
-              'rgb(0, 128, 0)',
-              'rgb(103, 58, 183)',
-              'rgb(255, 165, 0)'
-            ]
-          }],
+  <script>
+    new Chart(document.getElementById("titulos-publicados"), {
+      type: 'pie',
+      options: {
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Títulos publicados (<?=$stats['titulos']; ?>)',
+            font: {
+              size: 36,
+              family: "VT323"
+            }
+          }
         }
-      });
-    </script>
-    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
-      <h3>Páginas publicadas (<?=$stats['titulos_paginas']; ?>)</h3>
-      <canvas id="paginas-publicadas"></canvas>
-    </div>
-    <script>
-      new Chart(document.getElementById("paginas-publicadas"), {
-        type: 'pie',
-        data: { 
-          labels: [
-            'Páginas publicadas por autores (<?=round(($stats['titulos_autores_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
-            'Páginas publicadas por autoras (<?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
-            'Páginas publicadas por autores NB (<?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)'
+      },
+      data: { 
+        labels: [
+          'Títulos con solo autores (<?=round(($stats['titulos_solo_autores']/$stats['titulos'] * 100), 2); ?>%)',
+          'Títulos con solo autoras (<?=round(($stats['titulos_solo_autoras']/$stats['titulos'] * 100), 2); ?>%)',
+          'Títulos con solo autores NB (<?=round(($stats['titulos_solo_autoresnb']/$stats['titulos'] * 100), 2); ?>%)',
+          'Títulos con equipos mixtos (<?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%)'
+        ],
+        datasets: [{
+          label: 'Títulos publicados: ',
+          data: [
+            <?=$stats['titulos_solo_autores']; ?>,
+            <?=$stats['titulos_solo_autoras']; ?>,
+            <?=$stats['titulos_solo_autoresnb']; ?>,
+            <?=$stats['titulos_mixtos']; ?>
           ],
-          datasets: [{
-            label: 'Páginas: ',
-            data: [
-              <?=$stats['titulos_autores_paginas']; ?>,
-              <?=$stats['titulos_autoras_paginas']; ?>,
-              <?=$stats['titulos_autoresnb_paginas']; ?>
-            ],
-            backgroundColor: [
-              'rgb(255, 0, 0)',
-              'rgb(0, 128, 0)',
-              'rgb(103, 58, 183)'
-            ]
-          }],
+          backgroundColor: [
+            'rgb(255, 0, 0)',
+            'rgb(0, 128, 0)',
+            'rgb(103, 58, 183)',
+            'rgb(255, 165, 0)'
+          ]
+        }],
+      }
+    });
+
+    new Chart(document.getElementById("paginas-publicadas"), {
+      type: 'pie',
+       options: {
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Páginas publicadas (<?=$stats['titulos_paginas']; ?>)',
+            font: {
+              size: 36,
+              family: "VT323"
+            }
+          }
         }
-      });
-    </script> 
-  </div>
+      },
+      data: { 
+        labels: [
+          'Páginas publicadas por autores (<?=round(($stats['titulos_autores_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
+          'Páginas publicadas por autoras (<?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)',
+          'Páginas publicadas por autores NB (<?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)'
+        ],
+        datasets: [{
+          label: 'Páginas: ',
+          data: [
+            <?=$stats['titulos_autores_paginas']; ?>,
+            <?=$stats['titulos_autoras_paginas']; ?>,
+            <?=$stats['titulos_autoresnb_paginas']; ?>
+          ],
+          backgroundColor: [
+            'rgb(255, 0, 0)',
+            'rgb(0, 128, 0)',
+            'rgb(103, 58, 183)'
+          ]
+        }],
+      }
+    });
+  </script>
   <h2>Datos por editorial</h2>
   <p>Aquí se muestran datos de editoriales que han publicado material de autores, autores NB y autoras españolas. Las editoriales que no aparecen aquí es porque no han publicado títulos que cumplan los requisitos para ser registrados en este estudio.</p>
   <div class="allchartseditorial">
@@ -271,42 +298,16 @@ $res = accessAuthorSheet(); ?>
             <td<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ""); ?>><?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%</td>
 
             <td><?=$stats['titulos_paginas']; ?></td>
-            <td><?=($stats['titulos_paginas'] - $stats['titulos_autoras_paginas']); ?></td>
-            <td><?=round((($stats['titulos_paginas'] - $stats['titulos_autoras_paginas'])/$stats['titulos_paginas'] * 100), 2); ?>%</td>
-            <td><?=$stats['titulos_autoras_paginas']; ?></td>
-            <td><?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
-            <td><?=$stats['titulos_autoresnb_paginas']; ?></td>
-            <td><?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_autores_paginas'] > 0 ? " style='background-color: red; color: white;'" : ""); ?>><?=$stats['titulos_autores_paginas']; ?></td>
+            <td<?=($stats['titulos_autores_paginas'] > 0 ? " style='background-color: red; color: white;'" : ""); ?>><?=round(($stats['titulos_autores_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_autoras_paginas'] > 0 ? " style='background-color: #008000; color: white;'" : ""); ?>><?=$stats['titulos_autoras_paginas']; ?></td>
+            <td<?=($stats['titulos_autoras_paginas'] > 0 ? " style='background-color: #008000; color: white;'" : ""); ?>><?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
+
+            <td<?=($stats['titulos_autoresnb_paginas'] > 0 ? " style='background-color: #673AB7; color: white;'" : ""); ?>><?=$stats['titulos_autoresnb_paginas']; ?></td>
+            <td<?=($stats['titulos_autoresnb_paginas'] > 0 ? " style='background-color: #673AB7; color: white;'" : ""); ?>><?=round(($stats['titulos_autoresnb_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%</td>
           </tr>
-
-          <?php /*<div style="width: calc(33.33% - 30px); max-width: 100%; min-width: 320px;">
-            <h3>Páginas publicadas por <?=$stats['nombre']; ?> (<?=$stats['titulos_paginas']; ?>)</h3>
-            <canvas id="paginas-publicadas-<?=$label; ?>"></canvas>
-          </div>
-          <script>
-            new Chart(document.getElementById("paginas-publicadas-<?=$label; ?>"), {
-              type: 'pie',
-              data: { 
-                labels: [
-                  'Páginas publicadas por autores (<?=round((($stats['titulos_paginas'] - $stats['titulos_autoras_paginas'])/$stats['titulos_paginas'] * 100), 2); ?>%)',
-                  'Páginas publicadas por autoras (<?=round(($stats['titulos_autoras_paginas']/$stats['titulos_paginas'] * 100), 2); ?>%)'
-                ],
-                datasets: [{
-                  label: 'Páginas: ',
-                  data: [
-                    <?=($stats['titulos_paginas'] - $stats['titulos_autoras_paginas']); ?>,
-                    <?=$stats['titulos_autoras_paginas']; ?>
-                  ],
-                  backgroundColor: [
-                    'rgb(255, 0, 0)',
-                    'rgb(0, 128, 0)'
-                  ]
-                }],
-              }
-            });
-          </script> */ ?>
-
-
         <?php } ?>
       </tbody>
     </table>
