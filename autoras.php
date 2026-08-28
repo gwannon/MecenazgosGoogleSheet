@@ -59,10 +59,10 @@ $res = accessAuthorSheet(); ?>
   <p style="border: 1px solid var(--main-color); padding: 5px;">Si detectas datos desactualizados o crees que falta algún título publicado, puedes ponerte en contacto conmigo a través de <a href="mailto:monclus.jorge+autoras@gmail.com">monclus.jorge@gmail.com</a>.</p>
   <h2>Gráficos con datos generales del <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?></h2>
   <div class="allcharts">
-    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
+    <div style="width: 50%; max-width: 100%; min-width: 450px;">
       <canvas id="titulos-publicados"></canvas>
     </div>
-    <div style="width: 33.33%; max-width: 100%; min-width: 350px;">
+    <div style="width: 50%; max-width: 100%; min-width: 450px;">
       <canvas id="paginas-publicadas"></canvas>
     </div>
   </div> 
@@ -263,24 +263,20 @@ $res = accessAuthorSheet(); ?>
   <h2>Datos por editorial</h2>
   <p>Aquí se muestran datos de editoriales que han publicado material de autores, autores NB y autoras españolas. Las editoriales que no aparecen aquí es porque no han publicado títulos que cumplan los requisitos para ser registrados en este estudio.</p>
   <div class="allchartseditorial">
+    <h3>Títulos publicados</h3>
     <table>
       <thead>
         <tr>
           <th>Editorial</th>
           <th>Nº de títulos</th>
-          <th colspan="2">Títulos con<br/>solo autores</th>
-          <th colspan="2">Títulos con<br/>solo autoras</th>
-          <th colspan="2">Títulos con<br/>solo autores NB</th>
-          <th colspan="2">Títulos con<br/>equipos mixtos</th>
-          <th>Páginas publicadas</th>
-          <th colspan="2">Páginas publicadas<br/>por autores</th>
-          <th colspan="2">Páginas publicadas<br/>por autoras</th>
-          <th colspan="2">Páginas publicadas<br/>por autores NB</th>
+          <th colspan="2">Títulos con solo autores</th>
+          <th colspan="2">Títulos con solo autoras</th>
+          <th colspan="2">Títulos con solo autores NB</th>
+          <th colspan="2">Títulos con equipos mixtos</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach($editoriales as $label => $stats) { ?>
-          <?php /*<tr<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ($stats['titulos_solo_autoresnb'] > 0 ? " style='background-color: #673AB7; color: white;'" : ($stats['titulos_solo_autoras'] > 0 ? " style='background-color: #008000; color: white;'" : " style='background-color: red; color: white;'"))); ?>> */ ?>
           <tr>
             <th><?=$stats['nombre']; ?></th>
             <td><?=$stats['titulos']; ?></td>
@@ -296,7 +292,26 @@ $res = accessAuthorSheet(); ?>
 
             <td<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ""); ?>><?=$stats['titulos_mixtos']; ?></td>
             <td<?=($stats['titulos_mixtos'] > 0 ? " style='background-color: #ffa500; color: white;'" : ""); ?>><?=round(($stats['titulos_mixtos']/$stats['titulos'] * 100), 2); ?>%</td>
+          </tr>
+        <?php } ?>
+      </tbody>
+    </table>
 
+    <h3>Páginas publicadas</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Editorial</th>
+          <th>Páginas publicadas</th>
+          <th colspan="2">Páginas publicadas<br/>por autores</th>
+          <th colspan="2">Páginas publicadas<br/>por autoras</th>
+          <th colspan="2">Páginas publicadas<br/>por autores NB</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach($editoriales as $label => $stats) { ?>
+          <tr>
+            <th><?=$stats['nombre']; ?></th>
             <td><?=$stats['titulos_paginas']; ?></td>
 
             <td<?=($stats['titulos_autores_paginas'] > 0 ? " style='background-color: red; color: white;'" : ""); ?>><?=$stats['titulos_autores_paginas']; ?></td>
