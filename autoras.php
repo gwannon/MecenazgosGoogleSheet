@@ -28,31 +28,31 @@ $res = accessAuthorSheet(); ?>
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</title>
+    <title>Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</title>
     <meta charset="UTF-8" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=VT323&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://gwannon.com/mecenazgos/" />
-    <meta name="description" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo UPDATE_DATE; ?>.">
-    <meta property="og:title" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)">
-    <meta property="og:description" content="Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo $res[0][7]['formattedValue']; ?>.">
+    <meta name="description" content="Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo UPDATE_DATE; ?>.">
+    <meta property="og:title" content="Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)">
+    <meta property="og:description" content="Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo $res[0][7]['formattedValue']; ?>.">
     <meta property="og:url" content="https://gwannon.com/mecenazgos/" />
 </head>
 <body>
   <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
-  <h1>Estudio sobre la publicación de títulos de rol de autoras (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</h1>
+  <h1>Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)</h1>
   <h2><u>Última actualización:</u> <?php echo $res[0][8]['formattedValue']; ?></h2>
-  <p>Este estudio trata de mostrar el papel de las autoras de material rolero en España anualmente, empezando por el <?php echo (strtolower (AUTHOR_SPREADSHEET_SHEET_NAME)); ?>.</p>
+  <p>Este estudio trata de mostrar el papel de las autoras y autores no binaries de material rolero en España anualmente, empezando por el 2026.</p>
   <p>A la hora de elaborar este estudio se han seguido las siguientes reglas y parámetros:</p>
   <ol>
-    <li>Se han registrado los productos roleros (juegos, aventuras, suplementos, ensayos teóricos, manuales de técnicas roleras, etc.) escritos por autoras y autores españoles y publicados por editoriales y grupos creativos. No importa el idioma en que e escriba, castellano, catalán, euskera, galego, inglés, etc.</li>
+    <li>Se han registrado los productos roleros (juegos, aventuras, suplementos, ensayos teóricos, manuales de técnicas roleras, etc.) escritos por autores españoles y publicados por editoriales y grupos creativos. No importa el idioma en que se escriba, castellano, catalán, euskera, galego, inglés, etc.</li>
     <li>Para el estudio buscamos que haya una intención de publicar el título en sí mismo, no como un producto añadido a otro con carácter gratuito y/o promocional. Es por ello que solo se registran <b>productos publicados físicamente de 16 o más páginas y con PVP</b>. Se busca excluir material de promoción que, por ejemplo, ofrezcan gratis las editoriales en determinadas ocasiones o recompensas especiales de campañas de mecenazgo.</li>
-    <li>Se han <b>excluido títulos auto-publicados</b> porque el estudio busca reflejar como se relacionan editoriales/grupos creativos con autoras y autores, relación que en los auto-publicados no se da.</li>
-    <li>Se considera <b>autor o autora aquella persona que la editorial/grupo creativo ha promocionado como autor o autora de la publicación</b>. En caso de no quedar claro, se ha considerado autor/es al escritor o escritores principales y se han excluido a personas que solo han trabajado en su edición, maquetación, corrección, ilustración y/o promoción.</li>
-    <li>Se usa <b>el número de páginas impresas para estimar la importancia que da la editorial a la obra y a la autora/autor</b>. No es un sistema perfecto, pero es mucho más realista que simplemente contabilizar el número de obras publicadas. Cuando unas obras tiene varias personas autoras se ha dividido el número de páginas entre el número de autores a la hora de contabilizar cuántas páginas ha escrito cada autora o autor.</li>
-    <li>Se ha usado el género atribuido a cada nombre propio para determinar si estamos ante una autora o un autor. No es el sistema ideal, pero a falta de pronombres (y su uso en el material promocional) es lo más lejos que se ha podido llegar sin tener que preguntar directamente a les autores e inmiscuirse en la privacidad de las personas. En la medida que se ha podido se han buscado las redes sociales de les autores para tratar determinar si son no-binaries mediante sus pronombres.</li>
+    <li>Se han <b>excluido títulos autopublicados</b> porque el estudio busca reflejar cómo se relacionan editoriales/grupos creativos con autores, relación que en los autopublicados no se da.</li>
+    <li>Se considera <b>autore a aquella persona que la editorial/grupo creativo ha promocionado como autore de la publicación</b>. En caso de no quedar claro, se ha considerado autore o autores a le escritore o escritores principales y se han excluido a personas que solo han trabajado en su edición, maquetación, corrección, ilustración y/o promoción.</li>
+    <li>Se usa <b>el número de páginas impresas para estimar la envergadura o complejidad de las obras que llegan a publicarse</b>. No es un sistema perfecto, pero es mucho más realista que simplemente contabilizar el número de obras publicadas. Cuando unas obras tiene varias personas autoras se ha dividido el número de páginas entre el número de autores a la hora de contabilizar cuántas páginas ha escrito cada autore.</li>
+    <li>Se ha usado el género atribuido a cada nombre propio para determinar si estamos ante una autora o un autor. No es el sistema ideal, pero a falta de pronombres (y su uso en el material promocional) es lo más lejos que se ha podido llegar sin tener que preguntar directamente a les autores e inmiscuirse en la privacidad de las personas. En la medida que se ha podido se han buscado las redes sociales de les autores para tratar determinar si son no binaries mediante sus pronombres.</li>
   </ol>
   <p>El estudio es algo vivo que se actualiza según pasan los meses hasta poder tener una idea general del año al terminar este. Si bien, hasta finalizado el año no se tendrán datos definitivos y totales, sí permiten ver tendencias.</p> 
   <p>El estudio puede tener títulos que han sido anunciados y también que se supone que publicarán en el año. En caso de que luego no se cumpla la fecha, de forma que si al acabar el año o la editorial anunciar otra fecha, serán movidos a otro año. Estos cambios son automáticos y quedan registrados de forma que junto a cada estudio vendrá la fecha de la última actualización del proyecto.</p>
