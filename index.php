@@ -436,6 +436,52 @@ $res = accessSheet(); ?>
             }
         });
         </script>
+        <div>
+            <h3>Pendientes de entregar por editoriales (A tiempo / Retrasado / Total)</h3> 
+            <canvas id="titulos-publicados" style="max-width: 600px; width: 100%; margin: auto;"></canvas>
+        </div>
+        <script>
+            new Chart(document.getElementById("titulos-publicados"), {
+                type: 'pie',
+                data: { 
+                    labels: ["<?php $atiempo = 0; $retrasados = 0; $temp = []; foreach ($charts as $chart) { $temp[] = $chart['nombre'] . ' ('.$chart['sin_entregar_pero_a_tiempo'].'/'.$chart['sin_entregar_y_retrasado'].'/' . ($chart['sin_entregar_pero_a_tiempo'] + $chart['sin_entregar_y_retrasado']) . ')'; } echo implode('", "', $temp); ?>"],
+                    datasets: [{
+                        label: 'Títulos pendientes de entregar',
+                        data: [<?php $temp = []; foreach ($charts as $chart) { $atiempo = $atiempo + $chart['sin_entregar_pero_a_tiempo']; $retrasados = $retrasados + $chart['sin_entregar_y_retrasado']; $temp[] = $chart['sin_entregar_pero_a_tiempo']  + $chart['sin_entregar_y_retrasado']; }  echo implode(', ', $temp); ?>],
+                        backgroundColor: [
+                            'rgb(255, 0, 0)',
+                            'rgb(0, 128, 0)',
+                            'rgb(103, 58, 183)',
+                            'rgb(255, 165, 0)',
+                            'rgb(255, 255, 0)',
+                            'rgb(255, 255, 255)',
+                            'rgb(255, 0, 165)',
+                            'rgb(0, 255, 0)',
+                            'rgb(237, 13, 214)',
+                            'rgb(80, 229, 255)',
+                            'rgb(97, 179, 165)',
+                            'rgb(39, 2, 7)',
+                            'rgb(214, 232, 53)'
+                        ]
+                    }],
+                },
+                options: {
+                    plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'A tiempo: <?php echo $atiempo; ?> | Retrasado: <?php echo $retrasados; ?> | Total: <?php echo $atiempo + $retrasados; ?>',
+                        font: {
+                            size: 28,
+                            family: "VT323"
+                        }
+                    }
+                    }
+                }
+            });
+        </script>
     </div>
     <h2 id="enretraso">Mecenazgos y preventas que entran en retraso próximamente</h2>
     <div>
