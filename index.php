@@ -444,7 +444,7 @@ $res = accessSheet(); ?>
             new Chart(document.getElementById("titulos-publicados"), {
                 type: 'pie',
                 data: { 
-                    labels: ["<?php $atiempo = 0; $retrasados = 0; $temp = []; foreach ($charts as $chart) { $temp[] = $chart['nombre'] . ' ('.$chart['sin_entregar_pero_a_tiempo'].'/'.$chart['sin_entregar_y_retrasado'].'/' . ($chart['sin_entregar_pero_a_tiempo'] + $chart['sin_entregar_y_retrasado']) . ')'; } echo implode('", "', $temp); ?>"],
+                    labels: ["<?php $atiempo = 0; $retrasados = 0; $temp = []; foreach ($charts as $chart) { if($chart['sin_entregar_pero_a_tiempo'] > 0 || $chart['sin_entregar_y_retrasado'] > 0) { $temp[] = $chart['nombre'] . ' ('.$chart['sin_entregar_pero_a_tiempo'].'/'.$chart['sin_entregar_y_retrasado'].'/' . ($chart['sin_entregar_pero_a_tiempo'] + $chart['sin_entregar_y_retrasado']) . ')'; } } echo implode('", "', $temp); ?>"],
                     datasets: [{
                         label: 'Títulos pendientes de entregar',
                         data: [<?php $temp = []; foreach ($charts as $chart) { $atiempo = $atiempo + $chart['sin_entregar_pero_a_tiempo']; $retrasados = $retrasados + $chart['sin_entregar_y_retrasado']; $temp[] = $chart['sin_entregar_pero_a_tiempo']  + $chart['sin_entregar_y_retrasado']; }  echo implode(', ', $temp); ?>],
