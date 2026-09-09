@@ -331,7 +331,15 @@ $res = accessAuthorSheet(); ?>
   <h2>Conclusiones</h2>
   <p>Sobre las conclusiones, no me considero tan experto en la materia como para sacar unas medianamente válidas. El objetivo es plasmar una realidad y luego dejar a los sujetos de este estudio que saquen sus propias conclusiones.</p>
   <p>Además, debido a que no existe un censo rolero que nos pueda dar la realidad de la afición en cuestiones de género (tanto de aficionades como de profesionales), solo puedo ofrecer los datos que puedo sacar de las publicaciones hechas. Este estudio sería mucho más real y rico con los datos que pudiera ofrecer ese censo y comparar si la realidad editorial, se acerca a la realidad de la afición.</p>
-  <p>Puedes pedirme mis conclusiones y opiniones personales por redes, pero he preferido excluirlas de este estudio y de esta web.</p>
+  <p>Sin embargo, gracias a Mirella Machancones y a <a href="https://lamirada.produccionesgorgona.com/rol-y-genero/" target="_blank">su estudio de 2022 sobre «ROL Y GÉNERO»</a>, podemos tratar interpretar los datos de publicación de juegos de rol.</p>
+
+  <blockquote style="font-style: italic; padding: 10px; border: 1px solid var(--main-color);">La encuesta se elaboró en verano de 2022 y tuvo un total de 524 respuestas, lo que lo convierte en un muestreo bastante extensivo de lo que es nuestra afición. Se realizó siguiendo el método de la bola de nieve, compartida por redes sociales y grupos de rol conocidos. Pese a ello, creo que los resultados que nos arroja resultan bastante significativos.<br/><br/>Como suelo hacer en los últimos posts, voy a usar el femenino genérico para este artículo, así que no asustéis cuando empiece a usar «encuestadas». Al fin y al cabo, todas somos personas.[...]<br/><br/>Del total de las encuestadas, un 57,3% eran hombres, un 33,6% mujeres y un 6,7% personas no binarias (fig.1). El resto de las encuestadas no quisieron responder a la pregunta o consideran tener un género no recogido por la encuesta. En cualquier caso, a la hora de analizar los datos de manera cruzada, tendremos en cuenta como colectivos a hombres, mujeres y personas no binarias. He de señalar antes de comenzar el análisis, que no se ha tenido en cuenta a la población transmasculina y transfemenina como colectivos separados, lo que visto con perspectiva puede sesgar algo los casos (algunas personas transmasculinas han señalado en los comentarios que sufrieron una experiencia diferente cuando eran percibidas como mujeres).<br/><br/><img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image.png" style="margin: auto; display: block;" alt="Gráfico de la encuesta de Machancones sobre rol y género"/></blockquote>
+  
+  <p>XXX</p>
+
+  <img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image-3.png" alt="Gráfico de la encuesta de Machancones sobre la distribución de genero y edad en las jugadoras de rol."/>
+  <p>XXX</p>
+
   <h3>Código abierto</h3>
   <p>Todo el código de la web puedes encontrarlo en <a href="https://github.com/gwannon/MecenazgosGoogleSheet" target="_blank">GitHub</a> con licencia GNU General Public License v3.0</a>.</p>
   <style>
