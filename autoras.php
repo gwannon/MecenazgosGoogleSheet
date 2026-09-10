@@ -39,6 +39,7 @@ $res = accessAuthorSheet(); ?>
     <meta property="og:title" content="Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>)">
     <meta property="og:description" content="Estudio sobre la publicación de títulos de rol de autoras y autores no binaries (<?php echo AUTHOR_SPREADSHEET_SHEET_NAME; ?>). Actualizado a <?php echo $res[0][7]['formattedValue']; ?>.">
     <meta property="og:url" content="https://gwannon.com/mecenazgos/" />
+    <meta name="robots" content="noindex,nofollow" />
 </head>
 <body>
   <a href="#" class="accesible" title="Contraste ACTIVAR/DESACTIVAR">◐</a>
@@ -335,12 +336,12 @@ $res = accessAuthorSheet(); ?>
 
   <blockquote style="font-style: italic; padding: 10px; border: 1px solid var(--main-color);">«La encuesta se elaboró en verano de 2022 y tuvo un total de 524 respuestas, lo que lo convierte en un muestreo bastante extensivo de lo que es nuestra afición. Se realizó siguiendo el método de la bola de nieve, compartida por redes sociales y grupos de rol conocidos. Pese a ello, creo que los resultados que nos arroja resultan bastante significativos.<br/><br/>Como suelo hacer en los últimos posts, voy a usar el femenino genérico para este artículo, así que no asustéis cuando empiece a usar «encuestadas». Al fin y al cabo, todas somos personas.[...]<br/><br/>
   Del total de las encuestadas, un 57,3% eran hombres, un 33,6% mujeres y un 6,7% personas no binarias (fig.1). El resto de las encuestadas no quisieron responder a la pregunta o consideran tener un género no recogido por la encuesta. En cualquier caso, a la hora de analizar los datos de manera cruzada, tendremos en cuenta como colectivos a hombres, mujeres y personas no binarias. He de señalar antes de comenzar el análisis, que no se ha tenido en cuenta a la población transmasculina y transfemenina como colectivos separados, lo que visto con perspectiva puede sesgar algo los casos (algunas personas transmasculinas han señalado en los comentarios que sufrieron una experiencia diferente cuando eran percibidas como mujeres).»<br/><br/>
-  <img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image.png" style="margin: auto; display: block;" alt="Gráfico de la encuesta de Machancones sobre rol y género"/></blockquote>
+  <img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image.png" style="margin: auto; display: block; max-width: 100%;" alt="Gráfico de la encuesta de Machancones sobre rol y género"/></blockquote>
   
   <p>XXX</p>
 
   <blockquote style="font-style: italic; padding: 10px; border: 1px solid var(--main-color);">«Aunque partimos de una situación de ventaja porcentual para las mujeres entre las menores de 25 años, esto se invierte en el grupo de los 26 a los 35, aunque mantiene unos porcentajes más cercanos a la igualdad (fig. 4). Sin embargo, en los dos siguientes grupos de edad el desequilibrio se acentúa bastante, hasta el punto de alejar bastante de la igualdad el resultado final representado.»<br/><br/>
-  <img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image-3.png" style="margin: auto; display: block;" alt="Gráfico de la encuesta de Machancones sobre la distribución de genero y edad en las jugadoras de rol."/></blockquote>
+  <img src="https://lamirada.produccionesgorgona.com/wp-content/uploads/2023/01/image-3.png" style="margin: auto; display: block; max-width: 100%;" alt="Gráfico de la encuesta de Machancones sobre la distribución de genero y edad en las jugadoras de rol."/></blockquote>
   <p>XXX</p>
 
   <h3>Código abierto</h3>
