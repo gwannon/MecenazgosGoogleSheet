@@ -69,6 +69,14 @@ $res = accessSheet(); ?>
                 </select>
             </div>
             <div>
+                <h4>Tipo</h4>
+                <select id="select-tipo">
+                    <option value="" selected="selected">Ver todos</option>
+                    <option value="mecenazgo">Solo mecenazgos</option>
+                    <option value="preventa">Solo preventas</option>
+                </select>
+            </div>
+            <div>
                 <h4>Editoriales</h4>
                 <select id="select-editorial">
                     <option value="" selected="selected">Ver todas</option>
@@ -114,8 +122,8 @@ $res = accessSheet(); ?>
                 $image = $proyecto[3]['formattedValue'];
                 $sinentregaoficial = ($proyecto[8]['formattedValue'] == 'TRUE' ? true : false);
 
-                if(in_array($plataforma, $plataformas)) $is_preventa = false;
-                else $is_preventa = true;
+                if(in_array($plataforma, $plataformas)) { $is_preventa = false; $clases[] = "mecenazgo"; }
+                else { $is_preventa = true; $clases[] = "preventa"; }
 
                 //Fechas
                 $fecha_mecenazgo_conseguido = transformDate($proyecto[4]['formattedValue']);
