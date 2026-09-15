@@ -270,10 +270,10 @@ $res = accessAuthorSheet(); ?>
         <tr>
           <th>Editorial</th>
           <th>Nº de títulos</th>
-          <th colspan="2">Títulos con solo autores</th>
-          <th colspan="2">Títulos con solo autoras</th>
-          <th colspan="2">Títulos con solo autores NB</th>
-          <th colspan="2">Títulos con equipos mixtos</th>
+          <th colspan="2">Títulos con<br/>solo autores</th>
+          <th colspan="2">Títulos con<br/>solo autoras</th>
+          <th colspan="2">Títulos con<br/>solo autores NB</th>
+          <th colspan="2">Títulos con<br/>equipos mixtos</th>
         </tr>
       </thead>
       <tbody>
