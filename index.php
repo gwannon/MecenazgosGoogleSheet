@@ -544,6 +544,13 @@ $res = accessSheet(); ?>
         <li>2026/05/04 - En el blog <a href="https://www.elcaballeroperdedor.com/links.html">El caballero perdedor</a> nos hacen referencia en sus enlaces recomendados.</li>
     </ul>
     <p>Si encontráis más opiniones y críticas podéis usar el email anterior para pasármelas y que pueda ponerlas aquí.</p>
+    <h3>Futuras mejoras</h3>
+    <ul>
+        <li>Mostrar el número de libros que tiene asociado cada mecenazgo.</li>
+        <li>Marcar mecenazgos con mejoras de accesibilidad. <em>Sugerida por Pau Blackonion</em></li>
+        <li>Marcar mecenazgos que ofrecen pagar más a los autores como strech goals. <em>Sugerido por Pau Blackonion</em></li>
+        <!--  creo que de interés tambien saber cosas como: hay corrector? El autor/traductor y el corrector son la misma persona? la imprenta está en españa? Usa IA? (la cual implica tambien "ha rectificado y dejado de usar IA?) -->
+    </ul>
     <h3>Agradecimientos</h3>
     <ul>
         <li><a href="https://roldelos90.blogspot.com/" target="_blank">Rol de los 90</a> por sus resúmenes anuales de mecenazgos.</li>
