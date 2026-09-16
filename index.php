@@ -52,6 +52,8 @@ $res = accessSheet(); ?>
         <li><b>Pendiente de entregar:</b> No se ha entregado todavía.</li>
         <li><b>Entregado:</b> Ha sido entregado, independientemente de si se ha hecho a tiempo o no.</li>
         <li><b>Entregado a tiempo:</b> Se ha entregado y antes de la fecha oficial de entrega.</li>
+        <li><b>Sin actualizar:</b> Mecenazgos con más de 45 días sin actualizaciones.</li>
+        <li style="background-color: #D3AF37; color: black;"><b>Con ventajas sociales:</b> Mecenazgos que hacen donaciones a ONG, tienen como metas pagar más a sus escritores, ilustradores, traductores, etc.</li>
     </ul>
     <div id="buttons">
         <div id="filters">
@@ -66,6 +68,7 @@ $res = accessSheet(); ?>
                     <option value="entregado">Entregado</option>
                     <option value="entregadoatiempo">Entregado a tiempo</option>
                     <option value="sinactualizar">Sin actualizar</option>
+                    <option value="social">Con ventajas sociales</option>
                 </select>
             </div>
             <div>
@@ -121,6 +124,7 @@ $res = accessSheet(); ?>
                 $plataforma = $parse['host'];
                 $image = $proyecto[3]['formattedValue'];
                 $sinentregaoficial = ($proyecto[8]['formattedValue'] == 'TRUE' ? true : false);
+                $social = ($proyecto[9]['formattedValue'] != '' ? $proyecto[9]['formattedValue'] : false);
 
                 if(in_array($plataforma, $plataformas)) { $is_preventa = false; $clases[] = "mecenazgo"; }
                 else { $is_preventa = true; $clases[] = "preventa"; }
@@ -166,6 +170,8 @@ $res = accessSheet(); ?>
                   if($dias_ultima_actualizacion > 45 && in_array("sinentregar", $clases)) $clases[] = 'sinactualizar';
                   else $dias_ultima_actualizacion = 0;
                 } 
+
+                if($social) $clases[] = 'social'; 
                 
                 
                 if( in_array("retrasado", $clases) && in_array("sinentregar", $clases)) $clases[] = 'sinentregarretrasado';
@@ -184,6 +190,9 @@ $res = accessSheet(); ?>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
                     <?php if($sinentregaoficial) { ?>
                         <p style="background-color: #a50000; padding: 3px 10px;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</p>
+                    <?php } ?>
+                    <?php if($social) { ?>
+                        <p style="background-color: #887b3f; padding: 3px 10px; font-size: 20px;"><?php echo $social; ?></p>
                     <?php } ?>
                     <p><b>Entrega:</b> <span class="date"><?php echo $fecha_final; ?></span></p>
                     <p class="name"><?php echo $sanitize_titulo; ?></p>
@@ -221,7 +230,8 @@ $res = accessSheet(); ?>
                     'ultima_entrega' => '',
                     'proyectos_sin_fecha_entrega' => 0,
                     'proyectos_sin_actualizar' => 0,
-                    'dias_max_sin_actualizar' => 0
+                    'dias_max_sin_actualizar' => 0,
+                    'social' => 0
                   ];
                 }
                 $stats[$editorial]['proyectos']++;
@@ -236,7 +246,7 @@ $res = accessSheet(); ?>
                     if($temp_fecha_final > $ultima_entrega) $stats[$editorial]['ultima_entrega'] = $fecha_final;
                   }
                 }
-
+                if (in_array('social', $clases)) $stats[$editorial]['social']++;
                 if($dias_ultima_actualizacion > $stats[$editorial]['dias_max_sin_actualizar']) $stats[$editorial]['dias_max_sin_actualizar'] = $dias_ultima_actualizacion;
 
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
@@ -258,21 +268,22 @@ $res = accessSheet(); ?>
         <table>
             <thead>
                 <tr>
-                    <th>Editorial</th>
-                    <th>Estrellas y calaveras</th>
-                    <th>Nº proyectos/Sin entregar/Entregados</th>
-                    <th>Proyectos sin entregar,<br />pero aun en tiempo</th>
-		            <th>Proyectos sin entregar y retrasados</th>
-                    <th>Proyectos entregados a tiempo</th>
-                    <th>Proyectos entregados tarde</th>
-                    <th>Días de retraso medio</th>
-                    <th>Acumulado de días de retraso</th>
-                    <th>Acumulado de días de retraso de proyectos pendientes</th>
-                    <th>Máximo días de retraso</th>
-                    <th>Nª de plataformas de mecenazgo usadas</th>
-                    <th>Fecha última entrega de un mecenazgo</th>
-                    <th>Proyectos sin fecha de entrega oficial</th>
-                    <th>Proyectos con más de 30 días sin actualizaciones</th>
+                  <th>Editorial</th>
+                  <th>Estrellas y calaveras</th>
+                  <th>Nº proyectos/Sin entregar/Entregados</th>
+                  <th>Proyectos sin entregar,<br />pero aun en tiempo</th>
+                  <th>Proyectos sin entregar y retrasados</th>
+                  <th>Proyectos entregados a tiempo</th>
+                  <th>Proyectos entregados tarde</th>
+                  <th>Días de retraso medio</th>
+                  <th>Acumulado de días de retraso</th>
+                  <th>Acumulado de días de retraso de proyectos pendientes</th>
+                  <th>Máximo días de retraso</th>
+                  <th>Nª de plataformas de mecenazgo usadas</th>
+                  <th>Fecha última entrega de un mecenazgo</th>
+                  <th>Proyectos sin fecha de entrega oficial</th>
+                  <th>Proyectos con más de 45 días sin actualizaciones</th>
+                  <th>Proyectos con ventajas sociales</th>
                 </tr>
             </thead>
             <tbody>
@@ -336,6 +347,7 @@ $res = accessSheet(); ?>
                             <?php echo $editorial['proyectos_sin_actualizar']; ?>
                             <?php echo ($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180 ? "<span class='skull' title='Tener un proyecto pendiente de entregar con más de 6 meses(180 días) sin haber escrito actualizaciones. Actualmente hay un proyecto que hace ".$editorial['dias_max_sin_actualizar']." días desde su última actualización.'>☠</span>" : ""); ?>
                         </td>
+                        <td<?php echo ($editorial['social'] != '' ? " class='social'" : ""); ?>><?php echo $editorial['social']; ?></td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.

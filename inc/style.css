@@ -108,8 +108,19 @@
 			background-color: var(--main-color);
 			overflow: hidden;
 			position: relative;
+      box-sizing: border-box;
 		}
 
+    
+    .element-item.social {
+      background-color: #D3AF37;
+    }
+
+    .element-item.social h2 a,
+    .element-item.social h3,
+    .element-item.social p:not(p:has(.date), p:has(.days)) {
+      color: black;
+    }
 
 		.element-item.retrasado img {
 			filter:grayscale(1);
@@ -253,7 +264,7 @@
 
 
 		table tr:nth-of-type(odd) a {
-		color: var(--secondary-color);
+		  color: var(--secondary-color);
 		}
 
 		table *:is(td, th) {
@@ -264,6 +275,15 @@
 		table td {
 			text-align: right;
 		}
+
+    table td.social,
+    table tr:has(td.social) th {
+      background-color: #D3AF37;
+      color: black;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
 
 		div:has(table) {
 			overflow-x: auto;
