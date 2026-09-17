@@ -53,7 +53,7 @@ $res = accessSheet(); ?>
         <li><b>Entregado:</b> Ha sido entregado, independientemente de si se ha hecho a tiempo o no.</li>
         <li><b>Entregado a tiempo:</b> Se ha entregado y antes de la fecha oficial de entrega.</li>
         <li><b>Sin actualizar:</b> Mecenazgos con más de 45 días sin actualizaciones.</li>
-        <li style="background-color: #D3AF37; color: black;"><b>Con ventajas sociales:</b> Mecenazgos que hacen donaciones a ONG, tienen como metas pagar más a sus escritores, ilustradores, traductores, etc.</li>
+        <li style="background-color: #D3AF37; color: black;"><b>Mecenazgos de oro:</b> Mecenazgos que hacen donaciones a ONG, tienen como metas pagar más a sus escritores, ilustradores, traductores, etc.</li>
     </ul>
     <div id="buttons">
         <div id="filters">
@@ -68,7 +68,7 @@ $res = accessSheet(); ?>
                     <option value="entregado">Entregado</option>
                     <option value="entregadoatiempo">Entregado a tiempo</option>
                     <option value="sinactualizar">Sin actualizar</option>
-                    <option value="social">Con ventajas sociales</option>
+                    <option value="social">Mecenazgos de oro</option>
                 </select>
             </div>
             <div>
@@ -283,7 +283,7 @@ $res = accessSheet(); ?>
                   <th>Fecha última entrega de un mecenazgo</th>
                   <th>Proyectos sin fecha de entrega oficial</th>
                   <th>Proyectos con más de 45 días sin actualizaciones</th>
-                  <th>Proyectos con ventajas sociales</th>
+                  <th>Mecenazgos de oro</th>
                 </tr>
             </thead>
             <tbody>
