@@ -227,6 +227,7 @@ $res = accessSheet(); ?>
                     'max_retraso' => 0,
                     'plataformas' => [],
                     'tiene_preventas' => 0,
+                    'tiene_preventas_sin_entregar' => 0,
                     'ultima_entrega' => '',
                     'proyectos_sin_fecha_entrega' => 0,
                     'proyectos_sin_actualizar' => 0,
@@ -252,12 +253,13 @@ $res = accessSheet(); ?>
                 if (in_array('entregadoatiempo', $clases)) $stats[$editorial]['entregados_a_tiempo']++;
                 if (in_array('entregado', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['entregados_tarde']++;
                 if (in_array('sinentregar', $clases) && in_array('entiempo', $clases)) $stats[$editorial]['sin_entregar_pero_a_tiempo']++;
-		            if (in_array('sinentregar', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['sin_entregar_y_retrasado']++;
+		        if (in_array('sinentregar', $clases) && in_array('retrasado', $clases)) $stats[$editorial]['sin_entregar_y_retrasado']++;
                 $stats[$editorial]['dias_retraso'] = $stats[$editorial]['dias_retraso'] + $dias_retraso;
                 if (in_array('sinentregar', $clases)) $stats[$editorial]['dias_retraso_pendientes'] = $stats[$editorial]['dias_retraso_pendientes'] + $dias_retraso;
                 if ($dias_retraso > $stats[$editorial]['max_retraso']) $stats[$editorial]['max_retraso'] = $dias_retraso;
-                if(!in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
+                if(in_array('sinentregar', $clases) && !in_array($plataforma, $stats[$editorial]['plataformas']) && in_array($plataforma, $plataformas)) $stats[$editorial]['plataformas'][] = $plataforma;
                 if($is_preventa) $stats[$editorial]['tiene_preventas'] = 1;
+                if($is_preventa && in_array('sinentregar', $clases)) $stats[$editorial]['tiene_preventas_sin_entregar'] = 1;
                 if($sinentregaoficial) $stats[$editorial]['proyectos_sin_fecha_entrega']++;
                 if (in_array('sinactualizar', $clases)) $stats[$editorial]['proyectos_sin_actualizar']++;
             }
@@ -279,7 +281,7 @@ $res = accessSheet(); ?>
                   <th>Acumulado de días de retraso</th>
                   <th>Acumulado de días de retraso de proyectos pendientes</th>
                   <th>Máximo días de retraso</th>
-                  <th>Nª de plataformas de mecenazgo usadas</th>
+                  <th>Nª de plataformas de mecenazgo usadas en proyectos sin entregar</th>
                   <th>Fecha última entrega de un mecenazgo</th>
                   <th>Proyectos sin fecha de entrega oficial</th>
                   <th>Proyectos con más de 45 días sin actualizaciones</th>
@@ -333,9 +335,9 @@ $res = accessSheet(); ?>
                         </td>
                         <td><?php echo $editorial['max_retraso']; ?><?php echo ($editorial['proyectos'] >= 5 && $editorial['max_retraso'] > 730 ? "<span class='skull' title='Al menos un mecenazgo que tiene un retraso superior a 2 años (730 días).'>☠</span>" : ""); ?></td>
                         <td>
-                            <?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas']); ?>
+                            <?php echo (count($editorial['plataformas']) + $editorial['tiene_preventas_sin_entregar']); ?>
                             <!-- <?php echo implode(", ", $editorial['plataformas']); ?> -->
-                            <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas']) >= 4 ? "<span class='skull' title='Usar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
+                            <?php echo ($editorial['proyectos'] >= 5 && (count($editorial['plataformas']) + $editorial['tiene_preventas_sin_entregar']) >= 4 ? "<span class='skull' title='Usar para proyectos sin entregar más de 3 plataformas de crowdfunding, incluida tu web para las preventas.'>☠</span>" : ""); ?>
                         </td>
                         <td><?php echo $editorial['ultima_entrega']; ?></td>
                         <td>
@@ -363,7 +365,7 @@ $res = accessSheet(); ?>
                             $editorial['dias_retraso'].','.
                             $editorial['dias_retraso_pendientes'].','.
                             $editorial['max_retraso'].','.
-                            (count($editorial['plataformas']) + $editorial['tiene_preventas']).','.
+                            (count($editorial['plataformas']) + $editorial['tiene_preventas_sin_entregar']).','.
                             $editorial['ultima_entrega'].','.
                             $editorial['proyectos_sin_fecha_entrega'].','.
                             $editorial['proyectos_sin_actualizar']."\n";
@@ -386,7 +388,7 @@ $res = accessSheet(); ?>
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
         <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
         <li>Se otorga una calavera, si se <b>acumulan más de 2 años (730 días) de retrasos en proyectos pendientess de entregar</b>.</li>
-        <li>Usar <b>más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
+        <li>Usar <b>para proyectos sin entregar más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
         <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
         <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
         <li>Se ha vuelto habitual <b>lanzar proyectos sin fecha de entrega</b>, ya que sin fecha de entrega, nunca se puede entregar tarde. Si tiene 5 proyectos o más y <b>un mínimo de 25% de tus proyectos se han lanzado sin fijar fecha de entrega</b>, se considera una calavera, ya que es importante dar una fecha de entrega en preventas y mecenazgos, aunque sea una estimación.</li>
