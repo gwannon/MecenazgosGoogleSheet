@@ -387,7 +387,7 @@ $res = accessSheet(); ?>
         <li>Para empezar hay que <b>tener al menos 5 mecenazgos</b> para poder recibir calaveras.</li> 
         <li>Se da una calavera, si la <b>media de retraso es mayor de 1 año (365 días)</b>.</li>  
         <li>Se otorga una calavera, si hay <b>al menos un mecenazgo que tiene un retraso superior a 2 años (730 días)</b>.</li>
-        <li>Se otorga una calavera, si se <b>acumulan más de 2 años (730 días) de retrasos en proyectos pendientess de entregar</b>.</li>
+        <li>Se otorga una calavera, si se <b>acumulan más de 2 años (730 días) de retrasos en proyectos pendientes de entregar</b>.</li>
         <li>Usar <b>para proyectos sin entregar más de 3 plataformas de crowdfunding</b>, incluida tu web para las preventas.</li> 
         <li>Tener 5 o más proyectos entregados y ninguno entregado a tiempo. </li>
         <li>Puedes evitar la calavera anterior no entregando proyectos, así que esta otra calavera es por <b>tener el triple de proyecto sin entregar que entregados</b>.</li>
