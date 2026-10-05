@@ -41,6 +41,7 @@ $res = accessSheet(); ?>
     <p>Para que una editorial tenga su propio botón de filtrado debe tener al menos dos mecenazgos o preventas.</p>
     <p>En las preventas, siempre que ha sido posible, se ha enlazado a la versión de la <b>webs de los proyectos guardadas en archive.org</b> para tener una versión fiable y que las editoriales no puedan editar a su gusto. En las preventas sin fecha de entrega se ha optado por considerar la fecha de entrega un año más tarde del fin de la preventa. En caso de no fijar una fecha de fin de la preventa se toma la fecha del inicio.</p> 
     <p>Si quieres hacer tus propios calculos y estadísticas, puedes bajarte una versión en <a href="/mecenazgos/mecenazgos.csv">formato csv</a>.</p>
+    <p style="border: 1px solid var(--main-color); padding: 5px;">Esta web refleja información de mecenazgos y preventas de juegos de rol. No refleja mecenazgos y preventas de libros de ficción, juegos de mesa, wargames, figuras, etc. Eso quiere decir que el número de mecenazgos entregados o pendientes de entregar no representa el total de proyectos de una editorial. Esta web puede reflejar que una editorial tiene pendientes de entregar 3 proyectos roleros, pero en la realidad podrían ser muchos más los proyectos pendientes de entregar porque son juegos de mesa, wargames, etc.</p>
     <h2><u>Última actualización:</u> <?php echo UPDATE_DATE; ?></h2>
     <p>Trataré de actualizarlo quincenalmente e iré modificando la fecha cuando haga actualizaciones.</p>
     <hr/>
