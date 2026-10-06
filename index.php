@@ -125,7 +125,7 @@ $res = accessSheet(); ?>
                 $plataforma = $parse['host'];
                 $image = $proyecto[3]['formattedValue'];
                 $sinentregaoficial = ($proyecto[8]['formattedValue'] == 'TRUE' ? true : false);
-                $social = ($proyecto[9]['formattedValue'] != '' ? $proyecto[9]['formattedValue'] : false);
+                $social = (isset($proyecto[9]['formattedValue']) && $proyecto[9]['formattedValue'] != '' ? $proyecto[9]['formattedValue'] : false);
 
                 if(in_array($plataforma, $plataformas)) { $is_preventa = false; $clases[] = "mecenazgo"; }
                 else { $is_preventa = true; $clases[] = "preventa"; }
