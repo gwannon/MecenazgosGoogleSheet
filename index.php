@@ -190,7 +190,7 @@ $res = accessSheet(); ?>
                     </p>
                     <p><b>Entrega oficial:</b> <span class="oficialdate"><?php echo $fecha_entrega_oficial; ?></span></p>
                     <?php if($sinentregaoficial) { ?>
-                        <p style="background-color: #a50000; padding: 3px 10px;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</p>
+                        <p style="background-color: #a50000; padding: 3px 10px;">La editorial NO ha especificado una fecha oficial de entrega y se ha optado por dar un año de margen desde la finalización de la preventa. Aun así, si no se especifica la fecha de entrega, se considera que el plazo de entrega es de 30 días (<a href="https://bsky.app/profile/facua.org/post/3mya25dax6227" target="_blank">Fuente @Facua</a>). Tenlo en cuenta a la hora de valorar si se ha entregado a tiempo o no.</p>
                     <?php } ?>
                     <?php if($social) { ?>
                         <p style="background-color: #887b3f; padding: 3px 10px; font-size: 20px;"><?php echo $social; ?></p>
