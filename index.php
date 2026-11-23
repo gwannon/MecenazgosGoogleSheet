@@ -375,7 +375,7 @@ Entregados:
                             <?php echo $editorial['proyectos_sin_actualizar']; ?>
                             <?php echo ($editorial['proyectos'] >= 5 && $editorial['dias_max_sin_actualizar'] >= 180 ? "<span class='skull' title='Tener un proyecto pendiente de entregar con más de 6 meses(180 días) sin haber escrito actualizaciones. Actualmente hay un proyecto que hace ".$editorial['dias_max_sin_actualizar']." días desde su última actualización.'>☠</span>" : ""); ?>
                         </td>
-                        <td<?php echo ($editorial['social'] != '' ? " class='social'" : ""); ?>><?php echo $editorial['social']; ?></td>
+                        <td<?php echo ($editorial['social'] > 0 ? " class='social'" : ""); ?>><?php echo $editorial['social']; ?></td>
                     </tr>
                     <?php 
                         $csv .= '"'.addslashes($nombre).'",'.
