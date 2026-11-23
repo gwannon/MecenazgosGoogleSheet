@@ -14,6 +14,8 @@ ob_start();
 $stats = [];
 $csv = "TÍTULO,EDITORIAL,URL,MECENAZGO CONSEGUIDO,ULTIMA ACTUALIZACION,ENTREGA OFICIAL,ENTREGA FINAL,DIAS DE RETRASO,TIPO,¿HAN DADO FECHA DE ENTREGA OFICIAL?\n";
 $entiempo = [];
+$entregadosanuales = [];
+$lanzadosanuales = [];
 $res = accessSheet(); ?>
 <!doctype html>
 <html lang="es">
@@ -135,6 +137,20 @@ $res = accessSheet(); ?>
                 $fecha_ultima_actualizacion = transformDate($proyecto[5]['formattedValue']);
                 $fecha_entrega_oficial = transformDate($proyecto[6]['formattedValue']);
                 $fecha_final = (isset($proyecto[7]['formattedValue']) && $proyecto[7]['formattedValue'] != '' ? transformDate($proyecto[7]['formattedValue']) : "PENDIENTE");
+
+                if ($fecha_mecenazgo_conseguido != '') {
+                    $temp = new DateTime($fecha_mecenazgo_conseguido);
+                    $year = $temp->format('Y');
+                   $lanzadosanuales[$year] = (isset($lanzadosanuales[$year]) ? $lanzadosanuales[$year] + 1 : 1);
+                }
+
+
+                if ($fecha_final != "PENDIENTE") {
+                    $temp = new DateTime($fecha_final);
+                    $year = $temp->format('Y');
+                    $entregadosanuales[$year] = (isset($entregadosanuales[$year]) ? $entregadosanuales[$year] + 1 : 1);
+                }
+
 
                 //Pasada la fecha de entrega oficial
                 if ($fecha_final != "PENDIENTE") $ahora = new DateTime($fecha_final);
@@ -266,6 +282,15 @@ $res = accessSheet(); ?>
             }
         } ?>
     </div>
+<!--
+--- DATOS CHULOS PARA LOS QUE OS GUSTA MIRAR HTML A PELO ---
+------------------------------------------------------------
+
+Lanzados:
+<?php ksort($lanzadosanuales); print_r ($lanzadosanuales); ?>
+Entregados:                         
+<?php ksort($entregadosanuales); print_r ($entregadosanuales); ?>
+-->
     <h2 id="stats">Valoración de editoriales de juegos de rol al hacer mecenazgos y preventas</h2>
     <div>
         <table>
